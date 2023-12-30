@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import { Users } from "lucide-react";
 import { getClientTransactions } from "@/db/clients";
 import { getTimeElapsed } from "@/lib/timeanddate";
@@ -35,14 +35,26 @@ function SelectClient({
   setPayment,
   setRecipt,
 }) {
-  const handleSelectChange = async (e) => {
-    setClientId(e.target.value);
-    if (ClientId) {
-      const transaction = await getClientTransactions(parseInt(ClientId));
-      setPayment(transaction.paymentTransactions);
-      setRecipt(transaction.receiptTransactions);
-    }
-  };
+  // const handleSelectChange = async (e) => {
+  //   setClientId(e.target.value);
+  //   if (ClientId) {
+  //     const transaction = await getClientTransactions(parseInt(ClientId));
+  //     setPayment(transaction.paymentTransactions);
+  //     setRecipt(transaction.receiptTransactions);
+  //   }
+  // };
+  const handleSelectChange = useCallback(
+    async (e) => {
+      setClientId(e.target.value);
+      if (ClientId) {
+        const transaction = await getClientTransactions(parseInt(ClientId));
+        setPayment(transaction.paymentTransactions);
+        setRecipt(transaction.receiptTransactions);
+      }
+    },
+    [ClientId,  setPayment, setRecipt, setClientId]
+  );
+
 
 
   useEffect(() => {
@@ -50,7 +62,7 @@ function SelectClient({
     if (ClientId) {
       handleSelectChange({ target: { value: ClientId } });
     }
-  }, [ClientId]);
+  }, [ClientId, handleSelectChange]);
 
   return (
     <div className="flex items-center justify-center border ">
