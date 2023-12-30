@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  clientIDs   Int      @unique
+  name        String?
+  mobile      String   @unique
+  email       String?
+  password    String?
+  payment     Float    @default(0)
+  recipts     Float    @default(0)
+  fixCard     String[]
+  balance     Int      @default(0)
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model Car {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  clientId    Int
+  clientName  String?
+  carName     String?
+  CarNo       String   @unique
+  BodyNo      String?
+  Model       String?
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model Iplog {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  ip          String   @default("")
+  counter     Int      @default(0)
+  city        String   @default("")
+  region      String   @default("")
+  country     String   @default("")
+  loc         String   @default("")
+  org         String   @default("")
+  timezone    String   @default("")
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model counters {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  payment     Int      @default(0)
+  recipt      Int      @default(0)
+  invoice     Int      @default(0)
+  purcheis    Int      @default(0)
+  fixing      Int      @default(0)
+  Clients     Int      @default(0)
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model fixingOrder {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  fixingId    Int      @unique
+  clientId    Int      @default(0)
+  clientName  String   @default("")
+  selectedCar String   @default("")
+  detail      String   @default("")
+  delivery    String   @default("")
+  total       Int      @default(0)
+  receive     Int      @default(0)
+  engName     String   @default("")
+  discount    Int      @default(0)
+  isClosed    Boolean  @default(false)
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model openFixingOrder {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  selectedCar  String   @unique
+  clientId     Int      @default(0)
+  clientName   String   @default("")
+  fixOrederId  Int      @default(0)
+  fixOrederAmt Float    @default(0)
+  createdDate  DateTime @default(now())
+  updatedDate  DateTime @updatedAt
+}
+
+model PaymentVoucher {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  paymentId   Int      @default(0)
+  paymentType String   @default("")
+  collector   String   @default("")
+  detail      String   @default("")
+  fromID      Int      @default(0)
+  fromName    String   @default("")
+  fixingCode  Int      @default(0)
+  amount      Float    @default(0)
+  docDate     DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model RecietVoucher {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  recietId   Int      @default(0)
+  detail     String   @default("")
+  fromID     Int      @default(0)
+  fromName   String   @default("")
+  amount     Float    @default(0)
+  fixingCode Int      @default(0)
+  docDate    DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Expence {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  expName   String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model transaction {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  recietId         Int      @default(0)
+  transactionType  String // This field can indicate whether it's a payment or receipt
+  client_id        Int
+  client_name      String
+  amount           Float
+  transaction_date DateTime @default(now())
+}
+
+model comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  comment   String   @default("")
+  isVisible Boolean  @default(false)
+  user      String   @default("")
+  username  String   @default("")
+  avatar    String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model suggestion {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String   @default("")
+  isVisible Boolean  @default(false)
+  user      String   @default("")
+  username  String   @default("")
+  avatar    String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model complain {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  text      String   @default("")
+  isVisible Boolean  @default(false)
+  user      String   @default("")
+  username  String   @default("")
+  avatar    String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model user {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @default("")
+  phone     String    @unique
+  avatar    String   @default("")
+  password  String   @default("")
+  role      String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model isLogin {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @default("")
+  phone     String    @unique
+  avatar    String   @default("")
+  password  String   @default("")
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
