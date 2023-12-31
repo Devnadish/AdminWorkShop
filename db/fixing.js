@@ -251,9 +251,6 @@ export async function deleteAndCloseFixOrder(id, fixOrederId) {
  revalidatePath("/dashboard/fixing/closeorder");
  return deletedItem;
 
-
-
-
 }
 
 
@@ -261,4 +258,19 @@ export async function deleteAndCloseFixOrder(id, fixOrederId) {
 export async function getCarsFromOpenFixOrder() {
   const existingOrder = await db.openFixingOrder.findMany({});
   return existingOrder;
+}
+
+
+export async function getCardByCardID(cardId) {
+  const existingOrder = await db.fixingOrder.findMany({
+    where: { fixingId: cardId },
+  });
+  const recipt = await db.RecietVoucher.findMany({
+    where: { fixingCode: cardId },
+  });
+    const payment = await db.PaymentVoucher.findMany({
+    where: { fixingCode: cardId },
+  });
+
+  return {cardData: existingOrder[0],reciptData:recipt,paymentData:payment}
 }

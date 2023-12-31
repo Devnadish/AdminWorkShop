@@ -1,9 +1,10 @@
 "use client";
 import {useState} from "react";
 import Link from 'next/link';
-import { Car, FileCheck, FileEdit, FilePlus, PlusCircle } from 'lucide-react';
+import { Car, FileCheck, FileEdit, FilePlus, PlusCircle, ViewIcon } from 'lucide-react';
 import { FaCarCrash } from "react-icons/fa";
 import ExpandMenu from "./ExpandMenu";
+import { MdEditNote } from "react-icons/md";
 const FixOrderMenu = ({ toggleSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuStyle =
@@ -37,15 +38,24 @@ const FixOrderMenu = ({ toggleSidebar }) => {
               <p>عرض كروت الصيانة</p>
               <FileEdit size={25} strokeWidth={1} />
             </Link>
-            {/* <Link
+            <Link
+              href={"/dashboard/fixing/cardstatment"}
+              className={menuStyle}
+              onClick={() => toggleSidebar()}
+              prefetch={true}
+            >
+              <p>تفاصيل كرت صيانة</p>
+              <ViewIcon size={30} strokeWidth={1} />
+            </Link>
+             <Link
               href={"/dashboard/fixing/addservice"}
               className={menuStyle}
               onClick={() => toggleSidebar()}
               prefetch={true}
             >
-              <p>اضافة جديدة لكرت صيانة</p>
-              <PlusCircle size={30} />
-            </Link> */}
+              <p>اضافة ملاحظه لكرت الصيانة</p>
+              <MdEditNote size={30}   />
+            </Link>
             <Link
               href={"/dashboard/fixing/closeorder"}
               className={menuStyle}
