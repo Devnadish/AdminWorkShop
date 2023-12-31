@@ -100,6 +100,7 @@ export async function recietVoucher() {
         amount: true,
       },
     });
+    console.log(totalAmount._sum.amount)
     return totalAmount._sum.amount;
   } catch (error) {
     console.error(error);

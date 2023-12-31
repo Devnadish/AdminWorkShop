@@ -107,7 +107,7 @@ async function addFixCardValue(clientIdNo, newFixCardValue) {
       fixCardArray.push(newFixCardValue);
 
       // Update the client with the updated fixCard array
-      await prisma.client.update({
+      await db.client.update({
         where: { clientIDs: clientId },
         data: { fixCard: { set: fixCardArray } },
       });
