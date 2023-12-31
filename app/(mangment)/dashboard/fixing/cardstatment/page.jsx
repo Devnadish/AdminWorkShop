@@ -5,7 +5,7 @@ import INPUT from '@/components/shared/INPUT'
 import { Button } from '@/components/ui/button';
 import { VscTools } from "react-icons/vsc";
 import { useRouter } from 'next/navigation';
-
+export const dynamic = "force-dynamic";
 function Page() {
   const router=useRouter()
   const [cardid,setCardid]=useState("")

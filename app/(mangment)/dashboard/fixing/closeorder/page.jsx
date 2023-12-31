@@ -2,7 +2,7 @@ import CloseCardActions from '@/components/pagecomponent/back/fixing/CloseCardAc
 import { getAllOpenFixOrder } from '@/db/fixing'
 import { getTimeElapsed } from '@/lib/timeanddate';
 import React from 'react'
-
+export const dynamic = "force-dynamic";
 async function page() {
   const OpenCard=await getAllOpenFixOrder()
 

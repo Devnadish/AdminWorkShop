@@ -3,7 +3,7 @@ import PageTitle from '@/components/shared/PageTitle';
 import {  getAllCommentsForAdmin } from '@/db/comments';
 import {  MessagesSquare } from "lucide-react";
 import React from 'react'
-
+export const dynamic = "force-dynamic";
 async function Comments() {
   // const getComment = await getAllCommentsForAdmin();
 let getComment;

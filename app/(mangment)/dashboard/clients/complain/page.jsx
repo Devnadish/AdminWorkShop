@@ -6,7 +6,7 @@ import { getAllcomplainForAdmin } from "@/db/complain";
 import { getTimeElapsed } from "@/lib/timeanddate";
 import { Frown } from "lucide-react";
 import React from "react";
-
+export const dynamic = "force-dynamic";
 async function Complain() {
   const getComplain = await getAllcomplainForAdmin();
 

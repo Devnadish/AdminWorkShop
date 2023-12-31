@@ -3,7 +3,7 @@ import { getAllFixOrder } from "@/db/fixing"
 import { getTimeElapsed } from "@/lib/timeanddate";
 
 
-
+export const dynamic = "force-dynamic";
 
 async function page() {
   const fixOrder =await  getAllFixOrder();
