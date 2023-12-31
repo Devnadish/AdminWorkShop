@@ -60,3 +60,29 @@ export async function getCarInfo(Carid) {
     return "An error occurred while adding the car";
   }
 }
+
+export async function getClientsCar() {
+ const clientsWithCars = await db.car.findMany({ });
+
+const clientCarsArray = {};
+
+clientsWithCars.forEach(car => {
+  if (!clientCarsArray[car.clientId]) {
+    clientCarsArray[car.clientId] = [];
+  }
+  clientCarsArray[car.clientId].push({ CarNo: car.CarNo, carName: car.carName });
+});
+
+console.log(clientCarsArray);
+}
+
+
+export async function getClientsWithCars() {
+ const data = await db.car.findMany({
+   orderBy: {
+     clientId: "asc",
+   },
+ });
+  return data
+
+}
