@@ -272,5 +272,9 @@ export async function getCardByCardID(cardId) {
     where: { fixingCode: cardId },
   });
 
-  return {cardData: existingOrder[0],reciptData:recipt,paymentData:payment}
+  return {
+    cardData: existingOrder[0],
+    reciptData: recipt,
+    paymentData: payment,
+  };
 }
