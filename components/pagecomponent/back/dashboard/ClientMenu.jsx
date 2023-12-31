@@ -45,9 +45,10 @@ const ClientMenu = ({ toggleSidebar }) => {
               href={"/dashboard/clients/addcar"}
               className={menuStyle}
               prefetch={true}
+              onClick={() => toggleSidebar()}
             >
               <p>اضافة سيارة </p>
-              <Car size={30} strokeWidth={1} onClick={() => toggleSidebar()} />
+              <Car size={30} strokeWidth={1}  />
             </Link>
 
             <Link

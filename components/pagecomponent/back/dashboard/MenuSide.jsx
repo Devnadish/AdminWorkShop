@@ -1,6 +1,6 @@
 "use client";
-import React, { useState,useEffect } from "react";
-import {  ChevronLeft, ChevronRight, Angry, Lightbulb, RefreshCcw } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Menu, Angry, Lightbulb, RefreshCcw } from "lucide-react";
 import ClientMenu from "./ClientMenu";
 import FixOrderMenu from "./FixOrderMenu";
 import FinicalMenu from "./FinicalMenu";
@@ -10,37 +10,37 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
-  SheetFooter
+  SheetFooter,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { FaCarCrash } from "react-icons/fa";
 import { FaCashRegister } from "react-icons/fa";
 import { AiOutlineDashboard } from "react-icons/ai";
 
-import {  getRecordCounts} from "@/db/dashboard";
+import { getRecordCounts } from "@/db/dashboard";
 import Logout from "../auth/Logout";
 import { useSession } from "next-auth/react";
 import Users from "./Users";
+
+
 
 const DashBoardMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [recordCounts, setRecordCounts] = useState(null);
   const { data: session } = useSession();
 
-
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-    const closeSidebar = () => {
-      setIsOpen(false);
-    };
+  const closeSidebar = () => {
+    setIsOpen(false);
+  };
 
-const refresData=async()=>{
-  setRecordCounts("");
+  const refresData = async () => {
+    setRecordCounts("");
     const data = await getRecordCounts();
     setRecordCounts(data);
-
-}
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +49,6 @@ const refresData=async()=>{
     };
     fetchData();
   }, []);
-
 
   return (
     <>
@@ -60,7 +59,6 @@ const refresData=async()=>{
               open={isOpen}
               onOpenChange={setIsOpen}
               onClose={toggleSidebar}
-
             >
               <SheetTrigger asChild>
                 <Button
@@ -68,7 +66,7 @@ const refresData=async()=>{
                   className="bg-yellow-300  px-2 h-10  mt-2 mr-2"
                   size="sm"
                 >
-                  <ChevronLeft className="text-black" />
+                  <Menu className="text-black" />
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-auto bg-sky-800 flex  flex-col justify-between w-full p-2 py-9">
@@ -79,26 +77,7 @@ const refresData=async()=>{
               </SheetContent>
             </Sheet>
           </div>
-          <div className="flex justify-center justify-center w-full">
-            <div className="border w-[280px] h-12 flex items-center justify-around">
-              <div className="bg-yellow-300 rounded px-2 py-1 flex items-center gap-2 ">
-                <VscCommentUnresolved size={24} />
-                <p>{recordCounts?.pendingComments}</p>
-              </div>
-              <div className="bg-red-500 text-white rounded px-1 py-1 flex items-center gap-2 ">
-                <Angry />
-                <p>{recordCounts?.pendingComplains}</p>
-              </div>
-              <div className="bg-blue-400 text-white rounded px-1 py-1 flex items-center gap-2 ">
-                <Lightbulb />
-                <p>{recordCounts?.pendingSuggestions}</p>
-              </div>
-              <Button size={"sm"} onClick={() => refresData()}>
-                {" "}
-                <RefreshCcw />
-              </Button>
-            </div>
-          </div>
+          <ClientActivity   recordCounts={recordCounts}     refresData={refresData}    />
           <div className="absolute left-3 top-2   z-40 flex  justify-center items-center   bg-yellow-300 text-sky-950 rounded-md h-10 w-10">
             <Link href={"/"}>
               <AiOutlineDashboard size={30} />
@@ -123,7 +102,8 @@ const SidebarMenu = ({ toggleSidebar }) => (
 export default DashBoardMenu;
 
 const FastMenu = ({ toggleSidebar }) => {
-  const linkStyle="w-1/3  rounded h-20  shadow-lg text-white flex flex-col items-center justify-center text-xl"
+  const linkStyle =
+    "w-1/3  rounded h-20  shadow-lg text-white flex flex-col items-center justify-center text-xl";
   return (
     <div className="flex w-full items-center justify-around">
       <Link
@@ -147,3 +127,30 @@ const FastMenu = ({ toggleSidebar }) => {
     </div>
   );
 };
+
+
+
+function ClientActivity(props) {
+  return (
+    <div className="flex justify-center justify-center w-full">
+      <div className="border w-[280px] h-12 flex items-center justify-around">
+        <Link href={"/dashboard/clients/comment"}  className="bg-yellow-300 rounded px-2 py-1 flex items-center gap-2 ">
+          <VscCommentUnresolved size={24} />
+          <p>{props.recordCounts?.pendingComments}</p>
+        </Link>
+        <Link href={"/dashboard/clients/complain"} className="bg-red-500 text-white rounded px-1 py-1 flex items-center gap-2 ">
+          <Angry />
+          <p>{props.recordCounts?.pendingComplains}</p>
+        </Link>
+        <Link href={"/dashboard/clients/suggestion"} className="bg-blue-400 text-white rounded px-1 py-1 flex items-center gap-2 ">
+          <Lightbulb />
+          <p>{props.recordCounts?.pendingSuggestions}</p>
+        </Link>
+        <Button size={"sm"} onClick={() => props.refresData()}>
+          {" "}
+          <RefreshCcw />
+        </Button>
+      </div>
+    </div>
+  );
+}
