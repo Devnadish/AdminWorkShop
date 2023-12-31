@@ -8,6 +8,7 @@ export async function saveRecietVoucher(reciptData) {
     const docDate = new Date(reciptData.docDate).toISOString(); // Convert to ISO-8601 format
     const data = { ...reciptData, recietId: RecietCounter, docDate };
     const order = await db.RecietVoucher.create({ data });
+    revalidatePath("dashboard/fixing/closeorder")
     return {
       msg: "تم انشاء سند قبض ",
       recietNo: RecietCounter,
