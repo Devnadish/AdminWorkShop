@@ -24,10 +24,13 @@ const [ClientId, setClientId] = useState("");
     const CarNo = data.get("CarNo");
     const BodyNo = data.get("BodyNo");
 
+
+    const formattedCarNo = CarNo.replace(/\s/g, '').toUpperCase();
+
     const car = {
       carName,
       Model,
-      CarNo,
+      CarNo: formattedCarNo,
       BodyNo,
       clientId: parseInt(ClientId),
       // clientName: client,
