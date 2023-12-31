@@ -22,7 +22,7 @@ import FininceInfo from "@/components/pagecomponent/back/dashboard/FininceInfo";
 import FixingExpenses from "@/components/pagecomponent/back/dashboard/FixingExpenses";
 import GeneralInfo from "@/components/pagecomponent/back/dashboard/GeneralInfo";
 
-
+export const dynamic = "force-dynamic";
 export default async function Dashboard() {
 
   const MaintenanceExpensesArraydb = calculateClientSums();
