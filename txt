@@ -1,0 +1,6 @@
+C:\Program Files\MongoDB\Tools\100\bin
+
+mongodump --uri "mongodb+srv://devnadish:Leno_1972123@cluster0.blravpl.mongodb.net/workshop?retryWrites=true&w=majority"
+
+
+ git add . && git commit -m "v01" && git push

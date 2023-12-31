@@ -1,6 +1,9 @@
 "use server";
 import db from "@/lib/prisma";
 
+
+// export const fetchCache = "force-no-store";
+
 export async function SumsOfFixingCard(isClosed) {
   try {
     const filteredOrders = await db.fixingOrder.findMany({

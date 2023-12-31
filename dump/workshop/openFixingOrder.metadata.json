@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"selectedCar":{"$numberInt":"1"}},"name":"openFixingOrder_selectedCar_key","unique":true}],"uuid":"33761654d22b40b8882d3fa1db5b76eb","collectionName":"openFixingOrder","type":"collection"}

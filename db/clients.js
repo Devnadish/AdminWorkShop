@@ -226,6 +226,7 @@ export async function groupByClientId() {
 export async function displayClients() {
   try {
     const clients = await db.client.findMany({ });
+    // revalidatePath("/dashboard/clients/new");
     return clients;
   } catch (error) {
     console.error(error);

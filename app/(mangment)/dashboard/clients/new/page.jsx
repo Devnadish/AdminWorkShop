@@ -5,7 +5,7 @@ import { displayClients  } from "@/db/clients";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import DeleteClient from "@/components/pagecomponent/back/clients/client/DeleteClient";
 
-
+export const dynamic = "force-dynamic";
 
 
 async function RegisterPage() {
