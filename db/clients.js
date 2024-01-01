@@ -271,9 +271,10 @@ export async function getClientTransactions(clientId) {
 export async function getGroupClientWithTransactions() {
 
 
-     const groupedClients = await db.PaymentVoucher.groupBy({
+     const groupedClients = await db.RecietVoucher.groupBy({
        by: ["fromID", "fromName"],
      });
 
+console.log(groupedClients);
   return  groupedClients ;
 }
