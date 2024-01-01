@@ -47,11 +47,12 @@ const handleSubmit = async (data) => {
   }
 
   const Reciet = await saveRecietVoucher(RecietData);
+  console.log(Reciet)
 
   setResult({
     recietNo: Reciet.recietNo,
     client: Reciet.client,
-    amt: Reciet.total,
+    amt: Reciet.amt,
     fixNo: Reciet.fixNo,
     msg: Reciet.msg,
   });
@@ -180,7 +181,10 @@ const findClientByCarId = async () => {
 
 export default ReciptForm;
 
-const ShowAlert=({open,setIsopen,data})=>{return (
+const ShowAlert=({open,setIsopen,data})=>{
+  console.log(data)
+  return (
+
   <AlertDialog open={open}>
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -205,7 +209,9 @@ const ShowAlert=({open,setIsopen,data})=>{return (
         </p>
         <p className="flex gap-4 bg-green-950 text-white self-end px-4 py-2 rounded text-xl font-semibold">
           <span>المبلغ</span>
-          {data.amt}
+          <span className="bg-red-500 px-3 rounded">
+              {data.amt}
+            </span>
         </p>
       </div>
 
