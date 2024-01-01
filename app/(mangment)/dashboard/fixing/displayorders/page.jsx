@@ -53,18 +53,40 @@ async function page() {
                 <span className="bg-gray-600 px-2 rounded ml-2">المهندس</span>
                 {fix.engName}
               </p>
-              <p className="text-gray-400 text-base ">
-                <span className="bg-yellow-600 text-black px-2 rounded">
+              <div className="flex items-center justify-around gap-2">
+              <p className="text-gray-400 text-base bg-sky-800">
+                  <span className=" text-white/70 px-2 ">
                   القيمة
                 </span>
+                  <span className=" text-white/70 px-2 font-bold">
+
                 {fix.total}
+                  </span>
               </p>
-              <p className="text-gray-400 text-base ">
-                <span className="bg-yellow-600 text-black px-2 rounded ml-2">
+                <p className="text-gray-400 text-base bg-sky-800">
+                <span className=" text-white/70  px-2 rounded ml-2">
                   المستلم
                 </span>
+                  <span className="  text-white/70 px-2 font-bold">
+
                 {fix.receive}
+                  </span>
               </p>
+
+
+                <p className="text-gray-400 text-base bg-green-500 rounded">
+                <span className=" text-black px-2 rounded ml-2">
+                  الرصيد
+                </span>
+
+                  <span className=" text-black px-2 font-bold">
+
+                {fix.receive}
+                  </span>
+              </p>
+              </div>
+
+
               <p className="text-gray-400 text-base ">
                 <span className="bg-yellow-600 text-black px-2 rounded ml-2">
                   حالة الكرت

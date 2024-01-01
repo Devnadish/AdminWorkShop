@@ -10,7 +10,6 @@ export const authOptions = {
 
       async authorize(credentials) {
         const { mobile, password } = credentials;
-        console.log(mobile, password);
 
         try {
           const user = await login( mobile, password );

@@ -16,18 +16,30 @@ import { BsCashStack } from "react-icons/bs";
 import { FaCashRegister } from "react-icons/fa6";
 import { FaBalanceScale } from "react-icons/fa";
 import ClearButton from "@/components/shared/ClearButton";
-import { CarIcon, Search } from "lucide-react";
+import { CarIcon, Search, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCarInfo } from "@/db/cars";
+import { CheckCircle } from "lucide-react";
 
-function NewFixOrder({ clientsWithCars }) {
-  const [totalCost, setTotalCost] = useState(0);
-  const [receivedAmount, setReceivedAmount] = useState(0);
-  const [dueAmount, setDueAmount] = useState(totalCost - receivedAmount);
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer"
+
+function NewFixOrder({ clientsWithCars, carData }) {
+  const [totalCost, setTotalCost] = useState();
+  const [receivedAmount, setReceivedAmount] = useState();
+  const [dueAmount, setDueAmount] = useState(0);
   const [FixCardNO, setFixCardNO] = useState(0);
   const [ClientID, setClientID] = useState("");
   const [ClientName, setClientName] = useState("");
   const [Carid, setCarid] = useState("");
+  const [isShow, setIsShow] = useState(false);
 
   // -----------------------------------------------------------------
   const FixOrder_DBaction = async (orderData, ClientID, total) => {
@@ -51,14 +63,22 @@ function NewFixOrder({ clientsWithCars }) {
   };
 
   // ---------------------------------------------------------------
-  const NewDoc = () => {
-      setDueAmount(0);
-  };
+
 
   const handlesubmit = async (data) => {
     const detail = data.get("serviceDescription");
     const delivery = data.get("deliveryDate");
     const engName = data.get("engName");
+
+// recheck car info befor save
+    const carData = await getCarInfo(Carid);
+    setClientName(carData[0].clientName);
+    setClientID(carData[0].clientId);
+    if (carData.exisit || carData.Carexisit === "not Exisit" ) {
+      toast.error(carData.msg);
+      return;
+    }
+//
     const orderData = {
       detail,
       delivery,
@@ -81,12 +101,12 @@ function NewFixOrder({ clientsWithCars }) {
 
   };
 
-const handleGetCar = async () => {
-  const carData = await getCarInfo(Carid);
-  if (carData.exisit) {
-    toast.error(carData.msg);
-    return;
-  }
+  const handleGetCar = async () => {
+    const carData = await getCarInfo(Carid);
+    if (carData.exisit) {
+      toast.error(carData.msg);
+      return;
+    }
     if (carData.Carexisit === "not Exisit") {
       toast.error(carData.msg);
       return;
@@ -95,14 +115,18 @@ const handleGetCar = async () => {
     setClientName(carData[0].clientName);
     setClientID(carData[0].clientId);
 
-};
+  };
 
 
 
 
   useEffect(() => {
-    setDueAmount(totalCost - receivedAmount);
+    const total = parseFloat(totalCost) || 0;
+    const received = parseFloat(receivedAmount) || 0;
+    setDueAmount(total - received);
   }, [totalCost, receivedAmount]);
+
+
 
   return (
     <div className="flex flex-col ">
@@ -117,26 +141,41 @@ const handleGetCar = async () => {
           }
           bgColor="bg-white/30"
         />
-        <div className="flex  items-center flex-col justify-start    self-start  ">
-          <div className="flex  items-center justify-center gap-3">
+        <div className="flex items-center justify-start w-full bg-black py-3 px-3 rounded">
+          <div className="flex items-center justify-between gap-3 w-full">
             <INPUT
-              placeholder="رقم لوحة  السيارة"
+              placeholder="Car Plate Number"
               name="car"
               icon={<CarIcon />}
-              h="h-12"
               value={Carid}
               onChange={(e) => setCarid(e.target.value)}
             />
 
             <Button
               onClick={() => handleGetCar()}
-              className="text-white bg-orange-600 h-12 w-12  rounded"
+              className="text-white bg-green-600 rounded"
             >
-              <Search />
+              <CheckCircle size={24} />
+            </Button>
+
+            <div className="flex items-center gap-3 border flex-grow p-1 rounded border-white/40 text-white/60 ">
+              <span>
+               اسم العميل :
+              </span>
+              <span>
+                {ClientName}
+              </span>
+            </div>
+
+            <Button
+              onClick={() => setIsShow(true)}
+              className="text-white bg-orange-700 rounded"
+            >
+              <Search size={24} />
             </Button>
           </div>
-          <p className="self-start">{ClientName}</p>
         </div>
+
       </div>
 
       <div className="flex items-center justify-center flex-col gap-4  border rounded-md border-white/30 p-4">
@@ -204,7 +243,59 @@ const handleGetCar = async () => {
           </div>
         </form>
       </div>
+      {isShow && <ShowCars isShow={isShow} setIsShow={setIsShow} carData={carData} />}
     </div>
   );
 }
 export default NewFixOrder;
+
+const ShowCars = ({ isShow, setIsShow, carData }) => {
+
+
+
+  return (<>
+    <div>
+      <Drawer open={isShow} onOpenChange={setIsShow}>
+
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-sm">
+            <DrawerHeader>
+              <DrawerTitle>عرض سيارات العملاء</DrawerTitle>
+            </DrawerHeader>
+            <div className="border border-black/30 p-2 max-h-48 overflow-y-auto">
+              {Object.entries(carData).map(([clientName, cars]) => (
+                <div key={clientName}>
+                  <h2 className="bg-green-500">{clientName}</h2>
+                  <ul className="flex flex-col gap-2 w-full">
+                    {cars.map(car => (
+                      <div key={car.id} className="flex items-center justify-between gap-2 w-full ">
+                        <div  className="flex items-center gap-4 justify-end  py-1 ">
+                          <li className="bg-green-200 px-4 rounded-full py-.5">{car.CarNo}</li>
+                          <li >{car.carName}</li>
+                        </div>
+                        <Button className="border-green-400 border" onClick={() => { navigator.clipboard.writeText(car.CarNo) }} variant="outline">نسخ</Button>
+
+                      </div>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button onClick={() => { setIsShow(false) }} variant="outline">اغلاق</Button>
+
+              </DrawerClose>
+            </DrawerFooter>
+          </div>
+        </DrawerContent>
+      </Drawer>
+    </div>
+
+
+
+
+  </>)
+}

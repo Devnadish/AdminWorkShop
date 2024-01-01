@@ -37,6 +37,7 @@ export async function getCarInfo(Carid) {
         selectedCar: Carid,
       },
     });
+
     if (isThereCard.length > 0) {
       return {
         msg: "السيارة موجود لها كرت مفتوح ",
@@ -51,7 +52,7 @@ export async function getCarInfo(Carid) {
       },
     });
     if (existingCar.length === 0) {
-      return { msg: "السيارة ليس لها كرت صيانة ", Carexisit: "not Exisit" };
+      return { msg: "رقم اللوحة غير صحيح .. لا توجد بيانات برقم اللوحة  ", Carexisit: "not Exisit" };
     }
 
     return existingCar;
@@ -73,7 +74,6 @@ clientsWithCars.forEach(car => {
   clientCarsArray[car.clientId].push({ CarNo: car.CarNo, carName: car.carName });
 });
 
-console.log(clientCarsArray);
 }
 
 
@@ -85,4 +85,15 @@ export async function getClientsWithCars() {
  });
   return data
 
+}
+
+export async function getCarsData() {
+  const cars = await prisma.car.findMany();
+  const groupedCarsByClient = cars.reduce((result, car) => {
+    (result[car.clientName] = result[car.clientName] || []).push(car);
+    return result;
+  }, {});
+
+  // console.log(groupedCarsByClient);
+  return groupedCarsByClient;
 }

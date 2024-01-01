@@ -32,7 +32,7 @@ export async function SumsOfFixingCard(isClosed) {
 export async function calculateClientSums() {
   try {
     const paymentVouchersByClientId = await db.paymentVoucher.groupBy({
-      by: ["fromID", "fromName"],
+      by: ["fromID", "fromName", "fixingCode"],
       where: {
         fromID: { gt: 0 },
         paymentType: { equals: "fixing" },
@@ -43,6 +43,7 @@ export async function calculateClientSums() {
       select: {
         fromID: true,
         fromName: true,
+        fixingCode:"true",
         _sum: true,
       },
     });
@@ -51,6 +52,7 @@ export async function calculateClientSums() {
     const formattedResults = paymentVouchersByClientId.map((result) => ({
       fromID: result.fromID,
       fromName: result.fromName,
+      fixCode: result.fixingCode,
       amount: result._sum.amount, // Extract "amount"
     }));
 
@@ -100,7 +102,6 @@ export async function recietVoucher() {
         amount: true,
       },
     });
-    console.log(totalAmount._sum.amount)
     return totalAmount._sum.amount;
   } catch (error) {
     console.error(error);
