@@ -1,7 +1,10 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 const FixingExpenses = ({ MaintenanceExpensesArray }) => {
-  console.log(MaintenanceExpensesArray)
   return (
-    <div className="flex flex-col  w-full items-center justify-around h-full px-2 ">
+    <div className="flex flex-col gap-3 w-full">
+      <div className="flex flex-col gap-3 w-full text-white  items-center justify-center ">
+        <ScrollArea className=" h-[250px]    px-4   w-full">
       {MaintenanceExpensesArray.map((item, index) => {
         return (
           <div
@@ -26,6 +29,8 @@ const FixingExpenses = ({ MaintenanceExpensesArray }) => {
           </div>
         );
       })}
+       </ScrollArea>
+    </div>
     </div>
   );
 };
