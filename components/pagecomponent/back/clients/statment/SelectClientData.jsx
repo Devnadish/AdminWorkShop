@@ -19,9 +19,9 @@ function SelectClientData({ data }) {
         setPayment={setPayment}
         setRecipt={setRecipt}
       />
-      {ClientId &&       <Totals pay={payment} rec={recipt} />}
-       {ClientId &&  <PaymentTransactions data={payment} />}
+      {ClientId &&   <Totals pay={payment} rec={recipt} />}
        {ClientId &&  <ReceiptTransactions data={recipt} />}
+       {ClientId &&  <PaymentTransactions data={payment} />}
     </div>
   );
 }
@@ -97,7 +97,7 @@ function PaymentTransactions({ data, total }) {
           >
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">
-                <span>قبض رقم :</span> {re.paymentId}
+                <span>صرف  رقم :</span> {re.paymentId}
               </div>
 
               <p className="text-gray-400 text-base mb-2">
@@ -138,7 +138,7 @@ function ReceiptTransactions({ data, total }) {
           >
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">
-                <span>صرف رقم:</span> {re.paymentId}
+                <span>قبض  رقم:</span> {re.recietId}
               </div>
               <p className="text-gray-400 text-base">
                 <span className="bg-gray-600 px-2 rounded">الوصف</span>{" "}

@@ -155,7 +155,7 @@ export async function createReciptVocher(Voucherdata) {
   const detail = "   مقابل امر اصلاح رقم " + Voucherdata.fixingId;
   const fromID = Voucherdata.clientId;
   const fromName = Voucherdata.clientName;
-  const amount = Voucherdata.total;
+  const amount = Voucherdata.receive;
   const fixingCode = Voucherdata.fixingId;
   try {
     const RecietCounter = await AddRecietCounter();
