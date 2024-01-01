@@ -22,6 +22,7 @@ async function NewFix() {
     );
   } catch (error) {
     // Handle error
+    console.log(error)
   }
 }
 

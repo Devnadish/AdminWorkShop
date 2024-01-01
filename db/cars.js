@@ -88,7 +88,7 @@ export async function getClientsWithCars() {
 }
 
 export async function getCarsData() {
-  const cars = await prisma.car.findMany();
+  const cars = await db.car.findMany();
   const groupedCarsByClient = cars.reduce((result, car) => {
     (result[car.clientName] = result[car.clientName] || []).push(car);
     return result;
