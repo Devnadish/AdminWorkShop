@@ -15,7 +15,10 @@ async function NewFix() {
     clientsWithCars = client.filter((client) => client.carsData.length > 0);
 
     return (
+      <div>
+        <p>كرت صيانة</p>
       <NewFixOrder clientsWithCars={clientsWithCars} carData={carData }/>
+      </div>
     );
   } catch (error) {
     // Handle error
