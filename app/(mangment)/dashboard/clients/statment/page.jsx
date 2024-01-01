@@ -1,7 +1,7 @@
 import SelectClientData from "@/components/pagecomponent/back/clients/statment/SelectClientData";
 import { getGroupClientWithTransactions } from "@/db/clients";
 
-
+export const dynamic = "force-dynamic";
 
 async function Statement() {
   const data = await getGroupClientWithTransactions();
