@@ -94,7 +94,7 @@ export default async function Dashboard() {
         />
       </InfoBox>
       <InfoBox
-        title="ايرادات العملاء"
+        title="سندات القبض"
         tileIcon={<Receipt />}
         footer={ReceptArraySum}
       >
