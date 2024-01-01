@@ -205,7 +205,7 @@ const ShowAlert=({open,setIsopen,data})=>{return (
         </p>
         <p className="flex gap-4 bg-green-950 text-white self-end px-4 py-2 rounded text-xl font-semibold">
           <span>المبلغ</span>
-          {data.recietNo}
+          {data.amt}
         </p>
       </div>
 
