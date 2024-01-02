@@ -10,33 +10,35 @@ import { updateClientPaymentBalance } from "@/db/payment";
 import { Car, Check, CircleDollarSign } from "lucide-react";
 import { fixValidateForm } from "@/lib/validation/payment";
 import OpenFixingCard from "./OpenFixingCard";
-import { Button } from "@/components/ui/button";
-import { getCarInfo } from "@/db/cars";
+import {  getCarInfoForVoucher } from "@/db/cars";
+import { CheckCarInfoForVoucher } from "@/components/shared/CheckCarInfoForVoucher";
 function SaveVoucher({ data }) {
   const [carId, setCarId] = useState("");
   const [info, setInfo] = useState({});
   const [result, setResult] = useState({});
   const [open, setOpen] = useState(false);
 
-const findClientByCarId = async () => {
-  try {
-    const car = await getCarInfo(carId);
-    if (car && car.Carexisit === "not Exisit") {
-      toast.error(car.msg);
-      setInfo({});
-    } else if (car && car.data && car.data.length > 0) {
+  const findClientByCarId = async () => {
+    try {
+      const car = await getCarInfoForVoucher(carId);
+      if (car.Carexisit === 'not Exisit') {
+        toast.error(car.msg);
+        setInfo({});
+        return
+      }
+
       setInfo({
-        clientId: car.data[0].clientId,
-        clientName: car.data[0].clientName,
-        fixOrderId: car.data[0].fixOrederId,
+        clientId: car.carInfo.clientId,
+        clientName: car.carInfo.clientName,
+        fixOrderId: car.carInfo.fixOrederId,
+        fixamt: car.carInfo.fixOrederAmt,
+        recipt: car.recipt,
+        balance: car.carInfo.fixOrederAmt - car.recipt
       });
-    } else {
-      // Handle the case when car data is empty
+    } catch (error) {
+      console.log(error) // Handle any unexpected errors here
     }
-  } catch (error) {
-    // Handle any unexpected errors here
-  }
-};
+  };
 
   const handleSubmit = async (data) => {
     const amount = parseFloat(data.get("amount"));
@@ -76,7 +78,7 @@ const findClientByCarId = async () => {
   return (
     <div className=" flex flex-col gap-4  items-center justify-between  border border-white/30 rounded-md p-4 w-full">
 
-      <div className="flex items-center self-start gap-3 flex-col">
+      {/* <div className="flex items-center self-start gap-3 flex-col">
         <div className="flex items-center  gap-3">
           <INPUT
             placeholder={" رقم السيارة"}
@@ -116,8 +118,8 @@ const findClientByCarId = async () => {
             </p>
           </div>
         )}
-      </div>
-
+      </div> */}
+      <CheckCarInfoForVoucher carId={carId} setCarId={setCarId} info={info} setInfo={setInfo} />
       <form
         id="paymentForm"
         className="w-full flex flex-col gap-4 items-start justify-start "

@@ -138,9 +138,21 @@ const totalReicept = await db.recietVoucher.aggregate({
     fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
   },
 });
-    // console.log(existingCar)
 
-    return {carInfo:existingCar[0],recipt: totalReicept._sum.amount}
+const totalPayment = await db.PaymentVoucher.aggregate({
+  _sum: {
+    amount: true,
+  },
+  where: {
+    fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
+  },
+});
+console.log(totalPayment);
+    return {
+      carInfo: existingCar[0],
+      recipt: totalReicept._sum.amount || 0,
+      payment: totalPayment._sum.amount || 0,
+    };
   } catch (error) {
     console.error(error);
     return "An error occurred while adding the car";
