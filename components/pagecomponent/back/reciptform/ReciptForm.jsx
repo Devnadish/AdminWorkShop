@@ -7,7 +7,7 @@ import {  Car, Check, CircleDollarSign, Search } from "lucide-react";
 import INPUT from "@/components/shared/INPUT";
 import ClearButton from "@/components/shared/ClearButton";
 import { Button } from "@/components/ui/button";
-import { getCarInfo } from "@/db/cars";
+import {  getCarInfoForVoucher } from "@/db/cars";
 import toast from "react-hot-toast";
 import { validateForm } from "@/lib/validation/recipt";
 import { saveRecietVoucher } from "@/db/reciet";
@@ -19,6 +19,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Wrench } from "lucide-react";
+
+
+
+
 
 
 function ReciptForm() {
@@ -26,6 +31,7 @@ function ReciptForm() {
   const [info,setInfo]=useState({})
     const [result, setResult] = useState({});
     const [open, setOpen] = useState(false);
+
 
 const handleSubmit = async (data) => {
   const detail = data.get("detail");
@@ -40,14 +46,13 @@ const handleSubmit = async (data) => {
     docDate,
   };
 
-  const validation = validateForm(RecietData);
+  const validation = validateForm(RecietData,info.balance);
   if (!validation.isValid) {
     toast.error(validation.errorMessage);
     return;
   }
 
   const Reciet = await saveRecietVoucher(RecietData);
-  console.log(Reciet)
 
   setResult({
     recietNo: Reciet.recietNo,
@@ -68,28 +73,33 @@ const handleSubmit = async (data) => {
 };
 const findClientByCarId = async () => {
   try {
-    const car = await getCarInfo(carId);
-    if (car && car.Carexisit === "not Exisit") {
+    const car = await getCarInfoForVoucher(carId);
+    if (car.Carexisit=== 'not Exisit' ) {
       toast.error(car.msg);
       setInfo({});
-    } else if (car && car.data && car.data.length > 0) {
-      setInfo({
-        clientId: car.data[0].clientId,
-        clientName: car.data[0].clientName,
-        fixOrderId: car.data[0].fixOrederId,
-      });
-    } else {
-      // Handle the case when car data is empty
+      return
     }
+
+    setInfo({
+      clientId: car.carInfo.clientId,
+      clientName: car.carInfo.clientName,
+      fixOrderId: car.carInfo.fixOrederId,
+      fixamt: car.carInfo.fixOrederAmt,
+      recipt: car.recipt,
+      balance: car.carInfo.fixOrederAmt - car.recipt
+    });
   } catch (error) {
-    // Handle any unexpected errors here
+   console.log(error) // Handle any unexpected errors here
   }
 };
 
+
+
+
   return (
     <div className="flex flex-col items-center justify-center w-full  border p-4 rounded-md border-white/30  max-w-md mx-auto gap-4">
-      <div className="flex items-center self-start gap-3 flex-col">
-        <div className="flex items-center  gap-3">
+      <div className="flex items-center self-start gap-3 flex-col w-full">
+        <div className="flex items-center justify-around gap-4">
           <INPUT
             placeholder={" رقم السيارة"}
             name={"CarId"}
@@ -118,15 +128,35 @@ const findClientByCarId = async () => {
 
         </div>
         {info.clientName && carId && (
-          <div className="flex items-start self-start gap-3 flex-col bg-slate-700 w-full p-3 shadow-xl ">
+          <div className="flex items-start self-start gap-3 flex-col bg-sky-700 w-full p-3 shadow-xl w-full rounded-md">
+            <div className="flex items-center justify-between w-full">
             <p className="flex gap-4">
               <span>اسم العميل</span>
               {info.clientName}
             </p>
-            <p className="flex gap-4">
-              <span>رقم امر الاصلاح</span>
-              {info.fixOrderId}
+            <div className="flex items-center gap-4 bg-white/30 px-2 rounded">
+              <Wrench size={20}/>
+              <span>{info.fixOrderId}</span>
+            </div>
+            </div>
+            <div className="flex items-center justify-between w-full">
+            <p className="flex items-center gap-4">
+              <span>اجمالي الكرت</span>
+                <span>{info.fixamt}</span>
+
             </p>
+            <p className="flex gap-4">
+              <span>اجمالي المستلم</span>
+
+                <span>{info.recipt}</span>
+            </p>
+            </div>
+            <div className="flex items-center justify-center py-1 w-full bg-sky-500 ">
+              <p className="flex items-center gap-4">
+                <span>الرصيد المتاح </span>
+                <span>{info.balance}</span>
+              </p>
+            </div>
           </div>
         )}
       </div>
@@ -182,7 +212,6 @@ const findClientByCarId = async () => {
 export default ReciptForm;
 
 const ShowAlert=({open,setIsopen,data})=>{
-  console.log(data)
   return (
 
   <AlertDialog open={open}>

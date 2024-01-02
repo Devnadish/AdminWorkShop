@@ -278,3 +278,29 @@ export async function getCardByCardID(cardId) {
     paymentData: payment,
   };
 }
+
+
+export async function calculateTotalAmountForOrders() {
+  const orders = await db.openFixingOrder.findMany();
+  const results = [];
+  for (const order of orders) {
+    const totalAmount = await db.recietVoucher.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        fixingCode: order.fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
+      },
+    });
+    results.push({
+      clientName: order.clientName,
+      FixNo: order.fixOrederId,
+      selectedCar: order.selectedCar,
+      fixOrederAmt: order.fixOrederAmt,
+      totalRecipt: totalAmount._sum.amount,
+      balance: order.fixOrederAmt - totalAmount._sum.amount,
+
+    });
+  }
+  return results;
+}

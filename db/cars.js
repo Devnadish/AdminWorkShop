@@ -30,6 +30,7 @@ export async function AddNewCar(Car) {
 
 
 export async function getCarInfo(Carid) {
+
   try {
     // Check if the Car already exists in OpenCards
     const isThereCard = await db.openFixingOrder.findMany({
@@ -39,6 +40,7 @@ export async function getCarInfo(Carid) {
     });
 
     if (isThereCard.length > 0) {
+
       return {
         msg: "السيارة موجود لها كرت مفتوح ",
         exisit: true,
@@ -54,6 +56,8 @@ export async function getCarInfo(Carid) {
     if (existingCar.length === 0) {
       return { msg: "رقم اللوحة غير صحيح .. لا توجد بيانات برقم اللوحة  ", Carexisit: "not Exisit" };
     }
+    // console.log(existingCar)
+    console.log({existingCar});
 
     return existingCar;
   } catch (error) {
@@ -61,6 +65,9 @@ export async function getCarInfo(Carid) {
     return "An error occurred while adding the car";
   }
 }
+
+
+// -------------------
 
 export async function getClientsCar() {
  const clientsWithCars = await db.car.findMany({ });
@@ -96,4 +103,46 @@ export async function getCarsData() {
 
   // console.log(groupedCarsByClient);
   return groupedCarsByClient;
+}
+// ---- Voucher Control
+
+export async function getCarInfoForVoucher(Carid) {
+  try {
+    // Check if the Car already exists in OpenCards
+    const isThereCard = await db.openFixingOrder.findMany({
+      where: {
+        selectedCar: Carid,
+      },
+    });
+
+    if (isThereCard.length === 0) {
+      return {
+        msg: "رقم اللوحة غير صحيح .. لا توجد بيانات برقم اللوحة  ",
+        Carexisit: "not Exisit",
+      };
+    }
+
+    const existingCar = await db.openFixingOrder.findMany({
+      where: {
+        selectedCar: Carid,
+      },
+    });
+
+    // Get Balnce
+
+const totalReicept = await db.recietVoucher.aggregate({
+  _sum: {
+    amount: true,
+  },
+  where: {
+    fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
+  },
+});
+    // console.log(existingCar)
+
+    return {carInfo:existingCar[0],recipt: totalReicept._sum.amount}
+  } catch (error) {
+    console.error(error);
+    return "An error occurred while adding the car";
+  }
 }

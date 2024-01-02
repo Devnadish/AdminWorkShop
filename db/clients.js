@@ -275,6 +275,5 @@ export async function getGroupClientWithTransactions() {
        by: ["fromID", "fromName"],
      });
 
-console.log(groupedClients);
   return  groupedClients ;
 }
