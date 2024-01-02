@@ -4,7 +4,7 @@ const ClientTransaction = ({ ReceptArray }) => {
   return (
     <div className="flex flex-col gap-3 w-full">
       <div className="flex flex-col gap-3 w-full text-white  items-center justify-center">
-        <ScrollArea className="h-full flex flex-col gap-4 px-4   w-full">
+        <ScrollArea className=" h-[250px]    px-4   w-full">
           {ReceptArray.map((item, index) => {
             return (
               <div

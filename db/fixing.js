@@ -279,28 +279,82 @@ export async function getCardByCardID(cardId) {
   };
 }
 
+// this one ok but i want test the other for time beng ------------------
+// export async function calculateTotalAmountForOrders() {
+//   const orders = await db.openFixingOrder.findMany();
+//   const results = [];
+//   for (const order of orders) {
+//     const totalAmount = await db.recietVoucher.aggregate({
+//       _sum: {
+//         amount: true,
+//       },
+//       where: {
+//         fixingCode: order.fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
+//       },
+//     });
+
+//      const payment = await db.PaymentVoucher.aggregate({
+//        _sum: {
+//          amount: true,
+//        },
+//        where: {
+//          fixingCode: order.fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
+//        },
+//      });
+//     results.push({
+//       clientName: order.clientName,
+//       FixNo: order.fixOrederId,
+//       selectedCar: order.selectedCar,
+//       fixOrederAmt: order.fixOrederAmt,
+//       totalRecipt: totalAmount._sum.amount,
+//       payment: payment._sum.amount,
+//       balance:        totalAmount._sum.amount - payment._sum.amount,
+//       // balance: order.fixOrederAmt - totalAmount._sum.amount,
+//     });
+//   }
+//   return results;
+// }
 
 export async function calculateTotalAmountForOrders() {
   const orders = await db.openFixingOrder.findMany();
-  const results = [];
-  for (const order of orders) {
-    const totalAmount = await db.recietVoucher.aggregate({
-      _sum: {
-        amount: true,
-      },
-      where: {
-        fixingCode: order.fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
-      },
-    });
-    results.push({
-      clientName: order.clientName,
-      FixNo: order.fixOrederId,
-      selectedCar: order.selectedCar,
-      fixOrederAmt: order.fixOrederAmt,
-      totalRecipt: totalAmount._sum.amount,
-      balance: order.fixOrederAmt - totalAmount._sum.amount,
 
-    });
-  }
+  // Fetch totalAmount and payment in separate queries
+  const totalAmounts = await Promise.all(
+    orders.map((order) =>
+      db.recietVoucher.aggregate({
+        _sum: {
+          amount: true,
+        },
+        where: {
+          fixingCode: order.fixOrederId,
+        },
+      })
+    )
+  );
+
+  const payments = await Promise.all(
+    orders.map((order) =>
+      db.PaymentVoucher.aggregate({
+        _sum: {
+          amount: true,
+        },
+        where: {
+          fixingCode: order.fixOrederId,
+        },
+      })
+    )
+  );
+
+  const results = orders.map((order, index) => ({
+    clientName: order.clientName,
+    FixNo: order.fixOrederId,
+    selectedCar: order.selectedCar,
+    fixOrederAmt: order.fixOrederAmt,
+    totalRecipt: totalAmounts[index]._sum.amount,
+    payment: payments[index]._sum.amount,
+    balance: totalAmounts[index]._sum.amount - payments[index]._sum.amount,
+  }));
+
+  console.log(results);
   return results;
 }

@@ -1,5 +1,8 @@
+// "use client"
+import DisplayInvoice from "@/components/pagecomponent/back/invoice/DisplayInvoice";
 import { collectInvoice } from "@/db/invoice";
 import React from "react";
+
 
 async function page({ params }) {
   const collectData = await collectInvoice(params.id);
@@ -14,10 +17,10 @@ const payment = paymentarray.reduce((total, item) => total + item.amount, 0);
 
 
   return (
+    // <p>sd</p>
     <div className="flex items-center justify-start w-full   h-screen flex-col">
-      <section className="rounded border px-16 py-3 mt-1 text-xl font-bold">
-        فاتورة
-      </section>
+      <DisplayInvoice/>
+
       <section className="rounded border px-6 py-3 mt-4 text-xl  w-[70vw] flex items-center justify-between">
         <p>مطللوب من المكرم : {collectData.orderData.clientName}</p>
         <div className="flex items-center gap-3 ">

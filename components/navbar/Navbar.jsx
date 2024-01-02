@@ -6,7 +6,7 @@ import { PiEngineDuotone } from "react-icons/pi";
 
 function Navbar() {
   return (
-    <header className="sticky top-0 flex shadow-md max-w-7xl w-full items-center justify-between  text-sm   bg-orange-400  h-14  border px-2  z-50">
+    <header  className="sticky top-0 flex shadow-md max-w-7xl w-full items-center justify-between  text-sm   bg-orange-400  h-14  border px-2  z-50">
       <div className="flex  items-center gap-0">
         <BuregerMenu />
         <div className="relative ">

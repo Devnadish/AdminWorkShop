@@ -1,3 +1,8 @@
+import { GiCash } from "react-icons/gi";
+import { LiaCashRegisterSolid } from "react-icons/lia";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { FaTools } from "react-icons/fa";
+import { GiOfficeChair } from "react-icons/gi";
 const FininceInfo = ({
   totalIncome,
   clientBalance,
@@ -7,31 +12,24 @@ const FininceInfo = ({
   net,
 }) => {
   return (
-    <div className="text-black flex-col   w-full font-normal flex items-center justify-around px-3 text-black gap-3 ">
-      <div className="flex items-center justify-between w-full text-white px-3">
-        <p> الايرادات</p>
-        <p>{totalIncome}</p>
-      </div>
-
-      <div className="flex items-center justify-between w-full text-white px-3">
-        <p> القبض</p>
-        <p>{reciptSum}</p>
-      </div>
-      <div className="flex items-center justify-between w-full text-white px-3 bg-red-500 text-white font-bold text-xl h-12">
-        <p>رصيد العملاء</p>
-        <p>{clientBalance}</p>
-      </div>
-
-      <div className="flex items-center justify-between w-full text-white px-3">
-        <p>المصاريف التشغيليه</p>
-        <p>{fixingExp}</p>
-      </div>
-
-      <div className="flex items-center justify-between w-full text-white px-3">
-        <p>المصاريف الادارية</p>
-        <p>{mangmentExp}</p>
-      </div>
+    <div className='mt-5 grid grid-cols-1 place-items-start gap-6 md:grid-cols-5 '>
+      <Figure title={"القبض"} no={reciptSum} icon={<LiaCashRegisterSolid size={50} className="text-green-400" />} color="text-green-600" />
+      <Figure title={"المصاريف التشغيليه"} no={fixingExp} icon={<FaTools size={50} className="text-sky-600" />} color="text-sky-600" />
+      <Figure title={"المصاريف الادارية"} no={mangmentExp} icon={<GiOfficeChair size={50} className="text-yellow-600" />} color="text-yellow-600" />
+      <Figure title={"رصيد العملاء"} no={clientBalance} icon={<HiMiniUserGroup size={50} className="text-red-400" />} color="text-red-600" />
+      <Figure title={"الايرادات"} no={totalIncome} icon={<GiCash size={50} className="text-blue-400"/>} color="text-blue-600"/>
     </div>
   );
 };
 export default FininceInfo;
+
+
+const Figure = ({ title, no,icon,color }) => {
+  return (
+  <div className="flex items-center justify-center flex-col w-full  min-w-40  bg-white p-4 rounded shadow-lg">
+{icon}
+    <p className={`${color} text-xl font-bold`}>{title}</p>
+      <p className={`${color} text-2xl font-bold`}>{no}</p>
+  </div>
+  )
+}

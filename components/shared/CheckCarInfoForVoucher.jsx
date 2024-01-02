@@ -14,6 +14,7 @@ export function CheckCarInfoForVoucher(props) {
     try {
       setIsloading(true)
       const car = await getCarInfoForVoucher(props.carId);
+      console.log(car)
       if (car.Carexisit === 'not Exisit') {
         toast.error(car.msg);
         props.setInfo({});
@@ -28,6 +29,7 @@ export function CheckCarInfoForVoucher(props) {
         recipt: car.recipt,
         payment: car.payment,
         balance: car.recipt - car.payment
+
       });
     } catch (error) {
       console.log(error) // Handle any unexpected errors here
@@ -83,11 +85,13 @@ export function CheckCarInfoForVoucher(props) {
           <span>{props.info.payment}</span>
         </p>
       </div>
-      <div className="flex items-center justify-center py-1 w-full bg-sky-500 ">
+      <div className="flex items-center justify-center flex-col py-1 w-full bg-sky-500 ">
         <p className="flex items-center gap-4">
           <span>الرصيد المتاح </span>
           <span>{props.info.balance}</span>
         </p>
+          <p className="bg-red-500 px-4 rounded-md  self-end text-sm ">{props.info.balance <0 && "تجاوزت  القبض قيمة كرت الاصلاح" }</p>
+          <p className="bg-red-500 px-4 rounded-md  self-end text-sm ">{props.info.balance === 0 && "الرجاء اقفال الكرت"}</p>
       </div>
     </div>}
   </div>);

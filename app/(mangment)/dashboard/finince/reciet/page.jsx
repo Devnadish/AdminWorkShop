@@ -3,6 +3,7 @@
 import PageTitle from "@/components/shared/PageTitle";
 import ReciptForm from "@/components/pagecomponent/back/reciptform/ReciptForm";
 import OpenFixCard from "@/components/shared/OpenFixCard";
+
 export const dynamic = "force-dynamic";
 const RecietVoucher = () => {
   return (

@@ -13,7 +13,13 @@ import {
   mangmentExpensesDetails,
   getRecordCounts,
   generalInfo,
+  calculateClientPayment
 } from "@/db/dashboard";
+import { GiCash } from "react-icons/gi";
+import { LiaCashRegisterSolid } from "react-icons/lia";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { FaTools } from "react-icons/fa";
+import { GiOfficeChair } from "react-icons/gi";
 
 import FixingInfo from "@/components/pagecomponent/back/dashboard/FixingInfo";
 import ClientTransaction from "@/components/pagecomponent/back/dashboard/ClientTransaction";
@@ -27,9 +33,13 @@ export default async function Dashboard() {
 
   const MaintenanceExpensesArraydb = calculateClientSums();
   const MangmenteExpensesArraydb = mangmentExpensesDetails();
+
   const ReceptArraydb = calculateClientRecipts();
+  const PaymentArraydb = calculateClientPayment();
+
   const sumOf_OPEN_FixingCarddb = SumsOfFixingCard(false);
   const sumOf_CLOSED_FixingCarddb = SumsOfFixingCard(true);
+
   const reciptSumdb = recietVoucher();
   const mangmentExpdb = mangmentExpenses();
   const fixingExpdb = fixingExpenses();
@@ -40,6 +50,7 @@ export default async function Dashboard() {
     MaintenanceExpensesArray,
     MangmenteExpensesArray,
     ReceptArray,
+    PaymentArray,
     sumOf_OPEN_FixingCard,
     sumOf_CLOSED_FixingCard,
     reciptSum,
@@ -51,6 +62,7 @@ export default async function Dashboard() {
     MaintenanceExpensesArraydb,
     MangmenteExpensesArraydb,
     ReceptArraydb,
+    PaymentArraydb,
     sumOf_OPEN_FixingCarddb,
     sumOf_CLOSED_FixingCarddb,
     reciptSumdb,
@@ -75,46 +87,62 @@ export default async function Dashboard() {
     return sum;
   }
   const ReceptArraySum = calculateSumOfAmounts(ReceptArray);
+  const PaymentArraySum = calculateSumOfAmounts(PaymentArray);
   const ExpenceArraySum = calculateSumOfAmounts(MaintenanceExpensesArray);
   const MangmentExpArraySum = calculateSumOfAmounts(MangmenteExpensesArray);
 
   //  const analytics = useAnalytics();
   return (
     // <main>
-    <main className=" flex  flex-wrap   gap-4 items-start justify-center p-4   w-full   ">
+    <div className="flex flex-col gap-4">
 
-      <InfoBox title="ملخص النقدية" tileIcon={<Receipt />} footer={net}>
+
+      {/* <InfoBox title="ملخص النقدية" tileIcon={<Receipt />} footer={net}> */}
         <FininceInfo
           totalIncome={cardTotal}
           clientBalance={cardNet}
           reciptSum={reciptSum}
           mangmentExp={mangmentExp}
           fixingExp={fixingExp}
-          // net={net}
+         net={net}
         />
-      </InfoBox>
+      {/* </InfoBox> */}
+
+
+
+
+    <main className='mt-1 grid grid-cols-1 place-items-start gap-6 md:grid-cols-5 '>
+
       <InfoBox
-        title="سندات القبض"
-        tileIcon={<Receipt />}
+        title=" اجمالي  سندات القبض  "
+          tileIcon={<LiaCashRegisterSolid size={30} />}
         footer={ReceptArraySum}
       >
         <ClientTransaction ReceptArray={ReceptArray} />
       </InfoBox>
       <InfoBox
+        title=" اجمالي   الصرف التشغيلية  "
+          tileIcon={<FaTools size={30} />}
+        footer={PaymentArraySum}
+      >
+        <ClientTransaction ReceptArray={PaymentArray} />
+      </InfoBox>
+
+      {/* <InfoBox
         title="مصاريف تشغيلية"
         tileIcon={<Receipt />}
         footer={ExpenceArraySum}
       >
         <FixingExpenses MaintenanceExpensesArray={MaintenanceExpensesArray} />
-      </InfoBox>
+      </InfoBox> */}
       <InfoBox
         title="مصاريف ادارية"
-        tileIcon={<Receipt />}
+          tileIcon={<GiOfficeChair size={30} />}
         footer={MangmentExpArraySum}
       >
         <MangmentExpense MaintenanceExpensesArray={MangmenteExpensesArray} />
       </InfoBox>
-      <InfoBoxWithNoBalance title="كروت الصيانة" tileIcon={<Wrench />}>
+        <InfoBox title="كروت الصيانة" tileIcon={<HiMiniUserGroup size={30} />} footer={cardNet}>
         <FixingInfo
           sumOf_OPEN_FixingCard={sumOf_OPEN_FixingCard}
           sumOf_CLOSED_FixingCard={sumOf_CLOSED_FixingCard}
@@ -122,13 +150,14 @@ export default async function Dashboard() {
           cardRecived={cardRecived}
           cardNet={cardNet}
         />
-      </InfoBoxWithNoBalance>
-      <InfoBoxWithNoBalance title="معلومات عامة" tileIcon={<Receipt />}>
+      </InfoBox>
+      <InfoBoxWithNoBalance title="معلومات عامة" >
         <GeneralInfo
           generalInfoData={generalInfoData}
           ClientActions={ClientActions}
         />
       </InfoBoxWithNoBalance>
     </main>
+    </div>
   );
 }

@@ -26,15 +26,14 @@ export default function RootLayout({ children }) {
       <body
         className={`flex flex-col items-center justify-center w-full m-auto bg-slate-800 ${amiri.variable} ${tajawal.variable}`}
       >
-
-
         <AuthProvider>
-          <DashBoardMenu />
+          <div id="navmenu" className="w-full">
+            <DashBoardMenu />
+          </div>
           <main className="relative flex w-full items-center justify-center w-full text-white">
             {children}
           </main>
         </AuthProvider>
-
 
         <Toaster
           position="bottom-center "

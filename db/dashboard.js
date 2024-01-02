@@ -95,6 +95,40 @@ export async function calculateClientRecipts() {
 }
 
 
+
+
+export async function calculateClientPayment() {
+  try {
+    const paymentVouchersByClientId = await db.PaymentVoucher.groupBy({
+      by: ["fromID", "fromName"],
+      where: {
+        fromID: { gt: 0 },
+      },
+      _sum: {
+        amount: true,
+      },
+      select: {
+        fromID: true,
+        fromName: true,
+        _sum: true,
+      },
+    });
+
+    const formattedResults = paymentVouchersByClientId.map((result) => ({
+      fromID: result.fromID,
+      fromName: result.fromName,
+      amount: result._sum.amount, // Extract "amount"
+    }));
+
+    return formattedResults;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+
+
 export async function recietVoucher() {
   try {
     const totalAmount = await db.recietVoucher.aggregate({
