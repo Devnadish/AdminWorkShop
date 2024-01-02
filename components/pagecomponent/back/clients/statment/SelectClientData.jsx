@@ -1,8 +1,11 @@
 "use client";
-import React, { useState, useEffect,useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Users } from "lucide-react";
 import { getClientTransactions } from "@/db/clients";
 import { getTimeElapsed } from "@/lib/timeanddate";
+import ExpandItem from "@/components/shared/ExpandItem";
+
+
 
 function SelectClientData({ data }) {
   const [ClientId, setClientId] = useState();
@@ -19,9 +22,11 @@ function SelectClientData({ data }) {
         setPayment={setPayment}
         setRecipt={setRecipt}
       />
-      {ClientId &&   <Totals pay={payment} rec={recipt} />}
-       {ClientId &&  <ReceiptTransactions data={recipt} />}
-       {ClientId &&  <PaymentTransactions data={payment} />}
+      {ClientId && <Totals pay={payment} rec={recipt} />}
+      <div className="flex items-start justify-justify-evenly flex-col md:flex-row max-w-4xl">
+        {ClientId && <Transactions data={recipt} type={"recipt"} color="bg-green-600" />}
+        {ClientId && <Transactions data={payment} type={"payment"} color="bg-orange-700" />}
+      </div>
     </div>
   );
 }
@@ -35,14 +40,6 @@ function SelectClient({
   setPayment,
   setRecipt,
 }) {
-  // const handleSelectChange = async (e) => {
-  //   setClientId(e.target.value);
-  //   if (ClientId) {
-  //     const transaction = await getClientTransactions(parseInt(ClientId));
-  //     setPayment(transaction.paymentTransactions);
-  //     setRecipt(transaction.receiptTransactions);
-  //   }
-  // };
   const handleSelectChange = useCallback(
     async (e) => {
       setClientId(e.target.value);
@@ -52,7 +49,7 @@ function SelectClient({
         setRecipt(transaction.receiptTransactions);
       }
     },
-    [ClientId,  setPayment, setRecipt, setClientId]
+    [ClientId, setPayment, setRecipt, setClientId]
   );
 
 
@@ -85,86 +82,6 @@ function SelectClient({
   );
 }
 
-function PaymentTransactions({ data, total }) {
-  return (
-    <>
-      <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
-        {data.map((re) => (
-          <div
-            key={re.id}
-            className="max-w-sm rounded overflow-hidden shadow-lg m-4 border border-white/30 "
-            style={{ minWidth: "300px" }}
-          >
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">
-                <span>صرف  رقم :</span> {re.paymentId}
-              </div>
-
-              <p className="text-gray-400 text-base mb-2">
-                <span className="bg-gray-600 px-2 rounded">الوصف</span>{" "}
-                {re.detail}
-              </p>
-              <p className="text-gray-400 text-base mb-2">
-                <span className="bg-gray-600 px-2 rounded">امر الاصلاح</span>{" "}
-                {re.fixingCode}
-              </p>
-              <p className="text-gray-400 text-base mb-2">
-                <span className="bg-yellow-600 text-black px-2 rounded">
-                  القيمة
-                </span>{" "}
-                {re.amount}
-              </p>
-              <p className="text-gray-400 text-base">
-                <span className="bg-gray-600 px-2 rounded">التاريخ</span>{" "}
-                {getTimeElapsed(re.updatedAt)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function ReceiptTransactions({ data, total }) {
-  return (
-    <>
-      <div className="overflow-x-auto flex flex-wrap items-center justify-center w-full ">
-        {data.map((re) => (
-          <div
-            key={re.id}
-            className="max-w-sm rounded bg-zinc-600 overflow-hidden shadow-lg m-4 border border-white/30"
-            style={{ minWidth: "300px" }}
-          >
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">
-                <span>قبض  رقم:</span> {re.recietId}
-              </div>
-              <p className="text-gray-400 text-base">
-                <span className="bg-gray-600 px-2 rounded">الوصف</span>{" "}
-                {re.detail}
-              </p>
-              <p className="text-gray-400 text-base">
-                <span className="bg-gray-600 px-2 rounded">امر الاصلاح</span>{" "}
-                {re.fixingCode}
-              </p>
-              <p className="text-gray-400 text-base">
-                <span className="bg-yellow-600 text-black  px-2 rounded">
-                  القيمة
-                </span>{" "}
-                {re.amount}
-              </p>
-              <p className="text-gray-400 text-base">
-                <span className="bg-gray-600 px-2 rounded">التاريخ</span>{" "}
-                {getTimeElapsed(re.updatedAt)}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
 
 const Totals = ({ pay, rec }) => {
   const totalpaymentTransactions = pay.reduce(
@@ -180,14 +97,14 @@ const Totals = ({ pay, rec }) => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className=" flex items-center gap-4 bg-green-500 text-white rounded-lg text-xl justify-between">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-evenly  w-full max-w-4xl">
+        <div className=" flex items-center gap-4 bg-green-600 text-white rounded-lg text-xl justify-between">
           <span className="px-3">المقبوضات</span>
           <span className="bg-green-900 rounded-l-md px-4 py-1">
             {totalreceiptTransactions}
           </span>
         </div>
-        <div className=" flex items-center gap-4 bg-green-500 text-white rounded-lg text-xl justify-between">
+        <div className=" flex items-center gap-4 bg-orange-700 text-white rounded-lg text-xl justify-between">
           <span className="px-3">المصروفات</span>
           <span className="bg-green-900 rounded-l-md px-4 py-1">
             {totalpaymentTransactions}
@@ -203,3 +120,73 @@ const Totals = ({ pay, rec }) => {
     </>
   );
 };
+
+function Transactions({ data, total, type, color }) {
+  const [isOpen, setIsOpen] = useState(Array(data.length).fill(false));
+
+  const ExpandHead = ({ data, type, index }) => {
+    const handleExpand = () => {
+      const newIsOpen = [...isOpen];
+      newIsOpen[index] = !newIsOpen[index];
+      setIsOpen(newIsOpen);
+    };
+
+    return (
+      <div className="text-sm flex item-center justify-between w-full" onClick={handleExpand}>
+        <div>
+          <span>{type === "payment" ? "صرف  رقم" : "قبض  رقم"} :</span>
+          <span>{type === "payment" ? data.paymentId : data.recietId}</span>
+        </div>
+        <div className="bg-white/30 px-3 rounded">
+          <span className=" px-2 rounded">
+            المبلغ
+          </span>
+          <span>
+            {data.amount}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full gap-2" >
+        {data.map((re, index) => (
+          <div
+            key={re.id}
+            className="max-w-sm rounded overflow-hidden shadow-lg  border border-white/30 w-full"
+            style={{ minWidth: "300px" }}
+          >
+            <ExpandItem
+              isOpen={isOpen[index]}
+              setIsOpen={(value) => {
+                const newIsOpen = [...isOpen];
+                newIsOpen[index] = value;
+                setIsOpen(newIsOpen);
+              }}
+              menuTitle={<ExpandHead data={re} type={type} index={index} />}
+              color={color}
+            >
+              <div className="p-4">
+                <p className="text-gray-400 text-base mb-2">
+                  <span className="bg-gray-600 px-2 rounded">الوصف</span>{" "}
+                  {re.detail}
+                </p>
+                <p className="text-gray-400 text-base mb-2">
+                  <span className="bg-gray-600 px-2 rounded">امر الاصلاح</span>{" "}
+                  {re.fixingCode}
+                </p>
+
+                <p className="text-gray-400 text-base">
+                  <span className="bg-gray-600 px-2 rounded">التاريخ</span>{" "}
+                  {getTimeElapsed(re.updatedAt)}
+                </p>
+              </div>
+            </ExpandItem>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
