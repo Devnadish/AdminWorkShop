@@ -24,7 +24,7 @@ export function CheckCarInfoForVoucher(props) {
         fixamt: car.carInfo.fixOrederAmt,
         recipt: car.recipt,
         payment: car.payment,
-        balance: car.carInfo.fixOrederAmt - car.recipt
+        balance: car.recipt - car.payment
       });
     } catch (error) {
       console.log(error) // Handle any unexpected errors here
