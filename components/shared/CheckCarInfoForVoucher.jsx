@@ -1,15 +1,18 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Car, Check } from "lucide-react";
 import INPUT from "@/components/shared/INPUT";
 import { Button } from "@/components/ui/button";
 import { Wrench } from "lucide-react";
 import { getCarInfoForVoucher } from "@/db/cars";
+import Spinner from "./Spinner";
 
 export function CheckCarInfoForVoucher(props) {
+  const [isloading,setIsloading]=useState(false)
 
   const findClientByCarId = async () => {
     try {
+      setIsloading(true)
       const car = await getCarInfoForVoucher(props.carId);
       if (car.Carexisit === 'not Exisit') {
         toast.error(car.msg);
@@ -28,12 +31,18 @@ export function CheckCarInfoForVoucher(props) {
       });
     } catch (error) {
       console.log(error) // Handle any unexpected errors here
+    }finally{
+      setIsloading(false)
     }
+
   };
 
 
 
-  return (<div className="flex items-center self-start gap-3 flex-col w-full">
+  return (
+
+  <div className="flex items-center self-start gap-3 flex-col w-full">
+    {isloading && <Spinner/>}
     <div className="flex items-center justify-around gap-4">
       <INPUT placeholder={" رقم السيارة"} name={"CarId"} type={"text"} icon={<Car />} cN="flex-1" h="h-9" w="w-[200px]" textsize="text-[1.5rem]" //   bgColor="bg-red-300"
         id="CarId" value={props.carId} onChange={e => {

@@ -57,7 +57,6 @@ export async function getCarInfo(Carid) {
       return { msg: "رقم اللوحة غير صحيح .. لا توجد بيانات برقم اللوحة  ", Carexisit: "not Exisit" };
     }
     // console.log(existingCar)
-    console.log({existingCar});
 
     return existingCar;
   } catch (error) {
@@ -147,7 +146,6 @@ const totalPayment = await db.PaymentVoucher.aggregate({
     fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
   },
 });
-console.log(totalPayment);
     return {
       carInfo: existingCar[0],
       recipt: totalReicept._sum.amount || 0,
