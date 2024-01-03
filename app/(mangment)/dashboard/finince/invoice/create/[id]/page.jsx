@@ -18,12 +18,12 @@ const payment = paymentarray.reduce((total, item) => total + item.amount, 0);
 
   return (
     // <p>sd</p>
-    <div className="flex items-center justify-start w-full   h-screen flex-col">
+    <div className="container flex items-center justify-start w-full    flex-col">
       <DisplayInvoice/>
 
-      <section className="rounded border px-6 py-3 mt-4 text-xl  w-[70vw] flex items-center justify-between">
+      <section className="rounded border px-6 py-3 mt-4 text-xl w-full border-white/40  flex items-center justify-between flex-col md:flex-row">
         <p>مطللوب من المكرم : {collectData.orderData.clientName}</p>
-        <div className="flex items-center gap-3 ">
+        <div className="flex items-center gap-3 flex-col md:flex-row">
           <p className="bg-white/30 px-3 rounded-md py-1">
             رقم السيارة : {collectData.orderData.selectedCar}
           </p>
@@ -32,13 +32,28 @@ const payment = paymentarray.reduce((total, item) => total + item.amount, 0);
           </p>
         </div>
       </section>
-      <section className="rounded border px-16 py-3 mt-1 text-xl h-[70vh] w-[70vw] overflow-auto">
+      <section className="rounded border px-6 py-3 mt-4 text-xl w-full  flex items-center border-white/40 justify-between">
+
+          <p className="bg-white/30 px-3 rounded-md py-1">
+          التفاصيل : {collectData.FixData[0].detail}
+          </p>
+      </section>
+      <section className="rounded border w-full px-6 py-3 mt-4 text-xl   flex items-center justify-center">
+
+        <p className="bg-blue-500 px-3 rounded-md py-1 w-11/12 text-center text-xl font-bold">
+          المطلوب : {collectData.orderData.fixOrederAmt - recipt}
+        </p>
+      </section>
+
+
+      <section className="rounded border px-6 py-3 mt-1 text-xl mb-5  w-full border-white/40  overflow-auto">
         <Balance
           recipt={recipt}
           payment={payment}
           fixOrderValue={collectData.orderData.fixOrederAmt}
         />
-        <div className="flex items-start w-full justify-center gap-3">
+
+        <div className="flex items-start w-full justify-center gap-3 flex-col md:flex-row">
           <Recipt reciptarray={reciptarray} />
           <Payment paymentarray={paymentarray} />
         </div>
@@ -48,27 +63,32 @@ const payment = paymentarray.reduce((total, item) => total + item.amount, 0);
 }
 
 const Balance = ({ recipt, payment, fixOrderValue }) => {
-  const balance = recipt - payment;
+  const balance = fixOrderValue-  (recipt );
   return (
     <div className="w-full  py-1 px-2 flex items-center justify-around flex-col">
-      <div className="w-full bg-zinc-800 py-1 px-2 flex items-center justify-around">
-        <p>
-          القيمة الاجمالية : <span>{fixOrderValue}</span>
-        </p>
-        <p>
-          القبض : <span>{recipt}</span>
-        </p>
-        <p>
-          الصرف : <span>{payment}</span>
-        </p>
+      <div className="w-full bg-zinc-800 py-1 px-2 flex items-center justify-around flex-col  gap-3">
+        <div className="w-full flex items-center justify-between">
+          <span>  القيمة الاجمالية </span>
+         <span>{fixOrderValue}</span>
+        </div>
+        <div className="w-full flex items-center justify-between">
+          <span>القبض</span>
+          <span>{recipt}</span>
+        </div>
+        <div className="w-full flex items-center justify-between">
+         <span> الصرف  </span>
+         <span>{payment}</span>
+        </div>
+
       </div>
 
       <div
         className={`w-50 ${
           balance < 0 ? " bg-red-800" : " bg-green-800"
-        } py-1 px-2 flex items-center justify-end self-end`}
+        } py-1 px-2 flex items-center justify-between self-end w-full `}
       >
-        الرصيد : <span>{balance}</span>
+        <span> الرصيد  </span>
+        <span>{balance}</span>
       </div>
     </div>
   );
@@ -76,7 +96,7 @@ const Balance = ({ recipt, payment, fixOrderValue }) => {
 
 const Recipt = ({ reciptarray }) => {
   return (
-    <div className="flex items-center justify-between text-[.8rem]   flex-col flex-1">
+    <div className="flex items-center justify-between text-[.8rem]   flex-col flex-1 w-full">
       <p className="bg-red-500 text-white self-start px-4 text-lg">سندات القبض</p>
       <div className="flex items-center justify-between text-[.8rem] bg-green-300 text-black  gap-2 w-full px-3">
         <p>الرقم</p>
@@ -101,7 +121,7 @@ const Recipt = ({ reciptarray }) => {
 };
 const Payment = ({ paymentarray }) => {
    return (
-     <div className="flex items-center justify-between text-[.8rem]   flex-col flex-1">
+     <div className="flex items-center justify-between text-[.8rem]   flex-col flex-1 w-full">
        <p className="bg-red-500 text-white self-start px-4 text-lg">
          سندات الصرف
        </p>

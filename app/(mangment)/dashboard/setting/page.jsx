@@ -2,7 +2,7 @@ import { deleteAllData } from '@/db/setting'
 import React from 'react'
 
 async function page() {
-    // const newDb = await deleteAllData()
+    const newDb = await deleteAllData()
 
   return (
     <div>page</div>

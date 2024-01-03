@@ -25,6 +25,7 @@ async function page() {
               <div className="flex flex-col gap-2 px-6 py-4">
                 <div className="font-bold text-xl ">
                   <span>الكرت رقم :</span> {fix.fixOrederId}
+                  <span>الكرت رقم :</span> {fix.id}
                 </div>
                 <p className="text-gray-400 text-base ">
                   <span className="bg-gray-600 px-4 rounded ml-2">

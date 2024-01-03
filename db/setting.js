@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 export async function deleteAllData() {
   const models = Object.keys(db);
   for (const model of models) {
-    if (model !== "counters" && db[model].deleteMany) {
+    if (model !== "counters" && model !== "Client" && db[model].deleteMany) {
       console.log("Deleting data from model:", model);
       await db[model].deleteMany({});
     }

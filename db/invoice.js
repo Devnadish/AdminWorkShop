@@ -8,6 +8,10 @@ export async function collectInvoice(id) {
     where:{id:id}
   });
 
+const FixData = await db.fixingOrder.findMany({
+  where: { fixingId: existingOrder[0].fixOrederId },
+});
+
   const Reciet = await db.RecietVoucher.findMany({
     where: { fixingCode: existingOrder[0].fixOrederId },
   });
@@ -21,5 +25,10 @@ const Payment = await db.PaymentVoucher.findMany({
 
 
 
-  return {orderData:existingOrder[0],Recipt: Reciet, Payment:Payment}
+  return {
+    orderData: existingOrder[0],
+    Recipt: Reciet,
+    Payment: Payment,
+    FixData: FixData,
+  };
 }
