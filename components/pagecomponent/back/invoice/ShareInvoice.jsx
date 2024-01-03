@@ -23,7 +23,7 @@ function ShareInvoice({ id, balance, fixOrederId }) {
   const [url,setUrl]=useState()
     const router =useRouter()
   const pathname = usePathname();
-  // console.log('Pathname:', pathname);
+  const templLink = "https://admin-work-shop.vercel.app/" + pathname
 
 
   const handleSend = (id, balance, fixOrederId) => {
@@ -37,11 +37,11 @@ function ShareInvoice({ id, balance, fixOrederId }) {
 
   useEffect(() => {
 
-    let fullUrl;
-    if (typeof window !== 'undefined') {
-      const fullUrl = window.location.href; // Example: 'https://example.com/blog/post-1'
-      setUrl(`${fullUrl}/share/${id}`)
-    }
+    // let fullUrl;
+    // if (typeof window !== 'undefined') {
+    //   const fullUrl = window.location.href; // Example: 'https://example.com/blog/post-1'
+    // }
+    setUrl(`${templLink}/share/${id}`)
 
 
 
