@@ -1,7 +1,10 @@
 "use client";
 import { FaFileInvoiceDollar } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React,{useState,useEffect} from "react";
+import { FaShare } from "react-icons/fa6";
+import { usePathname } from 'next/navigation'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,41 +18,59 @@ import {
 } from "@/components/ui/alert-dialog";
 import toast from "react-hot-toast";
 import { deleteAndCloseFixOrder } from "@/db/fixing";
-import { Eye } from "lucide-react";
 
-function CreateInvoice({ id, balance, fixOrederId }) {
+function ShareInvoice({ id, balance, fixOrederId }) {
+  const [url,setUrl]=useState()
     const router =useRouter()
-  const handleDelete = (id, balance, fixOrederId) => {
+  const pathname = usePathname();
+  // console.log('Pathname:', pathname);
 
-    router.push(`/dashboard/finince/invoice/create/${id}`)
 
-    // const del = CreateInvoice(id);
-
+  const handleSend = (id, balance, fixOrederId) => {
+    // router.push(`/dashboard/finince/invoice/create/${id}`)
+    const phone ="+966590446021"
+    router.push(`https://wa.me/${phone}?text=${url}`)
 
 
   };
+
+
+  useEffect(() => {
+
+    let fullUrl;
+    if (typeof window !== 'undefined') {
+      const fullUrl = window.location.href; // Example: 'https://example.com/blog/post-1'
+      setUrl(`${fullUrl}/share/${id}`)
+    }
+
+
+
+  }, [])
+
+
+
+
 
   return (
     <>
       <div className="flex items-center justify-end  bg-slate-900 w-full gap-6 py-2 px-2">
         <AlertDialog>
-          <AlertDialogTrigger className="border h-8 w-8 rounded flex items-center justify-center w-full gap-4 bg-green-600">
-
-            <Eye/>
+          <AlertDialogTrigger className="border h-8 w-8 rounded flex items-center justify-center w-full gap-4 bg-blue-600">
+            <FaShare />
             {/* <Trash className="text-red-500" /> */}
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>اصدار فاتورة</AlertDialogTitle>
               <AlertDialogDescription>
-                سيتم مراجعة حركة العميل واصدار فاتورة تفصيلية
+                <p className="break-all w-full bg-green-400 text-black">{url}</p>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="flex items-center gap-4">
               <AlertDialogAction
-                onClick={() => handleDelete(id, balance, fixOrederId)}
+                onClick={() => handleSend(url)}
               >
-                استمر
+                ارسال
               </AlertDialogAction>
               <AlertDialogCancel>الغاء</AlertDialogCancel>
             </AlertDialogFooter>
@@ -60,4 +81,4 @@ function CreateInvoice({ id, balance, fixOrederId }) {
   );
 }
 
-export default CreateInvoice;
+export default ShareInvoice;

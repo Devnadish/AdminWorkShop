@@ -31,7 +31,8 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer"
 
-function NewFixOrder({ clientsWithCars, carData }) {
+function NewFixOrder({ clientsWithCars, carData, labor }) {
+  console.log(labor)
   const [totalCost, setTotalCost] = useState();
   const [receivedAmount, setReceivedAmount] = useState();
   const [dueAmount, setDueAmount] = useState(0);
@@ -71,6 +72,10 @@ function NewFixOrder({ clientsWithCars, carData }) {
     const engName = data.get("engName");
 
 // recheck car info befor save
+    if(!Carid){return toast.error("تاكد من رقم السيارة ")}
+    if (!ClientName){return toast.error("تاكد من اسم العميل ")}
+
+
     const carData = await getCarInfo(Carid);
     setClientName(carData[0].clientName);
     setClientID(carData[0].clientId);
@@ -82,8 +87,8 @@ function NewFixOrder({ clientsWithCars, carData }) {
     const orderData = {
       detail,
       delivery,
-      total: parseInt(totalCost),
-      receive: parseInt(receivedAmount),
+      total: parseInt(totalCost) || 0,
+      receive: parseInt(receivedAmount) || 0,
       clientId: parseInt(ClientID),
       clientName: ClientName,
       selectedCar: Carid,
@@ -258,9 +263,9 @@ const ShowCars = ({ isShow, setIsShow, carData }) => {
       <Drawer open={isShow} onOpenChange={setIsShow}>
 
         <DrawerContent>
-          <div className="mx-auto w-full max-w-sm">
+          <div className="mx-auto w-full p-6 ">
             <DrawerHeader>
-              <DrawerTitle>عرض سيارات العملاء</DrawerTitle>
+              <DrawerTitle><p className="w-full text-right ">عرض سيارات العملاء</p></DrawerTitle>
             </DrawerHeader>
             <div className="border border-black/30 p-2 max-h-48 overflow-y-auto">
               {Object.entries(carData).map(([clientName, cars]) => (
@@ -270,7 +275,7 @@ const ShowCars = ({ isShow, setIsShow, carData }) => {
                     {cars.map(car => (
                       <div key={car.id} className="flex items-center justify-between gap-2 w-full ">
                         <div  className="flex items-center gap-4 justify-end  py-1 ">
-                          <li className="bg-green-200 px-4 rounded-full py-.5">{car.CarNo}</li>
+                          <li className="bg-green-200 px-4 rounded-full py-1">{car.CarNo}</li>
                           <li >{car.carName}</li>
                         </div>
                         <Button className="border-green-400 border" onClick={() => { navigator.clipboard.writeText(car.CarNo) }} variant="outline">نسخ</Button>

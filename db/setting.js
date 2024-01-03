@@ -14,22 +14,3 @@ export async function deleteAllData() {
     }
   }
 }
-
-
-
-//   async function deleteAllData() {
-//     const models = Object.keys(prisma);
-//     for (const model of models) {
-//       if (prisma[model].deleteMany) {
-//         await prisma[model].deleteMany({});
-//       }
-//     }
-//   }
-
-//   deleteAllData()
-//     .catch((e) => {
-//       throw e;
-//     })
-//     .finally(async () => {
-//       await prisma.$disconnect();
-//     });

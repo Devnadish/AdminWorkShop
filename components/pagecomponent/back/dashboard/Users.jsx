@@ -8,8 +8,10 @@ import {useState} from "react";
 import ExpandMenu from "./ExpandMenu";
 import { BsTools } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa6";
+import { Settings, HardHat } from "lucide-react";
+import { GiOfficeChair } from "react-icons/gi";
 
-const Users = ({ toggleSidebar }) => {
+const Setting = ({ toggleSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuStyle =
     "bg-sky-900 w-full px-3 py-1    rounded-md flex items-center justify-between text-white   font-semibold";
@@ -18,13 +20,11 @@ const Users = ({ toggleSidebar }) => {
       <ExpandMenu
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        menuTitle={"المستخدمين"}
-        menuIcon={<CircleUser size={30} className="text-yellow-300" />}
+        menuTitle={"الاعدادات"}
+        menuIcon={<Settings size={30} className="text-yellow-300" />}
       >
-        <div className="w-full  flex  flex-col items-center text-white">
-          <div className="w-full flex flex-col items-center gap-4 p-2">
-            <div className="flex w-full flex-col  gap-4 items-center ">
-              <div className="flex flex-col w-full">
+        <div className="w-full  flex  flex-col items-center text-white gap-2 mt-2">
+
                 <Link
                   href={"/dashboard/signup"}
                   className={menuStyle}
@@ -34,13 +34,29 @@ const Users = ({ toggleSidebar }) => {
                   <p>مستخدم جديد</p>
                   <UserRoundPlus size={20} className="text-yellow-300" />
                 </Link>
-              </div>
+          <Link
+            href={"/dashboard/setting/expences"}
+            className={menuStyle}
+            onClick={() => toggleSidebar()}
+            prefetch={true}
+          >
+            <p>المصاريف الادارية</p>
+            <GiOfficeChair size={20} className="text-yellow-300" />
+          </Link>
+          <Link
+            href={"/dashboard/setting/labor"}
+            className={menuStyle}
+            onClick={() => toggleSidebar()}
+            prefetch={true}
+          >
+            <p>الموظفين</p>
+            <HardHat  size={20} className="text-yellow-300" />
+          </Link>
             </div>
 
-          </div>
-        </div>
+
       </ExpandMenu>
     </>
   );
 };
-export default Users;
+export default Setting;

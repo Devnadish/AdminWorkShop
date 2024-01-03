@@ -14,7 +14,7 @@ function SelectClientData({ data }) {
 
 
   return (
-    <div className="flex items-center justify-center flex-col gap-4">
+    <div className="flex items-center justify-center flex-col gap-4 w-full">
       <SelectClient
         clientData={data}
         ClientId={ClientId}
@@ -23,7 +23,7 @@ function SelectClientData({ data }) {
         setRecipt={setRecipt}
       />
       {ClientId && <Totals pay={payment} rec={recipt} />}
-      <div className="flex items-start justify-justify-evenly flex-col md:flex-row max-w-4xl">
+      <div className="flex items-start justify-evenly flex-col md:flex-row ">
         {ClientId && <Transactions data={recipt} type={"recipt"} color="bg-green-600" />}
         {ClientId && <Transactions data={payment} type={"payment"} color="bg-orange-700" />}
       </div>
@@ -132,8 +132,8 @@ function Transactions({ data, total, type, color }) {
     };
 
     return (
-      <div className="text-sm flex item-center justify-between w-full" onClick={handleExpand}>
-        <div>
+      <div className="text-sm flex item-center justify-between w-full " onClick={handleExpand}>
+        <div className="w-full">
           <span>{type === "payment" ? "صرف  رقم" : "قبض  رقم"} :</span>
           <span>{type === "payment" ? data.paymentId : data.recietId}</span>
         </div>
@@ -151,7 +151,7 @@ function Transactions({ data, total, type, color }) {
 
   return (
     <>
-      <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full gap-2" >
+      <div className="  flex flex-wrap items-start justify-center w-full gap-2" >
         {data.map((re, index) => (
           <div
             key={re.id}

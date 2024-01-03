@@ -99,11 +99,12 @@ export async function getCarsData() {
     (result[car.clientName] = result[car.clientName] || []).push(car);
     return result;
   }, {});
-
-  // console.log(groupedCarsByClient);
   return groupedCarsByClient;
 }
-// ---- Voucher Control
+
+
+
+
 
 export async function getCarInfoForVoucher(Carid) {
   try {

@@ -20,7 +20,7 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { getRecordCounts } from "@/db/dashboard";
 import Logout from "../auth/Logout";
 import { useSession } from "next-auth/react";
-import Users from "./Users";
+import Setting from "./Users";
 
 
 
@@ -95,7 +95,7 @@ const SidebarMenu = ({ toggleSidebar }) => (
     <ClientMenu toggleSidebar={toggleSidebar} />
     <FixOrderMenu toggleSidebar={toggleSidebar} />
     <FinicalMenu toggleSidebar={toggleSidebar} />
-    <Users toggleSidebar={toggleSidebar} />
+    <Setting toggleSidebar={toggleSidebar} />
   </div>
 );
 

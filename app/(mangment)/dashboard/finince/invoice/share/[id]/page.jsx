@@ -19,8 +19,8 @@ const payment = paymentarray.reduce((total, item) => total + item.amount, 0);
   return (
     // <p>sd</p>
     <div className="container flex items-center justify-start w-full    flex-col">
-      {/* <p className="bg-sky-600 w-full text-center py-2 text-xl" >ورشة الصحفي للصيانة</p> */}
-      {/* <DisplayInvoice/> */}
+      <p className="bg-sky-600 w-full text-center py-2 text-xl" >ورشة الصحفي للصيانة</p>
+      <DisplayInvoice/>
 
       <section className="rounded border px-6 py-3 mt-4 text-xl w-full border-white/40  flex items-center justify-between flex-col md:flex-row">
         <p>مطللوب من المكرم : {collectData.orderData.clientName}</p>
