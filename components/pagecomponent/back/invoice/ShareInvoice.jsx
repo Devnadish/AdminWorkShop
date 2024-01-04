@@ -17,36 +17,34 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import toast from "react-hot-toast";
-import { deleteAndCloseFixOrder } from "@/db/fixing";
+import { deleteAndCloseFixOrder, getClientInfo } from "@/db/fixing";
 
-function ShareInvoice({ id, balance, fixOrederId }) {
+function ShareInvoice({ id, balance, fixOrederId, clientName,clientPhone }) {
   const [url,setUrl]=useState()
     const router =useRouter()
   const pathname = usePathname();
+  // console.log(process.env.SERVER_URL)
+  // const templLink = process.env.SERVER_URL + pathname
   const templLink = "https://admin-work-shop.vercel.app/" + pathname
 
 
-  const handleSend = (id, balance, fixOrederId) => {
-    // router.push(`/dashboard/finince/invoice/create/${id}`)
-    const phone ="+966590446021"
-    router.push(`https://wa.me/${phone}?text=${url}`)
+  const handleSend = async (urlId, id, clientName, clientPhone) => {
+
+    const phoneNumber = clientPhone
+    const phone = phoneNumber.replace(/^0/, "+966");
+    const link = `https://wa.me/${phone}?text=${url}`
+    // console.log(phone)
+    // router.push(link)
+    window.open(link, '_blank');
+
 
 
   };
 
 
   useEffect(() => {
-
-    // let fullUrl;
-    // if (typeof window !== 'undefined') {
-    //   const fullUrl = window.location.href; // Example: 'https://example.com/blog/post-1'
-    // }
     setUrl(`${templLink}/share/${id}`)
-
-
-
   }, [])
-
 
 
 
@@ -57,18 +55,26 @@ function ShareInvoice({ id, balance, fixOrederId }) {
         <AlertDialog>
           <AlertDialogTrigger className="border h-8 w-8 rounded flex items-center justify-center w-full gap-4 bg-blue-600">
             <FaShare />
-            {/* <Trash className="text-red-500" /> */}
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>اصدار فاتورة</AlertDialogTitle>
-              <AlertDialogDescription>
+              <AlertDialogTitle className="w-full text-center bg-blue-500 text-white rounded-md py-1 ">
+                اصدار فاتورة
+                 </AlertDialogTitle>
+              {/* <AlertDialogDescription> */}
+            <div className="flex items-start flex-col gap-4">
+                <p className="break-all py-2 px-5  bg-green-800 text-white">اسم العميل : {clientName}</p>
+                <p className="break-all  py-2 px-5 bg-green-800 text-white">رقم العميل : {clientPhone }</p>
                 <p className="break-all w-full bg-green-400 text-black">{url}</p>
-              </AlertDialogDescription>
+                </div>
+
+
+
+              {/* </AlertDialogDescription> */}
             </AlertDialogHeader>
             <AlertDialogFooter className="flex items-center gap-4">
               <AlertDialogAction
-                onClick={() => handleSend(url)}
+                onClick={() => handleSend(url, id, clientName, clientPhone)}
               >
                 ارسال
               </AlertDialogAction>

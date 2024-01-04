@@ -221,9 +221,14 @@ export async function getAllOpenFixOrder() {
         fixingCode: order.fixOrederId,
       },
     });
+    const client = await db.Client.findMany({
+      where: { clientIDs: order.clientId },
+    });
 
     ordersWithSums.push({
       ...order,
+      clientName: client[0]?.name,
+      clientPhone: client[0]?.mobile,
       paymentSum: paymentSum._sum.amount,
       recietSum: recietSum._sum.amount,
     });
@@ -279,41 +284,7 @@ export async function getCardByCardID(cardId) {
   };
 }
 
-// this one ok but i want test the other for time beng ------------------
-// export async function calculateTotalAmountForOrders() {
-//   const orders = await db.openFixingOrder.findMany();
-//   const results = [];
-//   for (const order of orders) {
-//     const totalAmount = await db.recietVoucher.aggregate({
-//       _sum: {
-//         amount: true,
-//       },
-//       where: {
-//         fixingCode: order.fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
-//       },
-//     });
 
-//      const payment = await db.PaymentVoucher.aggregate({
-//        _sum: {
-//          amount: true,
-//        },
-//        where: {
-//          fixingCode: order.fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
-//        },
-//      });
-//     results.push({
-//       clientName: order.clientName,
-//       FixNo: order.fixOrederId,
-//       selectedCar: order.selectedCar,
-//       fixOrederAmt: order.fixOrederAmt,
-//       totalRecipt: totalAmount._sum.amount,
-//       payment: payment._sum.amount,
-//       balance:        totalAmount._sum.amount - payment._sum.amount,
-//       // balance: order.fixOrederAmt - totalAmount._sum.amount,
-//     });
-//   }
-//   return results;
-// }
 
 export async function calculateTotalAmountForOrders() {
   const orders = await db.openFixingOrder.findMany();
@@ -357,4 +328,17 @@ export async function calculateTotalAmountForOrders() {
 
   console.log(results);
   return results;
+}
+
+
+export async function getClientInfo(id) {
+   const order = await db.openFixingOrder.findMany({where:{id:id}});
+   const clients = await db.Client.findMany({
+     where: { clientIDs: order[0].clientId },
+   });
+
+return clients;
+
+
+
 }

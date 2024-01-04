@@ -5,8 +5,12 @@ import { getAllOpenFixOrder } from "@/db/fixing";
 import { getTimeElapsed } from "@/lib/timeanddate";
 import React from "react";
 export const dynamic = "force-dynamic";
+
+
+
 async function page() {
   const OpenCard = await getAllOpenFixOrder();
+  console.log(OpenCard)
 
   return (
     <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
@@ -35,6 +39,12 @@ async function page() {
                   {fix.clientName}
                 </p>
                 <p className="text-gray-400 text-base ">
+                  <span className="bg-gray-600 px-4 rounded ml-2">
+                    رقم الجوال
+                  </span>
+                  {fix.clientPhone}
+                </p>
+                <p className="text-gray-400 text-base ">
                   <span className="bg-gray-600 px-2 rounded ml-2">
                     رقم السيارة
                   </span>
@@ -61,7 +71,10 @@ async function page() {
                 />
                 <ShareInvoice id={fix.id}
                   balance={balance}
-                  fixOrederId={fix.fixOrederId} />
+                  fixOrederId={fix.fixOrederId}
+                    clientName={fix.clientName}
+                    clientPhone={fix.clientPhone}
+                    />
               </div>
               </div>
             </div>
