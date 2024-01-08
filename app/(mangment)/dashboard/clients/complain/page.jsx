@@ -43,9 +43,7 @@ const CommentsData = ({ getComplain }) => {
 
           <p className="text-white px-4">{el.text}</p>
           <div className="flex w-full items-center justify-between bg-yellow-300 text-black rounded-b p-2 ">
-            <p className="font-extrabold"></p>
             <Button>رد علي الشكوى</Button>
-
           </div>
         </div>
       ))}

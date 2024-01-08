@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React,{useState,useEffect} from "react";
 import { FaShare } from "react-icons/fa6";
 import { usePathname } from 'next/navigation'
+import { SiWhatsapp } from "react-icons/si";
 
 import {
   AlertDialog,
@@ -53,8 +54,8 @@ function ShareInvoice({ id, balance, fixOrederId, clientName,clientPhone }) {
     <>
       <div className="flex items-center justify-end  bg-slate-900 w-full gap-6 py-2 px-2">
         <AlertDialog>
-          <AlertDialogTrigger className="border h-8 w-8 rounded flex items-center justify-center w-full gap-4 bg-blue-600">
-            <FaShare />
+          <AlertDialogTrigger className="border h-12 w-8 rounded flex items-center justify-center w-full gap-4 bg-blue-600">
+            <SiWhatsapp size={24} />
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

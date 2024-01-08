@@ -1,49 +1,26 @@
-import React from "react";
+import Caption from "@/components/shared/Caption";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const GeneralInfo = ({ generalInfoData, ClientActions }) => {
   return (
-    <div className="text-white flex-col flex items-center justify-evenly    w-full h-full px-3">
-      <div className="flex items-center justify-between w-full text-white ">
-        <p>اجمالي التعليقعات </p>
-        <p>{ClientActions.visibleComments}</p>
-      </div>
+    <ScrollArea className=" h-[300px] w-full mt-3 " dir="RTL">
+      <div className="text-white flex-col flex items-center justify-evenly    w-full  px-3 gap-1">
 
-      <div className="flex items-center justify-between w-full text-white  rounded  ">
-        <p>عدد الاقتراحات</p>
-        <p>{ClientActions.visibleSuggestions}</p>
+        <Caption title={" التعليقعات"} data={ClientActions.visibleComments} />
+        <Caption title={" الاقتراحات"} data={ClientActions.visibleSuggestions} />
+        <Caption title={" الشكاوي"} data={ClientActions.visibleComplains} />
+        <div className="w-full  flex  gap-1">
+          <Caption title={" العملاء"} data={generalInfoData.ClientRecord} />
+          <Caption title={" السيارات"} data={generalInfoData.CartRecord} />
+        </div>
+        <Caption title={" كروت الصيانة"} data={generalInfoData.fixingOrdertRecord} />
+        <Caption title={" الكروت المفتوحة"} data={generalInfoData.openFixingOrdertRecord} />
+        <div className="w-full  flex  gap-1">
+          <Caption title={" القبض"} data={generalInfoData.RecietVouchertRecord} />
+          <Caption title={" الصرف"} data={generalInfoData.PaymentVouchertRecord} />
+        </div>
       </div>
-      <div className="flex items-center justify-between w-full text-white rounded ">
-        <p>عدد الشكاوي</p>
-        <p>{ClientActions.visibleComplains}</p>
-      </div>
-
-      <div className="flex items-center justify-between w-full  ">
-        <p>عدد العملاء</p>
-        <p>{generalInfoData.ClientRecord}</p>
-      </div>
-
-      <div className="flex items-center justify-between w-full ">
-        <p>عدد السيارات </p>
-        <p>{generalInfoData.CartRecord}</p>
-      </div>
-      <div className="flex items-center justify-between w-full  ">
-        <p>عدد كروت الصيانة</p>
-        <p>{generalInfoData.fixingOrdertRecord}</p>
-      </div>
-
-      <div className="flex items-center justify-between w-full  rounded py-1">
-        <p>عدد الكروت المفتوحة</p>
-        <p>{generalInfoData.openFixingOrdertRecord}</p>
-      </div>
-      <div className="flex items-center justify-between w-full  rounded py-1">
-        <p>عدد سندات القبض</p>
-        <p>{generalInfoData.RecietVouchertRecord}</p>
-      </div>
-      <div className="flex items-center justify-between w-full  rounded py-1">
-        <p>عدد سندات الصرف</p>
-        <p>{generalInfoData.PaymentVouchertRecord}</p>
-      </div>
-    </div>
+    </ScrollArea>
   );
 };
 export default GeneralInfo;

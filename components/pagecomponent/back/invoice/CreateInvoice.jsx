@@ -33,9 +33,9 @@ function CreateInvoice({ id, balance, fixOrederId }) {
     <>
       <div className="flex items-center justify-end  bg-slate-900 w-full gap-6 py-2 px-2">
         <AlertDialog>
-          <AlertDialogTrigger className="border h-8 w-8 rounded flex items-center justify-center w-full gap-4 bg-green-600">
+          <AlertDialogTrigger className="border h-12 w-8 rounded flex items-center justify-center w-full gap-4 bg-green-600">
 
-            <Eye/>
+            <Eye size={24}/>
             {/* <Trash className="text-red-500" /> */}
           </AlertDialogTrigger>
           <AlertDialogContent>

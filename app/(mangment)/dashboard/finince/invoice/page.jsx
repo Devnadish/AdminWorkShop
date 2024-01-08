@@ -1,8 +1,8 @@
 import CloseCardActions from "@/components/pagecomponent/back/fixing/CloseCardActions";
 import CreateInvoice from "@/components/pagecomponent/back/invoice/CreateInvoice";
 import ShareInvoice from "@/components/pagecomponent/back/invoice/ShareInvoice";
+import Caption, { DateCaption } from "@/components/shared/Caption";
 import { getAllOpenFixOrder } from "@/db/fixing";
-import { getTimeElapsed } from "@/lib/timeanddate";
 import React from "react";
 export const dynamic = "force-dynamic";
 
@@ -10,7 +10,6 @@ export const dynamic = "force-dynamic";
 
 async function page() {
   const OpenCard = await getAllOpenFixOrder();
-  console.log(OpenCard)
 
   return (
     <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
@@ -23,46 +22,18 @@ async function page() {
           return (
             <div
               key={fix.id}
-              className={`max-w-sm rounded overflow-hidden shadow-lg m-4 border min-w-[300px]   ${
-                !fix.isClosed ? "border-blue-500 border-2" : "border-white/30"
+              className={`max-w-sm rounded-md overflow-hidden shadow-lg m-4 border min-w-[300px]   ${
+                !fix.isClosed ? "border-blue-800 border-2" : "border-white/30"
               } `}
             >
               <div className="flex flex-col gap-2 px-6 py-4">
-                <div className="font-bold text-xl ">
-                  <span>الكرت رقم :</span> {fix.fixOrederId}
-                  {/* <span>الكرت رقم :</span> {fix.id} */}
-                </div>
-                <p className="text-gray-400 text-base ">
-                  <span className="bg-gray-600 px-4 rounded ml-2">
-                    اسم العميل
-                  </span>
-                  {fix.clientName}
-                </p>
-                <p className="text-gray-400 text-base ">
-                  <span className="bg-gray-600 px-4 rounded ml-2">
-                    رقم الجوال
-                  </span>
-                  {fix.clientPhone}
-                </p>
-                <p className="text-gray-400 text-base ">
-                  <span className="bg-gray-600 px-2 rounded ml-2">
-                    رقم السيارة
-                  </span>
-                  {fix.selectedCar}
-                </p>
 
-                <p className="text-gray-400 text-base">
-                  <span className="bg-gray-600 px-2 rounded ml-2">التاريخ</span>
-                  {getTimeElapsed(fix.updatedDate)}
-                </p>
-                <div className="flex items-center gap-3 border rounded  text-black flex-col p-1">
-                  <p className="text-gray-800 text-base">
-                    <span className="bg-gray-200 px-2  ">الرصيد</span>
-                    <span className="text-gray-800 text-base bg-orange-500 px-3  font-bold">
-                      {balance}
-                    </span>
-                  </p>
-                </div>
+                <Caption title={"الكرت رقم"} data={ fix.fixOrederId } textcolor="text-white" />
+                <Caption title={"اسم العميل"} data={fix.clientName } textcolor="text-white" />
+                <Caption title={" رقم الجوال"} data={fix.clientPhone } textcolor="text-white" />
+                <Caption title={"رقم السيارة"} data={fix.selectedCar } textcolor="text-white" />
+                <Caption title={"الرصيد"} data={balance} textcolor="text-black" dataColor="bg-red-500" />
+                <DateCaption title={"التاريخ"} data={fix.updatedDate} textcolor="text-black"  />
                 <div className="flex items-center">
                 <CreateInvoice
                   id={fix.id}

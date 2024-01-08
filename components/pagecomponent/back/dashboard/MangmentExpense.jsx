@@ -1,21 +1,16 @@
+import Caption from "@/components/shared/Caption";
 import { ScrollArea } from "@/components/ui/scroll-area";
 const MangmentExpense = ({ MaintenanceExpensesArray }) => {
   return (
-    <div className="flex flex-col gap-3 w-full justify-around h-full ">
-      <ScrollArea className=" h-[250px]    px-4   w-full">
+    <ScrollArea className=" h-[250px]  w-full mt-2" dir ="RTL">
+      <div className="text-white flex-col flex items-center justify-evenly    w-full  px-3 gap-1">
       {MaintenanceExpensesArray.map((item, index) => {
         return (
-          <div
-            key={index}
-            className="flex items-center justify-between w-full text-white px-3"
-          >
-            <p>{item.collector}</p>
-            <p>{item.amount}</p>
-          </div>
+          <Caption key={index} title={item.collector} data={item.amount} isBorder={false} />
         );
       })}
-      </ScrollArea>
     </div>
+      </ScrollArea>
   );
 };
 
