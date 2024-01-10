@@ -187,6 +187,37 @@ return existingOrder;
 
 
 
+export async function getAllOpenCard(){
+const existingOrder = await db.openFixingOrder.findMany({});
+const openCards=[];
+for (const openCard of existingOrder) {
+   const carClients = await db.fixingOrder.findFirst({
+     where: { fixingId: openCard.fixOrederId },
+   });
+
+    const carNote = await db.cardNote.findMany({
+      where: { CardId: openCard.fixOrederId },
+    });
+    openCards.push({
+      cardId: openCard.fixOrederId,
+      createData: openCard.createdDate,
+      clientName: openCard.clientName,
+      CarNo: openCard.selectedCar,
+      service: carClients.detail,
+      eng: carClients.engName,
+      delevery: carClients.delivery,
+      note: carNote,
+    });
+ }
+// console.log(openCards)
+
+
+return openCards;
+
+}
+
+
+
 export async function deleteFixOrder(id) {
  // check if close you can not delete
 //  check if there receipt update the recipet to zero  and save the previuse data in detail
@@ -342,3 +373,11 @@ return clients;
 
 
 }
+
+
+export async function newNote(data) {
+
+  const saveNote = await db.cardNote.create({data})
+  revalidatePath("/dashboard")
+
+ }

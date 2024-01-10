@@ -1,163 +1,47 @@
-// "use client"
-import { Receipt, Wrench } from "lucide-react";
-import InfoBox, {
-  InfoBoxWithNoBalance,
-} from "@/components/pagecomponent/back/dashboard/InfoBox";
-import {
-  calculateClientRecipts,
-  calculateClientSums,
-  SumsOfFixingCard,
-  recietVoucher,
-  mangmentExpenses,
-  fixingExpenses,
-  mangmentExpensesDetails,
-  getRecordCounts,
-  generalInfo,
-  calculateClientPayment
-} from "@/db/dashboard";
-import { GiCash } from "react-icons/gi";
-import { LiaCashRegisterSolid } from "react-icons/lia";
-import { HiMiniUserGroup } from "react-icons/hi2";
-import { FaTools } from "react-icons/fa";
-import { GiOfficeChair } from "react-icons/gi";
+import CardActions from "@/components/pagecomponent/back/fixing/CardActions";
+import DisplayNOte from "@/components/pagecomponent/back/fixing/DisplayNOte";
+import Caption, { DateCaption, VCaption } from "@/components/shared/Caption";
+import { getAllOpenCard } from "@/db/fixing"
 
-import FixingInfo from "@/components/pagecomponent/back/dashboard/FixingInfo";
-import ClientTransaction from "@/components/pagecomponent/back/dashboard/ClientTransaction";
-import MangmentExpense from "@/components/pagecomponent/back/dashboard/MangmentExpense";
-import FininceInfo from "@/components/pagecomponent/back/dashboard/FininceInfo";
-import FixingExpenses from "@/components/pagecomponent/back/dashboard/FixingExpenses";
-import GeneralInfo from "@/components/pagecomponent/back/dashboard/GeneralInfo";
 
 export const dynamic = "force-dynamic";
-export default async function Dashboard() {
 
-  const MaintenanceExpensesArraydb = calculateClientSums();
-  const MangmenteExpensesArraydb = mangmentExpensesDetails();
-
-  const ReceptArraydb = calculateClientRecipts();
-  const PaymentArraydb = calculateClientPayment();
-
-  const sumOf_OPEN_FixingCarddb = SumsOfFixingCard(false);
-  const sumOf_CLOSED_FixingCarddb = SumsOfFixingCard(true);
-
-  const reciptSumdb = recietVoucher();
-  const mangmentExpdb = mangmentExpenses();
-  const fixingExpdb = fixingExpenses();
-  const ClientActionsdb = getRecordCounts();
-  const generalInfoDatadb = generalInfo();
-
-  const [
-    MaintenanceExpensesArray,
-    MangmenteExpensesArray,
-    ReceptArray,
-    PaymentArray,
-    sumOf_OPEN_FixingCard,
-    sumOf_CLOSED_FixingCard,
-    reciptSum,
-    mangmentExp,
-    fixingExp,
-    ClientActions,
-    generalInfoData,
-  ] = await Promise.all([
-    MaintenanceExpensesArraydb,
-    MangmenteExpensesArraydb,
-    ReceptArraydb,
-    PaymentArraydb,
-    sumOf_OPEN_FixingCarddb,
-    sumOf_CLOSED_FixingCarddb,
-    reciptSumdb,
-    mangmentExpdb,
-    fixingExpdb,
-    ClientActionsdb,
-    generalInfoDatadb,
-  ]);
-
-  const net = reciptSum - (mangmentExp + fixingExp);
-  const cardTotal =
-    sumOf_OPEN_FixingCard.totalSum + sumOf_CLOSED_FixingCard.totalSum;
-  const cardRecived =
-    sumOf_OPEN_FixingCard.receiveSum + sumOf_CLOSED_FixingCard.receiveSum;
-  const cardNet = cardTotal - cardRecived;
-
-  function calculateSumOfAmounts(ReceptArray) {
-    let sum = 0;
-    for (let i = 0; i < ReceptArray.length; i++) {
-      sum += ReceptArray[i].amount;
-    }
-    return sum;
-  }
-  const ReceptArraySum = calculateSumOfAmounts(ReceptArray);
-  const PaymentArraySum = calculateSumOfAmounts(PaymentArray);
-  const ExpenceArraySum = calculateSumOfAmounts(MaintenanceExpensesArray);
-  const MangmentExpArraySum = calculateSumOfAmounts(MangmenteExpensesArray);
-
-  //  const analytics = useAnalytics();
+async function page() {
+  const fixOrder = await getAllOpenCard();
+  // console.log(fixOrder)
   return (
-    // <main>
-    <div className="flex flex-col gap-4">
+    <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
+      <div className="w-[300px] mt-1">
+        <Caption title={"عدد الكروت "} data={fixOrder.length} fonSize="text-xl" titleBgColor="bg-green-600" align={"center"} dataBgColor="bg-green-700" />
+      </div>
+
+      <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
+        {fixOrder.map((fix) => (
+          <div
+            key={fix.cardId}
+            className="max-w-3xl  rounded overflow-hidden shadow-lg m-4 border min-w-[300px] w-full   border-red-600 border-2"
+          >
+            <div className="flex flex-col gap-2 px-6 py-4">
+              <DateCaption data={fix.createData} />
+              <Caption title={"رقم الكرت"} data={fix.cardId} fonSize="text-xl" titleBgColor="bg-blue-500" align={"center"} dataBgColor="bg-sky-700" />
+              <div className="flex items-center justify-between gap-4 ">
+                <Caption title={"اسم العميل"} data={fix.clientName} align={"start"} />
+                <Caption title={" رقم السيارة"} data={fix.CarNo} align={"start"} />
+              </div>
+              <VCaption title={"الخدمة المطلوبة"} data={fix.service} align={"start"} titleBgColor="bg-orange-600" />
+              <Caption title={" موعد التسليم"} data={fix.delevery} align={"start"} />
+              <Caption title={"المهندس"} data={fix.eng} align={"start"} />
 
 
-      {/* <InfoBox title="ملخص النقدية" tileIcon={<Receipt />} footer={net}> */}
-        <FininceInfo
-          totalIncome={cardTotal}
-          clientBalance={cardNet}
-          reciptSum={reciptSum}
-          mangmentExp={mangmentExp}
-          fixingExp={fixingExp}
-         net={net}
-        />
-      {/* </InfoBox> */}
+<DisplayNOte note={fix.note}/>
 
-
-
-
-    <main className='mt-1 grid grid-cols-1 place-items-start gap-6 md:grid-cols-5 '>
-
-      <InfoBox
-        title=" اجمالي  سندات القبض  "
-          tileIcon={<LiaCashRegisterSolid size={30} />}
-        footer={ReceptArraySum}
-      >
-        <ClientTransaction ReceptArray={ReceptArray} />
-      </InfoBox>
-      <InfoBox
-        title=" اجمالي   الصرف التشغيلية  "
-          tileIcon={<FaTools size={30} />}
-        footer={PaymentArraySum}
-      >
-        <ClientTransaction ReceptArray={PaymentArray} />
-      </InfoBox>
-
-      {/* <InfoBox
-        title="مصاريف تشغيلية"
-        tileIcon={<Receipt />}
-        footer={ExpenceArraySum}
-      >
-        <FixingExpenses MaintenanceExpensesArray={MaintenanceExpensesArray} />
-      </InfoBox> */}
-      <InfoBox
-        title="مصاريف ادارية"
-          tileIcon={<GiOfficeChair size={30} />}
-        footer={MangmentExpArraySum}
-      >
-        <MangmentExpense MaintenanceExpensesArray={MangmenteExpensesArray} />
-      </InfoBox>
-        <InfoBox title="كروت الصيانة" tileIcon={<HiMiniUserGroup size={30} />} footer={cardNet}>
-        <FixingInfo
-          sumOf_OPEN_FixingCard={sumOf_OPEN_FixingCard}
-          sumOf_CLOSED_FixingCard={sumOf_CLOSED_FixingCard}
-          cardTotal={cardTotal}
-          cardRecived={cardRecived}
-          cardNet={cardNet}
-        />
-      </InfoBox>
-      <InfoBoxWithNoBalance title="معلومات عامة" >
-        <GeneralInfo
-          generalInfoData={generalInfoData}
-          ClientActions={ClientActions}
-        />
-      </InfoBoxWithNoBalance>
-    </main>
+              <CardActions id={fix.id} cardid={fix.cardId}/>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
+
+export default page

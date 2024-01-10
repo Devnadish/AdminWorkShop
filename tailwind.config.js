@@ -1,12 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    './app/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-  ],
+  content: ["./app/**/*.{js,jsx}", "./components/**/*.{js,jsx}"],
   prefix: "",
   theme: {
+    fontFamily: {
+      tajwal: ["var(--font-Tajwal)"],
+      amiri: ["var(--font-amiri)"],
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -72,4 +73,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

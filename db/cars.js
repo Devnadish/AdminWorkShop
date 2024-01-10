@@ -21,6 +21,11 @@ export async function AddNewCar(Car) {
     const carDb = await db.Car.create({
       data: { ...Car, clientName: clientName.name },
     });
+
+
+
+
+    revalidatePath("/dashboard/clients/new");
     return "تمت اضافة السيارة  للعميل بنجاح";
   } catch (error) {
     console.error(error);

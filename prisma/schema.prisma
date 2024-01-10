@@ -13,7 +13,7 @@ datasource db {
 model Client {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   clientIDs   Int      @unique
-  name        String?
+  name        String?  @default("")
   mobile      String   @unique
   email       String?
   password    String?
@@ -28,11 +28,12 @@ model Client {
 model Car {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   clientId    Int
-  clientName  String?
-  carName     String?
+  clientName  String   @default("")
+  carName     String   @default("")
   CarNo       String   @unique
-  BodyNo      String?
-  Model       String?
+  MasterCar   Boolean  @default(false)
+  BodyNo      String   @default("")
+  Model       String   @default("")
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt
 }
@@ -196,4 +197,15 @@ model isLogin {
   role      String   @default("user")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model cardNote {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  note       String   @default("")
+  CardId     Int      @default(0)
+  userID     String   @default("")
+  userName   String   @default("")
+  userAvatar String   @default("")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

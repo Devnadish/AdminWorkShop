@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 export async function addClient(client) {
   try {
     const check = await checkClientExists(client.mobile);
-
     if (check) {
       return {
         msg: `العميل موجود مسبقا باسم   ${check.cName} ورقم ${check.cId}`,
@@ -14,9 +13,41 @@ export async function addClient(client) {
       };
     }
 
+
+     const existingCar = await db.Car.findFirst({
+       where: {
+         CarNo: client.CarNo,
+       },
+     });
+
+     if (existingCar) {  return { msg: "رقم اللوحة  يخص   لعميل اخر" }    }
+
+
+
+
+
     const ClientCounter = await AddClientCounter();
-    const data = { ...client, clientIDs: ClientCounter };
+    // const data = { ...client, clientIDs: ClientCounter };
+    const data = {
+      name: client.name,
+      mobile: client.mobile,
+      email: client.email,
+      clientIDs: ClientCounter,
+    };
+    const Cardata = {
+      CarNo: client.CarNo,
+      carName: client.CarName,
+      clientName: client.name,
+      clientId: ClientCounter,
+      MasterCar:true
+    };
+
     const result = await db.client.create({ data });
+    const carDb = await db.Car.create({ data: Cardata  });
+
+
+
+
     revalidatePath("/dashboard/clients/display");
     revalidatePath("/dashboard/clients/addcar");
 
@@ -225,9 +256,43 @@ export async function groupByClientId() {
 
 export async function displayClients() {
   try {
-    const clients = await db.client.findMany({ });
-    // revalidatePath("/dashboard/clients/new");
-    return clients;
+   const clientsData = await db.client.findMany({});
+
+   const clientCarsArray = [];
+
+   for (const car of clientsData) {
+     const carClients = await db.Car.findMany({
+       where: { clientId: car.clientIDs },
+     });
+
+     carClients.forEach((clientCar) => {
+       clientCarsArray.push({
+         clientName: car.name,
+         mobile: car.mobile,
+         email: car.email,
+         CarCount: carClients.length,
+         CarNo: clientCar.CarNo,
+         carName: clientCar.carName,
+         // indexInCarClients: index,
+       });
+     });
+   }
+
+const uniqueClientCarsArray = clientCarsArray.reduce((unique, o) => {
+  if (!unique.some((obj) => obj.mobile === o.mobile)) {
+    unique.push(o);
+  }
+  return unique;
+}, []);
+
+// console.log(uniqueClientCarsArray);
+
+
+
+
+    // const clients=clientCarsArray
+    // console.log(clients);
+    return uniqueClientCarsArray;
   } catch (error) {
     console.error(error);
     return "An error occurred while retrieving clients and their cars";

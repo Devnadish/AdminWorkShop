@@ -5,6 +5,7 @@ import ClientMenu from "./ClientMenu";
 import FixOrderMenu from "./FixOrderMenu";
 import FinicalMenu from "./FinicalMenu";
 import Link from "next/link";
+import { FaChartColumn } from "react-icons/fa6";
 import { VscCommentUnresolved } from "react-icons/vsc";
 import {
   Sheet,
@@ -21,6 +22,7 @@ import { getRecordCounts } from "@/db/dashboard";
 import Logout from "../auth/Logout";
 import { useSession } from "next-auth/react";
 import Setting from "./Users";
+import { Home } from "lucide-react";
 
 
 
@@ -80,7 +82,7 @@ const DashBoardMenu = () => {
           <ClientActivity   recordCounts={recordCounts}     refresData={refresData}    />
           <div className="absolute left-3 top-2   z-40 flex  justify-center items-center   bg-yellow-300 text-sky-950 rounded-md h-10 w-10">
             <Link href={"/"}>
-              <AiOutlineDashboard size={30} />
+              <Home size={30} />
             </Link>
           </div>
         </div>
@@ -105,7 +107,8 @@ const FastMenu = ({ toggleSidebar }) => {
   const linkStyle =
     "w-1/3  rounded h-20  shadow-lg text-white flex flex-col items-center justify-center text-xl";
   return (
-    <div className="flex w-full items-center justify-around">
+    <div className="flex w-full items-center justify-around flex-col gap-4">
+      <div className="flex w-full items-center justify-around ">
       <Link
         href={"/dashboard/fixing/neworder"}
         className={`${linkStyle} bg-teal-500`}
@@ -122,6 +125,15 @@ const FastMenu = ({ toggleSidebar }) => {
         className={`${linkStyle} bg-yellow-300`}
       >
         <FaCashRegister size={40} className="text-red-500" />
+      </Link>
+      </div>
+      <Link
+        href={"/dashboard/admin"}
+        onClick={() => toggleSidebar()}
+        prefetch={true}
+        className={`${linkStyle} bg-gray-200 w-11/12 `}
+      >
+        <FaChartColumn size={40} className="text-blue-500" />
       </Link>
       {/* <Link href={"/dashboard"}>كرت صيانة</Link> */}
     </div>

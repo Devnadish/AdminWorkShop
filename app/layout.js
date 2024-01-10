@@ -1,19 +1,9 @@
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { Tajawal, Amiri } from "next/font/google";
 import DashBoardMenu from "@/components/pagecomponent/back/dashboard/MenuSide";
 import Provider, { AuthProvider } from "provider/Provider";
-const amiri = Amiri({
-  weight: "400",
-  subsets: ["arabic", "latin"],
-  variable: "--font-amiri",
-});
-const tajawal = Tajawal({
-  weight: "400",
-  subsets: ["arabic", "latin"],
-  variable: "--font-tajawal",
-});
+import { Tajwal, Amiri } from "@/lib/fonts";
 
 export const metadata = {
   title: "مركز الصحفي",
@@ -24,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
       <body
-        className={`flex flex-col items-center justify-center w-full m-auto bg-slate-800 ${amiri.variable} ${tajawal.variable}`}
+        className={`flex flex-col items-center justify-center w-full m-auto bg-slate-800 ${Tajwal.variable} ${Amiri.variable}`}
       >
         <AuthProvider>
           <div id="navmenu" className="w-full">

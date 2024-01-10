@@ -8,7 +8,7 @@ function PageTitle({ title, icon, bgColor = "bg-sky-800" }) {
       <div
         className={`text-xl font-bold ${bgColor} flex items-center justify-center gap-2 rounded  text-center py-1 px-3 w-full`}
       >
-        <h1> {title}</h1>
+        <h1 className='font-tajwal'> {title}</h1>
         {icon}
       </div>
     </div>
