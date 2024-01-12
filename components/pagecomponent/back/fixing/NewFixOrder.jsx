@@ -3,11 +3,10 @@ import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import Submit from "@/components/shared/Submit";
 import { newFixingOrder } from "@/db/fixing";
-import { saveRecietVoucher, updateClientReceiptBalance } from "@/db/reciet";
+import {  updateClientReceiptBalance } from "@/db/reciet";
 import PageTitle from "@/components/shared/PageTitle";
 import { PiEngineDuotone } from "react-icons/pi";
 import toast from "react-hot-toast";
-import ClientWithCar from "@/components/shared/ClientWithCar";
 import { validateForm } from "@/lib/validation/fixing";
 import INPUT from "@/components/shared/INPUT";
 import { BiHardHat } from "react-icons/bi";
@@ -32,7 +31,6 @@ import {
 } from "@/components/ui/drawer"
 
 function NewFixOrder({ clientsWithCars, carData, labor }) {
-  console.log(labor)
   const [totalCost, setTotalCost] = useState();
   const [receivedAmount, setReceivedAmount] = useState();
   const [dueAmount, setDueAmount] = useState(0);
@@ -56,6 +54,13 @@ function NewFixOrder({ clientsWithCars, carData, labor }) {
       } else {
         toast.success(AddFixing.msg);
         toast.success(UpdateClientBalance.msg);
+        setClientName("");
+        setClientID("");
+        setCarid("")
+        setDueAmount(0)
+        setReceivedAmount(0)
+        setTotalCost(0)
+        document.getElementById("fixingForm").reset();
         return "done";
       }
     } catch (error) {
@@ -77,8 +82,10 @@ function NewFixOrder({ clientsWithCars, carData, labor }) {
 
 
     const carData = await getCarInfo(Carid);
-    setClientName(carData[0].clientName);
-    setClientID(carData[0].clientId);
+if(carData){
+    setClientName(carData[0]?.clientName);
+    setClientID(carData[0]?.clientId);
+}
     if (carData.exisit || carData.Carexisit === "not Exisit" ) {
       toast.error(carData.msg);
       return;
@@ -225,7 +232,6 @@ function NewFixOrder({ clientsWithCars, carData, labor }) {
               placeholder="المبلغ المستلم"
               type="number"
               name="receivedAmount"
-              value={receivedAmount}
               onChange={(event) => setReceivedAmount(event.target.value)}
               bgColor="bg-blue-300"
               icon={<BsCashStack />}

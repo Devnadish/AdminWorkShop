@@ -8,7 +8,6 @@ export const dynamic = "force-dynamic";
 
 async function page() {
   const fixOrder = await getAllOpenCard();
-  // console.log(fixOrder)
   return (
     <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
       <div className="w-[300px] mt-1">

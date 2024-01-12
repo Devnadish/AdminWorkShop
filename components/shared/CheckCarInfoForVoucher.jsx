@@ -14,7 +14,6 @@ export function CheckCarInfoForVoucher(props) {
     try {
       setIsloading(true)
       const car = await getCarInfoForVoucher(props.carId);
-      console.log(car)
       if (car.Carexisit === 'not Exisit') {
         toast.error(car.msg);
         props.setInfo({});
@@ -28,7 +27,7 @@ export function CheckCarInfoForVoucher(props) {
         fixamt: car.carInfo.fixOrederAmt,
         recipt: car.recipt,
         payment: car.payment,
-        balance: car.recipt - car.payment
+        balance: (car.carInfo.fixOrederAmt- car.recipt) + car.payment
 
       });
     } catch (error) {
@@ -63,31 +62,35 @@ export function CheckCarInfoForVoucher(props) {
           <span>اسم العميل</span>
           {props.info.clientName}
         </p>
+
         <div className="flex items-center gap-4 bg-white/30 px-2 rounded">
           <Wrench size={20} />
           <span>{props.info.fixOrderId}</span>
         </div>
+
       </div>
-      <div className="flex items-center justify-between w-full">
+
+      <div className="flex items-center justify-between w-full ">
+
         <p className="flex items-center gap-4">
           <span>اجمالي الكرت</span>
           <span>{props.info.fixamt}</span>
 
         </p>
         <p className="flex gap-4">
-          <span>اجمالي المستلم</span>
+          <span>المستلم</span>
 
           <span>{props.info.recipt}</span>
         </p>
         <p className="flex gap-4">
-          <span>اجمالي المصروف</span>
+          <span>المصروف</span>
 
           <span>{props.info.payment}</span>
         </p>
       </div>
       <div className="flex items-center justify-center flex-col py-1 w-full bg-sky-500 ">
-        <p className="flex items-center gap-4">
-          <span>الرصيد المتاح </span>
+        <p className="flex items-center gap-4 text-left">
+          <span>المتبقي </span>
           <span>{props.info.balance}</span>
         </p>
           <p className="bg-red-500 px-4 rounded-md  self-end text-sm ">{props.info.balance <0 && "تجاوزت  القبض قيمة كرت الاصلاح" }</p>

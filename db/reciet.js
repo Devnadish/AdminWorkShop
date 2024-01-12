@@ -72,4 +72,3 @@ export const AddRecietCounter = async () => {
   // Use the updatedReciet variable to access the updated Reciet value
   return updatedReciet;
 };
-export const NewReciptFromFixingCard = async () => {};

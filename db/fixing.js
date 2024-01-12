@@ -3,9 +3,8 @@ import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { AddRecietCounter } from "./reciet";
 
-
 export async function newFixingOrder(fixingData) {
-let addReciptVoucher;
+  let addReciptVoucher;
   try {
     // check if the maintenance exisit>>>>>>>>
     const checkOpenOrder = await CheckOpenFixingOrder(fixingData.selectedCar);
@@ -21,13 +20,18 @@ let addReciptVoucher;
     const fixCounter = await AddFixingCounter();
     const data = { ...fixingData, fixingId: fixCounter };
     const order = await db.fixingOrder.create({ data });
-    const addToCarsInClient = await addFixCardValue(  order.clientId,  order.selectedCar );
+    const addToCarsInClient = await addFixCardValue(
+      order.clientId,
+      order.selectedCar
+    );
     const addToOpenOrder = await createOpenFixingOrder(data);
 
-    if(fixingData.receive===0 ){
-       addReciptVoucher = "لم يتم استلام دفعة من العميل";
-    }else{ addReciptVoucher = await createReciptVocher(data);}
-
+    if (fixingData.receive === 0) {
+      addReciptVoucher = "لم يتم استلام دفعة من العميل";
+    } else {
+      addReciptVoucher = await createReciptVocher(data);
+    }
+    revalidatePath("/dashboard/fixing/displayorders");
     return {
       msg:
         fixingData.receive > 0
@@ -46,8 +50,6 @@ let addReciptVoucher;
     console.error("Error creating fixing order:", error);
     throw new Error("Failed to create fixing order: " + error.message);
     return { err: error.message };
-
-
   }
 }
 async function CheckOpenFixingOrder(selectedCar) {
@@ -86,7 +88,6 @@ export const AddFixingCounter = async () => {
 };
 
 async function addFixCardValue(clientIdNo, newFixCardValue) {
-
   // Retrieve the client by ID
   const clientId = parseInt(clientIdNo);
   const client = await db.client.findUnique({
@@ -123,12 +124,12 @@ async function addFixCardValue(clientIdNo, newFixCardValue) {
 
 async function createOpenFixingOrder(cardData) {
   // Check if the openFixingOrder already exists
-  const selectedCar =cardData.selectedCar
-  const clientId =cardData.clientId
-  const clientName =cardData.clientName
+  const selectedCar = cardData.selectedCar;
+  const clientId = cardData.clientId;
+  const clientName = cardData.clientName;
   const fixOrederId = cardData.fixingId;
-  const fixOrederAmt =cardData.total
-  const data={selectedCar,clientId,clientName,fixOrederId,fixOrederAmt}
+  const fixOrederAmt = cardData.total;
+  const data = { selectedCar, clientId, clientName, fixOrederId, fixOrederAmt };
 
   const existingOrder = await db.openFixingOrder.findUnique({
     where: { selectedCar },
@@ -140,16 +141,13 @@ async function createOpenFixingOrder(cardData) {
   }
 
   // Create a new openFixingOrder
-  const newOrder = await db.openFixingOrder.create({ data});
+  const newOrder = await db.openFixingOrder.create({ data });
 
   // If the new order is created successfully, return false
   if (newOrder) {
     return "Order Added To onProggress Data ..";
   }
 }
-
-
-
 
 export async function createReciptVocher(Voucherdata) {
   const detail = "   مقابل امر اصلاح رقم " + Voucherdata.fixingId;
@@ -169,7 +167,10 @@ export async function createReciptVocher(Voucherdata) {
       recietId: RecietCounter,
     };
     const order = await db.RecietVoucher.create({ data });
-    return {msg:"Reciet Created Success WITH NO :" +  RecietCounter,voucher:RecietCounter}
+    return {
+      msg: "Reciet Created Success WITH NO :" + RecietCounter,
+      voucher: RecietCounter,
+    };
   } catch (error) {
     console.error("Error creating fixing order:", error);
     throw new Error("Failed to create fixing order: " + error.message);
@@ -177,23 +178,18 @@ export async function createReciptVocher(Voucherdata) {
   }
 }
 
-export async function getAllFixOrder(){
-const existingOrder = await db.fixingOrder.findMany({
-
-});
-return existingOrder;
-
+export async function getAllFixOrder() {
+  const existingOrder = await db.fixingOrder.findMany({});
+  return existingOrder;
 }
 
-
-
-export async function getAllOpenCard(){
-const existingOrder = await db.openFixingOrder.findMany({});
-const openCards=[];
-for (const openCard of existingOrder) {
-   const carClients = await db.fixingOrder.findFirst({
-     where: { fixingId: openCard.fixOrederId },
-   });
+export async function getAllOpenCard() {
+  const existingOrder = await db.openFixingOrder.findMany({});
+  const openCards = [];
+  for (const openCard of existingOrder) {
+    const carClients = await db.fixingOrder.findFirst({
+      where: { fixingId: openCard.fixOrederId },
+    });
 
     const carNote = await db.cardNote.findMany({
       where: { CardId: openCard.fixOrederId },
@@ -208,19 +204,15 @@ for (const openCard of existingOrder) {
       delevery: carClients.delivery,
       note: carNote,
     });
- }
-// console.log(openCards)
+  }
+  // console.log(openCards)
 
-
-return openCards;
-
+  return openCards;
 }
 
-
-
 export async function deleteFixOrder(id) {
- // check if close you can not delete
-//  check if there receipt update the recipet to zero  and save the previuse data in detail
+  // check if close you can not delete
+  //  check if there receipt update the recipet to zero  and save the previuse data in detail
   const deletedItem = await db.fixingOrder.delete({
     where: {
       id: id,
@@ -267,35 +259,43 @@ export async function getAllOpenFixOrder() {
 
   return ordersWithSums;
 }
-export async function deleteAndCloseFixOrder(id, fixOrederId) {
- const deletedItem = await db.openFixingOrder.delete({
-   where: {
-     id: id,
-   },
- });
+export async function deleteAndCloseFixOrder(id, fixOrederId, balance) {
+   const deletedItem = await db.openFixingOrder.delete({
+     where: {
+       id: id,
+     },
+   });
 
- const fixingOrderId = await db.fixingOrder.findMany({
-   where: { fixingId: fixOrederId },
- });
+  const fixingOrderId = await db.fixingOrder.findMany({
+    where: { fixingId: fixOrederId },
+  });
+  const receiptCounter = await AddRecietCounter();
+  console.log(receiptCounter);
 
+  const createRecipt = await db.RecietVoucher.create({
+    data: {
+      recietId: receiptCounter,
+      detail: "اقفال  كرت الصيانة رقم : " + fixOrederId,
+      fromID: fixingOrderId[0].clientId,
+      fromName: fixingOrderId[0].clientName,
+      amount: parseFloat(balance),
+      fixingCode: fixOrederId,
+    },
+  });
 
   await db.fixingOrder.update({
     where: { fixingId: fixOrederId },
     data: { isClosed: true },
   });
 
- revalidatePath("/dashboard/fixing/closeorder");
- return deletedItem;
-
+  revalidatePath("/dashboard/fixing/closeorder");
+  return deletedItem;
 }
-
-
 
 export async function getCarsFromOpenFixOrder() {
   const existingOrder = await db.openFixingOrder.findMany({});
   return existingOrder;
 }
-
 
 export async function getCardByCardID(cardId) {
   const existingOrder = await db.fixingOrder.findMany({
@@ -304,7 +304,7 @@ export async function getCardByCardID(cardId) {
   const recipt = await db.RecietVoucher.findMany({
     where: { fixingCode: cardId },
   });
-    const payment = await db.PaymentVoucher.findMany({
+  const payment = await db.PaymentVoucher.findMany({
     where: { fixingCode: cardId },
   });
 
@@ -314,8 +314,6 @@ export async function getCardByCardID(cardId) {
     paymentData: payment,
   };
 }
-
-
 
 export async function calculateTotalAmountForOrders() {
   const orders = await db.openFixingOrder.findMany();
@@ -352,32 +350,27 @@ export async function calculateTotalAmountForOrders() {
     FixNo: order.fixOrederId,
     selectedCar: order.selectedCar,
     fixOrederAmt: order.fixOrederAmt,
-    totalRecipt: totalAmounts[index]._sum.amount,
-    payment: payments[index]._sum.amount,
-    balance: totalAmounts[index]._sum.amount - payments[index]._sum.amount,
+    totalRecipt: totalAmounts[index]._sum.amount || 0,
+    payment: payments[index]._sum.amount || 0,
+    balance:
+      order.fixOrederAmt -
+      totalAmounts[index]._sum.amount +
+      payments[index]._sum.amount,
   }));
 
-  console.log(results);
   return results;
 }
 
-
 export async function getClientInfo(id) {
-   const order = await db.openFixingOrder.findMany({where:{id:id}});
-   const clients = await db.Client.findMany({
-     where: { clientIDs: order[0].clientId },
-   });
+  const order = await db.openFixingOrder.findMany({ where: { id: id } });
+  const clients = await db.Client.findMany({
+    where: { clientIDs: order[0].clientId },
+  });
 
-return clients;
-
-
-
+  return clients;
 }
 
-
 export async function newNote(data) {
-
-  const saveNote = await db.cardNote.create({data})
-  revalidatePath("/dashboard")
-
- }
+  const saveNote = await db.cardNote.create({ data });
+  revalidatePath("/dashboard");
+}

@@ -1,4 +1,4 @@
-import { TESTcalculateTotalAmountForOrders, calculateTotalAmountForOrders, getCarsFromOpenFixOrder } from '@/db/fixing'
+import {  calculateTotalAmountForOrders  } from '@/db/fixing'
 import { ScrollArea } from "@/components/ui/scroll-area";
 import CopyBtn from './CopyBtn';
 import { Wrench } from 'lucide-react';
@@ -6,7 +6,6 @@ export const dynamic = "force-dynamic";
 
 async function OpenFixCard() {
   const Cardata = await calculateTotalAmountForOrders()
-  // const Cardata1 = await TESTcalculateTotalAmountForOrders()
 
   return <ShowCars cars={Cardata} />;
 }

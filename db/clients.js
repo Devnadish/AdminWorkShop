@@ -50,6 +50,7 @@ export async function addClient(client) {
 
     revalidatePath("/dashboard/clients/display");
     revalidatePath("/dashboard/clients/addcar");
+     revalidatePath("/dashboard/clients/statment");
 
     return {
       msg: "تم تأسيس كرت للعميل بنجاح ",

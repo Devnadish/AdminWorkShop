@@ -2,7 +2,6 @@
 import db from "@/lib/prisma";
 
 
-// export const fetchCache = "force-no-store";
 
 export async function SumsOfFixingCard(isClosed) {
   try {
@@ -12,22 +11,76 @@ export async function SumsOfFixingCard(isClosed) {
       },
     });
 
-    const totalSum = filteredOrders.reduce(
-      (sum, order) => sum + order.total,
-      0
-    );
-    const receiveSum = filteredOrders.reduce(
-      (sum, order) => sum + order.receive,
-      0
-    );
-    const remaining = totalSum - receiveSum;
+const total = [];
+for (const openCard of filteredOrders) {
+
+
+  const reciptTotal = await db.RecietVoucher.findMany({
+    where: { fixingCode: openCard.fixingId },
+  });
+    const paymentTotol = await db.PaymentVoucher.findMany({
+      where: { fixingCode: openCard.fixingId },
+    });
+
+
+  total.push({
+    cardAmt: openCard.total,
+    cardStuts: openCard.isClosed,
+    recipt: reciptTotal,
+    payment: paymentTotol
+  });
+}
+
+
+
+const totalCardAmt = total.reduce((acc, item) => acc + item.cardAmt, 0);
+
+// Calculate sum for all recipt
+const totalRecipt = total.reduce(
+  (acc, item) => acc + item.recipt.reduce((sum, rec) => sum + rec.amount, 0),
+  0
+);
+
+// Calculate sum for all payment
+const totalPayment = total.reduce(
+  (acc, item) => acc + item.payment.reduce((sum, pay) => sum + pay.amount, 0),
+  0
+);
+
+
+
+
+
+
+    const balance = totalCardAmt - totalRecipt - totalPayment;
     const recordCount = filteredOrders.length;
-    return { totalSum, receiveSum, remaining, recordCount };
+    return { totalCardAmt, totalRecipt, totalPayment,balance, recordCount };
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export async function calculateClientSums() {
   try {
@@ -136,7 +189,8 @@ export async function recietVoucher() {
         amount: true,
       },
     });
-    return totalAmount._sum.amount;
+
+    return totalAmount._sum.amount || 0
   } catch (error) {
     console.error(error);
     throw error;
@@ -152,7 +206,7 @@ export async function mangmentExpenses() {
          amount: true,
        },
      });
-     return totalAmount._sum.amount;
+     return totalAmount._sum.amount || 0;
    } catch (error) {
      console.error(error);
      throw error;
@@ -166,7 +220,7 @@ export async function fixingExpenses() {
       amount: true,
     },
   });
-  return totalAmount._sum.amount;
+  return totalAmount._sum.amount || 0;
 }
 
 export async function mangmentExpensesDetails() {

@@ -1,5 +1,3 @@
-// "use client"
-import { Receipt, Wrench } from "lucide-react";
 import InfoBox, {
   InfoBoxWithNoBalance,
 } from "@/components/pagecomponent/back/dashboard/InfoBox";
@@ -72,12 +70,33 @@ export default async function Dashboard() {
     generalInfoDatadb,
   ]);
 
+
+  const totalOpenCards = sumOf_OPEN_FixingCard.totalCardAmt
+  const totalOpenRecipts = sumOf_OPEN_FixingCard.totalRecipt
+  const totalOpenPayment = sumOf_OPEN_FixingCard.totalPayment
+
+  const totalCloseCards = sumOf_CLOSED_FixingCard.totalCardAmt
+  const totalCloseRecipts = sumOf_CLOSED_FixingCard.totalRecipt
+  const totalClosePayment = sumOf_CLOSED_FixingCard.totalPayment
+  const openCardNet = (totalOpenCards - totalOpenRecipts) + totalOpenPayment
+  const closeCardNet = (totalCloseCards - totalCloseRecipts) + totalClosePayment
+
+
+
+
+
+
   const net = reciptSum - (mangmentExp + fixingExp);
   const cardTotal =
-    sumOf_OPEN_FixingCard.totalSum + sumOf_CLOSED_FixingCard.totalSum;
+    sumOf_OPEN_FixingCard.totalCardAmt + sumOf_CLOSED_FixingCard.totalCardAmt;
   const cardRecived =
-    sumOf_OPEN_FixingCard.receiveSum + sumOf_CLOSED_FixingCard.receiveSum;
-  const cardNet = cardTotal - cardRecived;
+    sumOf_OPEN_FixingCard.totalRecipt + sumOf_CLOSED_FixingCard.totalRecipt;
+  const cardPayment =
+    sumOf_OPEN_FixingCard.totalPayment + sumOf_CLOSED_FixingCard.totalPayment;
+
+  const cardNet = (cardTotal - cardRecived) + cardPayment;
+
+  // const cardNet = cardTotal - cardRecived;
 
   function calculateSumOfAmounts(ReceptArray) {
     let sum = 0;
@@ -91,13 +110,10 @@ export default async function Dashboard() {
   const ExpenceArraySum = calculateSumOfAmounts(MaintenanceExpensesArray);
   const MangmentExpArraySum = calculateSumOfAmounts(MangmenteExpensesArray);
 
-  //  const analytics = useAnalytics();
   return (
-    // <main>
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4  max-w-6xl ">
 
 
-      {/* <InfoBox title="ملخص النقدية" tileIcon={<Receipt />} footer={net}> */}
         <FininceInfo
           totalIncome={cardTotal}
           clientBalance={cardNet}
@@ -106,7 +122,7 @@ export default async function Dashboard() {
           fixingExp={fixingExp}
          net={net}
         />
-      {/* </InfoBox> */}
+
 
 
 
@@ -114,27 +130,20 @@ export default async function Dashboard() {
     <main className='mt-1 grid grid-cols-1 place-items-start gap-6 md:grid-cols-5 '>
 
       <InfoBox
-        title=" اجمالي  سندات القبض  "
+        title="سندات القبض"
           tileIcon={<LiaCashRegisterSolid size={30} />}
         footer={ReceptArraySum}
       >
         <ClientTransaction ReceptArray={ReceptArray} />
       </InfoBox>
       <InfoBox
-        title=" اجمالي   الصرف التشغيلية  "
+        title="مصاريف تشغيليه"
           tileIcon={<FaTools size={30} />}
         footer={PaymentArraySum}
       >
         <ClientTransaction ReceptArray={PaymentArray} />
       </InfoBox>
 
-      {/* <InfoBox
-        title="مصاريف تشغيلية"
-        tileIcon={<Receipt />}
-        footer={ExpenceArraySum}
-      >
-        <FixingExpenses MaintenanceExpensesArray={MaintenanceExpensesArray} />
-      </InfoBox> */}
       <InfoBox
         title="مصاريف ادارية"
           tileIcon={<GiOfficeChair size={30} />}
@@ -142,15 +151,31 @@ export default async function Dashboard() {
       >
         <MangmentExpense MaintenanceExpensesArray={MangmenteExpensesArray} />
       </InfoBox>
-        <InfoBox title="كروت الصيانة" tileIcon={<HiMiniUserGroup size={30} />} footer={cardNet}>
+        <InfoBox title={"كروت مفتوحة" } tileIcon={<HiMiniUserGroup size={30} />} footer={openCardNet
+}>
         <FixingInfo
-          sumOf_OPEN_FixingCard={sumOf_OPEN_FixingCard}
-          sumOf_CLOSED_FixingCard={sumOf_CLOSED_FixingCard}
-          cardTotal={cardTotal}
-          cardRecived={cardRecived}
-          cardNet={cardNet}
+
+            records={sumOf_OPEN_FixingCard.recordCount}
+            cardTotals={totalOpenCards}
+            Recipt={totalOpenRecipts}
+            payment={totalOpenPayment}
         />
       </InfoBox>
+        <InfoBox title={"كروت مغلقة" } tileIcon={<HiMiniUserGroup size={30} />} footer={closeCardNet}>
+          <FixingInfo
+            records={sumOf_CLOSED_FixingCard.recordCount}
+            cardTotals={totalCloseCards}
+            Recipt={totalCloseRecipts}
+            payment={totalClosePayment}
+
+          />
+        </InfoBox>
+
+
+
+
+
+
       <InfoBoxWithNoBalance title="معلومات عامة" >
         <GeneralInfo
           generalInfoData={generalInfoData}

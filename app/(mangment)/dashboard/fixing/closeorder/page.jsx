@@ -15,7 +15,7 @@ async function page() {
       </p>
       <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
         {OpenCard.map((fix) =>{
-          const balance= fix.recietSum - fix.paymentSum
+          const balance = (fix.fixOrederAmt- fix.recietSum) + fix.paymentSum
           return (
             <div
               key={fix.id}
@@ -28,11 +28,14 @@ async function page() {
                 <Caption title={"اسم العميل"} data={fix.clientName} />
                 <Caption title={"رقم السيارة"} data={fix.selectedCar} />
                 <DateCaption data={fix.updatedDate} />
-                  <div className="flex items-center gap-3 text-white">
-                    <Caption title={"المستلم"} data={fix.recietSum} />
-                    <Caption title={"المصروف"} data={fix.paymentSum} />
+                  <div className="flex flex-col items-center gap-3 text-white">
+
+                  <Caption title={"القيمة"} data={fix.fixOrederAmt || 0} />
+                    <Caption title={"المستلم"} data={fix.recietSum || 0} />
+                    <Caption title={"المصروف"} data={fix.paymentSum || 0} />
                   </div>
                   <Caption title={"الرصيد"} data={balance} dataBgColor='bg-red-500' />
+                  <pre className='text-[.7rem] text-left'>balance=(total-reicept)+expence</pre>
                 <CloseCardActions   id={fix.id}   balance={balance}    fixOrederId={fix.fixOrederId}
                 />
               </div>

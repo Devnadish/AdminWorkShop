@@ -12,14 +12,13 @@ export const authOptions = {
         const { mobile, password } = credentials;
 
         try {
-          const user = await login( mobile, password );
+          const user = await login(mobile, password);
 
           if (!user) {
             return null;
           }
 
           return user;
-
         } catch (error) {
           console.log("Error: ", error);
         }
@@ -28,26 +27,35 @@ export const authOptions = {
   ],
   callbacks: {
     // jwt start and then seession
-    async jwt({ token, user, session }) {
-      if (user){
-        return{
-          ...token,id:user.id,phone:user.phone,avatar:user.avatar,role:user.role
-        }
+    async jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+          phone: user.phone,
+          avatar: user.avatar,
+          role: user.role,
+        };
       }
       return token;
     },
-    async session({  session,token, user }) {
-      return{
-        ...session,user:{
+
+    async session({ session, token }) {
+      return {
+        ...session,
+        user: {
           ...session.user,
-          id:token.id,
-          avatar:token.avatar,
-          phone:token.phone,
-          role:token.role
-        }
-      }
-      return session;
+          id: token.id,
+          avatar: token.avatar,
+          phone: token.phone,
+          role: token.role,
+        },
+      };
     },
+
+    // async signIn(user, account, profile) {
+    //   return "/dashboard"; // Redirect to the dashboard page after successful login
+    // },
   },
 
   session: {

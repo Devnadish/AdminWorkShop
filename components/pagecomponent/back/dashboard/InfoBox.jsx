@@ -2,9 +2,9 @@ import React from "react";
 
 function InfoBox({ children, title, tileIcon, footer = 0 }) {
   return (
-    <div className="w-[250px] min-h-[350px] max-h-[350px] shadow-2xl rounded-md  border border-gray-200 flex flex-col  items-center justify-between overflow-hidden">
+    <div className="w-[230px] min-h-[350px] max-h-[350px] shadow-2xl rounded-md  border border-gray-200 flex flex-col  items-center justify-between overflow-hidden">
       <div className="px-4 bg-sky-800 text-white flex items-center justify-between w-full h-10 ">
-        <h3 className="text-lg font-semibold font-tajawal font-extrabold">
+        <h3 className="headline">
           {title}
         </h3>
         {tileIcon}

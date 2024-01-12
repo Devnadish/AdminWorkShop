@@ -13,11 +13,12 @@ function Caption({
     titleTextColor = "text-white/80",
     isBorder = true,
     fonSize="text-sm",
-    align="end"
+    align="start",
+    h="h-9"
 }) {
     return (
         <div
-            className={`flex items-center justify-center ${isBorder && " border  border-white/30"}  w-full rounded ${row ? "flex-row" : "flex-col"} ${fonSize} h-9`}
+            className={`flex items-center justify-center ${isBorder && " border  border-white/30"}  w-full rounded ${row ? "flex-row" : "flex-col"} ${fonSize} ${h}`}
         >
             <span
                 className={`${titleBgColor} ${titleTextColor} flex items-center justify-start flex-1 px-1 font-semibold  h-full text-right font-tajwal `}
@@ -27,7 +28,7 @@ function Caption({
             </span>
 
             <span
-                className={`${dataTextColor} ${dataBgColor} ${align} flex-1 pl-3 font-bold  flex items-center justify-${align}  py-1 h-9`}
+                className={`${dataTextColor} ${dataBgColor} ${align} flex-1 pl-3 font-bold  flex items-center justify-${align}  py-1 h-full px-2 `}
             >
                 {data}
             </span>
@@ -60,7 +61,7 @@ export function VCaption({
     titleTextColor = "text-white/80",
     isBorder = true,
     fonSize="text-sm",
-    align="end"
+    align="start"
 }) {
     return (
         <div
@@ -74,7 +75,7 @@ export function VCaption({
             </span>
 
             <span
-                className={`${dataTextColor} ${dataBgColor}  px-3 font-bold  flex items-center justify-${align}  py-2 w-full font-amiri ${fonSize} `}
+                className={`${dataTextColor} ${dataBgColor}  px-3 font-bold  flex items-center justify-${align} px-2 py-2 w-full font-amiri ${fonSize} `}
             >
                 {data}
             </span>

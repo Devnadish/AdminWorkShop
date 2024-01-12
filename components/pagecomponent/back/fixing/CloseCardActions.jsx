@@ -1,6 +1,6 @@
 "use client"
 import {  RouteOff } from 'lucide-react'
-import React from 'react'
+import React,{useState} from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,24 +14,31 @@ import {
 } from "@/components/ui/alert-dialog";
 import toast from 'react-hot-toast';
 import { deleteAndCloseFixOrder } from '@/db/fixing';
+import INPUT from '@/components/shared/INPUT';
+import { IoLogoUsd } from "react-icons/io5";
+import Submit from '@/components/shared/Submit';
 
 
 function CloseCardActions({ id, balance, fixOrederId }) {
-  const handleDelete = (id, balance, fixOrederId) => {
-    if (balance !== 0) {
-      toast.error("لا يمكن اقفال كرت وتوجد معلفات مالية علية");
+  // const [data,setData]=useState({cardId:id,CardBalance:balance,fixOrederId:fixOrederId});
+  const cardId=id
+  const balanceAmt = balance
+  const fixNo = fixOrederId
+
+  const handleCloseCard = (data) => {
+    const formBalance = data.get("formAmt")
+
+    if (parseFloat(balanceAmt) !== parseFloat(formBalance)) {
+      toast.error("رصيد الاقفال غير صحيح");
       return;
     }
-    const del = deleteAndCloseFixOrder(id, fixOrederId);
+    const del = deleteAndCloseFixOrder(id, fixOrederId, formBalance);
   };
 
   return (
     <>
-      {balance !== 0 ? (
-        <p className='flex items-center justify-center bg-purple-600  py-3 px-2 rounded-2xl shadow-lg'>لا يمكن اقفال الكرت توجد متعلقات مالية</p>
-      ) : (
         <div className="flex items-center justify-end  bg-slate-900 w-full gap-6 py-2 px-2">
-          <AlertDialog>
+          <AlertDialog dir="RTL">
             <AlertDialogTrigger className="border h-8 w-8 rounded flex items-center justify-center w-full gap-4 bg-green-600">
               <p>اغلاق الكرت</p>
               <RouteOff />
@@ -39,23 +46,34 @@ function CloseCardActions({ id, balance, fixOrederId }) {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>هل انت متاكد?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  سيتم اغلاق الكرت ولا يمكن التراجع عن العملية
+              <AlertDialogTitle className="text-right p-2 rounded text-lg font-tajwal">هل انت متاكد</AlertDialogTitle>
+                <AlertDialogDescription className="bg-red-600 text-white text-right p-2 rounded-lg text-lg font-tajwal">
+                ادخل المبلغ المتبقي لكي يتم اغلاق الكرت <span className='bg-red-500 rounded px-3'>{balance}</span>
                 </AlertDialogDescription>
+              <form action={handleCloseCard} className='flex items-center flex-col gap-4 border border-4  border-sky-500 p-4 rounded bg-sky-600 shadow-lg'>
+                <div className='flex items-center gap-4 font-tajwal'>
+                <label htmlFor='amt'>قيمة  السداد</label>
+                <INPUT id="amt" placeholder={"المبلغ"} icon={<IoLogoUsd className="text-white/80"/>} name="formAmt"/>
+                </div>
+                <div className='flex items-center justify-end  w-full'>
+                <Submit title='الاستمرار في عملية السداد'/>
+                </div>
+              </form>
+
               </AlertDialogHeader>
               <AlertDialogFooter className="flex items-center gap-4">
-                <AlertDialogAction
+                {/* <AlertDialogAction
                   onClick={() => handleDelete(id, balance, fixOrederId)}
+
                 >
-                  استمر
-                </AlertDialogAction>
+                  الاستمرار في عملية السداد
+                </AlertDialogAction> */}
                 <AlertDialogCancel>الغاء</AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </div>
-      )}
+
     </>
   );
 }

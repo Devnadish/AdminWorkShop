@@ -24,8 +24,6 @@ function ShareInvoice({ id, balance, fixOrederId, clientName,clientPhone }) {
   const [url,setUrl]=useState()
     const router =useRouter()
   const pathname = usePathname();
-  // console.log(process.env.SERVER_URL)
-  // const templLink = process.env.SERVER_URL + pathname
   const templLink = "https://admin-work-shop.vercel.app/" + pathname
 
 
@@ -34,8 +32,6 @@ function ShareInvoice({ id, balance, fixOrederId, clientName,clientPhone }) {
     const phoneNumber = clientPhone
     const phone = phoneNumber.replace(/^0/, "+966");
     const link = `https://wa.me/${phone}?text=${url}`
-    // console.log(phone)
-    // router.push(link)
     window.open(link, '_blank');
 
 

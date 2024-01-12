@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
 import INPUT from "@/components/shared/INPUT";
 import { ImMobile } from "react-icons/im";
 import { IoMdUnlock } from "react-icons/io";
@@ -44,20 +42,23 @@ export default function LoginForm() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <INPUT
-            onChange={(e) => setMobile(e.target.value)}
+            // onChange={(e) => setMobile(e.target.value)}
+            onChange={(e) => setMobile((prevMobile) => e.target.value)}
             type="text"
             placeholder="رقم الجوال"
             icon={<ImMobile size={24} className="text-white" />}
             h="h-9"
           />
           <INPUT
-            onChange={(e) => setPassword(e.target.value)}
+            // onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword((prevPassword) => e.target.value)}
             type="password"
             placeholder="كلمة المرور"
             icon={<IoMdUnlock size={24} className="text-white" />}
             h="h-9"
           />
-          <button className="bg-green-600 text-white font-bold cursor-pointer px-6 py-2">
+          {mobile} {password}
+          <button type="submit"  className="bg-green-600 text-white font-bold cursor-pointer px-6 py-2">
             دخول
           </button>
           {error && (
