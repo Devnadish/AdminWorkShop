@@ -10,10 +10,42 @@ import { updateClientPaymentBalance } from "@/db/payment";
 import {   CircleDollarSign } from "lucide-react";
 import { fixValidateForm } from "@/lib/validation/payment";
 import { CheckCarInfoForVoucher } from "@/components/shared/CheckCarInfoForVoucher";
+import { getCarInfoForVoucher } from "@/db/cars";
 function SaveVoucher({ data }) {
   const [carId, setCarId] = useState("");
   const [info, setInfo] = useState({});
+  const [isloading, setIsloading] = useState(false)
 
+
+
+
+  const findClientByCarId = async () => {
+    try {
+      setIsloading(true)
+      const car = await getCarInfoForVoucher(carId);
+      if (car.Carexisit === 'not Exisit') {
+        toast.error(car.msg);
+        setInfo({});
+        return 'not Exisit'
+      }
+
+      setInfo({
+        clientId: car.carInfo.clientId,
+        clientName: car.carInfo.clientName,
+        fixOrderId: car.carInfo.fixOrederId,
+        fixamt: car.carInfo.fixOrederAmt,
+        recipt: car.recipt,
+        payment: car.payment,
+        balance: (car.carInfo.fixOrederAmt - car.recipt) + car.payment
+
+      });
+    } catch (error) {
+      console.log(error) // Handle any unexpected errors here
+    } finally {
+      setIsloading(false)
+    }
+
+  };
 
 
   const handleSubmit = async (data) => {
@@ -35,6 +67,12 @@ function SaveVoucher({ data }) {
       fromName,
       fixingCode,
     };
+    const car = await findClientByCarId(carId);
+    if (car === 'not Exisit') {
+      // toast.error(car.msg);
+      setInfo({});
+      return
+    }
     const validation = fixValidateForm(Paymentdata);
     if (!validation.isValid) {
       toast.error(validation.errorMessage);
@@ -55,7 +93,11 @@ function SaveVoucher({ data }) {
     <div className=" flex flex-col gap-4  items-center justify-between  border border-white/30 rounded-md p-4 w-full">
 
 
-      <CheckCarInfoForVoucher carId={carId} setCarId={setCarId} info={info} setInfo={setInfo} />
+      <CheckCarInfoForVoucher carId={carId} setCarId={setCarId} info={info} setInfo={setInfo}
+        isloading={isloading}
+        setIsloading={setIsloading}
+        findClientByCarId={findClientByCarId}
+      />
       <form
         id="paymentForm"
         className="w-full flex flex-col gap-4 items-start justify-start "
