@@ -1,20 +1,17 @@
 import PageTitle from "@/components/shared/PageTitle";
-import { getOpenCards  } from "@/db/payment";
 import {  Wrench } from "lucide-react";
 
-import SaveVoucher from "@/components/pagecomponent/back/payment/SaveVoucher";
 import OpenFixCard from "@/components/shared/OpenFixCard";
-// import ShowCardInfo from "@/components/pagecomponent/back/payment/ShowCardInfo";
+import { getCarsFromOpenFixOrder } from "@/db/fixing";
+import PaymentVoucher from "@/components/pagecomponent/back/payment/PaymentVoucher";
 export const dynamic = "force-dynamic";
 const FixPaymentVoucher = async () => {
-  const openCardsData = await getOpenCards();
-
-
+  const openCards = await getCarsFromOpenFixOrder()
   return (
     <div className=" flex flex-col gap-4 max-w-3xl mx-auto gap-4 w-full">
       <PageTitle title="سند صرف تشغيلي" icon={<Wrench />} />
-      <SaveVoucher data={openCardsData} />
-      <OpenFixCard />
+      <PaymentVoucher openCards={openCards} />
+      <OpenFixCard  />
     </div>
   );
 };

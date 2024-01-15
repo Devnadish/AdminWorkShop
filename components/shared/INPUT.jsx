@@ -15,20 +15,21 @@ const INPUT = ({
   w = "w-full",
   textsize = "text-[1rem]",
   bgColor="bg-white/80",
+  roundedCorners ="rounded-md",
   ...setting
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <div
-      className={`relative flex-1 border rounded-md overflow-hidden ${
+      className={`relative ${w} ${h}  border ${roundedCorners} overflow-hidden ${
         isFocused ? "focus-within:border-green-500" : ""
       }`}
     >
       <Input
         type={type}
         name={name}
-        className={`input-placeholder  border-0 ${h}  ${w}  ${textsize} ${bgColor} rounded-none  pl-3 ${
+        className={`input-placeholder  border-0 ${h}    ${textsize} ${bgColor} rounded-none  pl-3 ${
           icon ? "pr-12" : "pr-2"
         } py-2  text-black/80 font-medium focus:outline-none`}
         placeholder={placeholder}

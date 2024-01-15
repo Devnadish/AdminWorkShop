@@ -324,13 +324,47 @@ export async function deleteClient(id) {
 
 
 export async function getClientTransactions(clientId) {
-  const paymentTransactions = await db.PaymentVoucher.findMany({
-    where: { fromID: clientId },
+  // const paymentTransactions = await db.PaymentVoucher.findMany({
+  //   where: { fromID: clientId },
+  // });
+  // const receiptTransactions = await db.RecietVoucher.findMany({
+  //   where: { fromID: clientId },
+  // });
+  const FixOrderTransactions = await db.fixingOrder.findMany({
+    where: { clientId: clientId },
   });
-  const receiptTransactions = await db.RecietVoucher.findMany({
-    where: { fromID: clientId },
-  });
-  return { paymentTransactions, receiptTransactions };
+  const reciptTranaction = [];
+  const paymentTranaction = [];
+
+ for (const trans of FixOrderTransactions) {
+
+   const ReciptData = await db.RecietVoucher.findMany({
+     where: { fixingCode: trans.fixingId },
+   });
+
+
+     const PaymentData = await db.PaymentVoucher.findMany({
+       where: { fixingCode: trans.fixingId },
+     });
+
+     reciptTranaction.push({
+       fixCode: trans.fixingId,
+       fixAmt: trans.total,
+       reciptData: ReciptData,
+     });
+       paymentTranaction.push({
+         fixCode: trans.fixingId,
+         fixAmt: trans.total,
+         paymentData: PaymentData,
+       });
+
+ }
+
+
+
+
+  // return { paymentTransactions, receiptTransactions, FixOrderTransactions };
+  return {FixOrderTransactions, reciptTranaction, paymentTranaction};
 }
 
 

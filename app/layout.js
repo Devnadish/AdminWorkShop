@@ -16,6 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="ar" dir="rtl">
       <body
         className={`flex flex-col items-center justify-center w-full m-auto bg-slate-800 ${Tajwal.variable} ${Amiri.variable}`}
+        suppressHydrationWarning={true}
       >
         <AuthProvider>
           <div id="navmenu" className="w-full">

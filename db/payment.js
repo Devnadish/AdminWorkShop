@@ -9,7 +9,14 @@ export const savePaymentVoucher = async (formData) => {
     const data = { ...formData, paymentId: newDocId, docDate };
     const newVoucher = await db.PaymentVoucher.create({ data });
     revalidatePath("/dashboard");
-        revalidatePath("/dashboard/fixing/closeorder");
+    revalidatePath("/dashboard/fixing/closeorder");
+    return {
+      msg: "تم انشاء سند صرف تشغيلي ",
+      paymentNo: newDocId,
+      client: data.fromName,
+      fixNo: data.fixingCode,
+      amt: data.amount,
+    };
     return newVoucher;
 
   } catch (error) {

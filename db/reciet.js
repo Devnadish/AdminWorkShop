@@ -9,6 +9,8 @@ export async function saveRecietVoucher(reciptData) {
     const data = { ...reciptData, recietId: RecietCounter, docDate };
     const order = await db.RecietVoucher.create({ data });
     revalidatePath("dashboard/fixing/closeorder")
+     revalidatePath("/dashboard");
+
     return {
       msg: "تم انشاء سند قبض ",
       recietNo: RecietCounter,

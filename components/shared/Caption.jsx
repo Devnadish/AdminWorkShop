@@ -1,6 +1,7 @@
 import { getTimeElapsed } from "@/lib/timeanddate";
 import React from "react";
 import { FiCalendar } from "react-icons/fi";
+import { MdOutlineEditCalendar } from "react-icons/md";
 
 function Caption({
     title,
@@ -11,7 +12,7 @@ function Caption({
     dataTextColor = "text-white/80",
     titleBgColor = "bg-white/15",
     titleTextColor = "text-white/80",
-    isBorder = true,
+    isBorder = false,
     fonSize="text-sm",
     align="start",
     h="h-9"
@@ -38,14 +39,14 @@ function Caption({
 
 export default Caption;
 
-export function DateCaption({ data }) {
+export function DateCaption({ data ,type}) {
     return (
-        <div className="flex items-center justify-end  text-base w-full ">
-            <div className="flex items-center justify-end  border border-white/40 rounded-lg text-white/70 px-3 py-1">
-                <span className=" w-fit   px-3 text-sm  font-extralight  ">
+        <div className="flex items-center justify-end  text-base ">
+            <div className={`flex items-center justify-end  border-b  ${type === "lastupdate" ? "border-green-300" : "border-white/40"}   text-white/70 px-3 py-1`}>
+                <span className=" w-fit   px-3 text-[.7rem]  font-extralight  ">
                     {getTimeElapsed(data)}
                 </span>
-                <FiCalendar size={18} />
+                {type === "lastupdate" ? <MdOutlineEditCalendar size={18} className="text-green-300"/> :<FiCalendar size={18} />}
             </div>
         </div>
     );
