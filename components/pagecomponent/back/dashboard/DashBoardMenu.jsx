@@ -46,6 +46,9 @@ const gotoActivity=(url) => {router.push(url); return}
     setIsOpen(false);
   };
 
+  const toggleAndClose = () => {
+    setIsOpen(!isOpen);
+  }
 
 
   return (
@@ -55,7 +58,7 @@ const gotoActivity=(url) => {router.push(url); return}
         <div className="flex  justify-center items-center    text-sky-950  rounded-md h-10  md:hidden " id="sidebar">
             <Sheet
               open={isOpen}
-              onOpenChange={setIsOpen}
+            onOpenChange={toggleAndClose}
               onClose={toggleSidebar}
               className="w-1/2"
 
@@ -71,7 +74,7 @@ const gotoActivity=(url) => {router.push(url); return}
               </SheetTrigger>
               <SheetContent className="overflow-auto bg-sky-800 flex  flex-col justify-between w-1/2 p-2 py-9">
                 <SidebarMenu toggleSidebar={closeSidebar} />
-                <SheetFooter>
+                <SheetFooter >
                   <Logout />
                 </SheetFooter>
               </SheetContent>
@@ -102,7 +105,7 @@ const SidebarMenu = ({ toggleSidebar }) => (
     <FixOrderMenu toggleSidebar={toggleSidebar} />
     <FinicalMenu toggleSidebar={toggleSidebar} />
     <Setting toggleSidebar={toggleSidebar} /> */}
-    <DesktopMenu/>
+    <DesktopMenu toggleSidebar={toggleSidebar} type={"mobile"} />
   </div>
 );
 
