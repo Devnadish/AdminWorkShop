@@ -1,4 +1,4 @@
-import CloseCardActions from '@/components/pagecomponent/back/fixing/CloseCardActions';
+import CloseCardActions from '@/app/_pagecomponent/fixing/CloseCardActions';
 import Caption, { DateCaption } from '@/components/shared/Caption';
 import { getAllOpenFixOrder } from '@/db/fixing'
 import React from 'react'
