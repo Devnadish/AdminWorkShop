@@ -1,4 +1,4 @@
-import NewExpencis from "@/components/pagecomponent/back/Expences/NewExpencis";
+import NewExpencis from "@/app/_pagecomponent/Expences/NewExpencis";
 import DeleteExpinces from "@/components/shared/DeleteExpinces";
 import PageTitle from "@/components/shared/PageTitle";
 import { displayAllExpencies } from "@/db/expencisData";

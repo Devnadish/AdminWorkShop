@@ -7,7 +7,6 @@ import INPUT from "@/components/shared/INPUT";
 import ClearButton from "@/components/shared/ClearButton";
 import toast from "react-hot-toast";
 import { validateForm } from "@/lib/validation/recipt";
-import { saveRecietVoucher } from "@/db/reciet";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,9 +15,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import SelectOpenCard from "@/components/pagecomponent/back/finice/SelectOpenCard";
+import SelectOpenCard from "@/app/_pagecomponent/finice/SelectOpenCard";
+import { savePaymentVoucher } from "@/db/payment";
 
-function ReciptForm({ openCards }) {
+function PaymentVoucher({ openCards }) {
   const [carId, setCarId] = useState("")
   const [Client, setClient] = useState({ claientId: "", clientName: "", fixOrederId: "", fixAmount: 0 })
   const [result, setResult] = useState({});
@@ -29,53 +29,49 @@ function ReciptForm({ openCards }) {
   var day = String(today.getDate()).padStart(2, '0');
   var currentDate = day + '-' + month + '-' + year;
 
-  // var currentDate = today.toISOString().slice(0, 10);
-
 
   const handleSubmit = async (data) => {
     const detail = data.get("detail");
     const amount = parseFloat(data.get("amount"));
     const docDate = new Date(data.get("docDate")).toISOString().slice(0, 10);
-    const RecietData = {
+    const Paymentdata = {
+      amount,
       detail,
+      paymentType:"fixing",
+      collector:"سند تشغيلي",
+      docDate,
       fromID: parseFloat(Client.claientId) || null,
       fromName: Client.clientName,
-      amount,
       fixingCode: parseFloat(Client.fixOrederId) || null,
-      docDate,
     };
-    const validation = validateForm(RecietData, Client.fixAmount);
+
+    const validation = validateForm(Paymentdata, Client.fixAmount);
     if (!validation.isValid) {
       toast.error(validation.errorMessage);
       return;
     }
 
-    const Reciet = await saveRecietVoucher(RecietData);
-
+    const payment = await savePaymentVoucher(Paymentdata);
+    console.log(payment)
     setResult({
-      recietNo: Reciet.recietNo,
-      client: Reciet.client,
-      amt: Reciet.amt,
-      fixNo: Reciet.fixNo,
-      msg: Reciet.msg,
+      paymentNo: payment.paymentNo,
+      client: payment.client,
+      amt: payment.amt,
+      fixNo: payment.fixNo,
+      msg: payment.msg,
     });
     setCarId("")
     setClient({ claientId: "", clientName: "", fixOrederId: "", fixAmount: 0 })
-    document.getElementById("RecietForm").reset()
+    document.getElementById("paymentForm").reset()
     setOpen(true);
   };
-
-
-
-
-
 
   return (
     <div className="flex flex-col items-center justify-center w-full  border p-4 rounded-md border-white/30 gap-4">
       <SelectOpenCard openCards={openCards} setCarId={setCarId} carId={carId} Client={Client} setClient={setClient}/>
       <form
         action={handleSubmit}
-        id="RecietForm"
+        id="paymentForm"
         className=" w-full flex flex-col items-center gap-2 "
       >
         <div className=" flex items-center justify-between     gap-4 w-full ">
@@ -132,7 +128,7 @@ function ReciptForm({ openCards }) {
   );
 }
 
-export default ReciptForm;
+export default PaymentVoucher;
 
 const ShowAlert = ({ open, setIsopen, data }) => {
   return (
@@ -140,26 +136,24 @@ const ShowAlert = ({ open, setIsopen, data }) => {
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>تم انشاء سند فبض</AlertDialogTitle>
+          <AlertDialogTitle className="w-full bg-black/20 rounded flex items-center justify-center py-1">تم انشاء سند صرف تشغيلي</AlertDialogTitle>
         </AlertDialogHeader>
-
         <div className="flex flex-col">
-          <div className="flex items-center justify-between border-b-2  py-1 mb-5">
-            <p className="flex gap-4 ">
-              <span>رقم السند</span>
-              <span className="">{data.recietNo}</span>
+          <div className="flex items-center justify-between border-b-2  py-1 ">
+            <p className="flex gap-4  bg-black/20 rounded flex items-center justify-center py-1 px-4">
+              <span className="px-4 ">رقم السند</span>
+              <span className="px-4 bg-black/30 text-white rounded">{data.paymentNo}</span>
             </p>
-            <p className="flex gap-4">
+            <p className="flex gap-4  bg-black/20 rounded flex items-center justify-center py-1 px-3">
               <span>رقم امر الاصلاح</span>
-              {data.fixNo}
+               <span className="px-4 bg-black/30 text-white rounded">{data.fixNo}</span>
             </p>
           </div>
-
-          <p className="flex gap-4">
+          <p className="flex gap-4  bg-black/20  flex items-center gap-4  py-1 px-3 rounded-r">
             <span>اسم العميل</span>
-            {data.client}
+            <span>{data.client}</span>
           </p>
-          <p className="flex gap-4 bg-green-950 text-white self-end px-4 py-2 rounded text-xl font-semibold">
+          <p className="flex gap-4 bg-black/20 text-black self-end px-4 py-2  text-xl font-semibold">
             <span>المبلغ</span>
             <span className="bg-red-500 px-3 rounded">
               {data.amt}

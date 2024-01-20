@@ -1,7 +1,7 @@
 
 
 import PageTitle from "@/components/shared/PageTitle";
-import ReciptForm from "@/components/pagecomponent/back/reciptform/ReciptForm";
+import ReciptForm from "@/app/_pagecomponent/reciptform/ReciptForm";
 import OpenFixCard from "@/components/shared/OpenFixCard";
 import { getCarsFromOpenFixOrder } from "@/db/fixing";
 

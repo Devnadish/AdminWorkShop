@@ -1,4 +1,4 @@
-import CommentAction from "@/components/pagecomponent/back/clients/comments/CommentAction";
+import CommentAction from "@/app/_pagecomponent/clients/comments/CommentAction";
 import Avatar from "@/components/shared/Avatar";
 import PageTitle from "@/components/shared/PageTitle";
 import { Button } from "@/components/ui/button";

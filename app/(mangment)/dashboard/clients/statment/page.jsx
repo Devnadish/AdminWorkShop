@@ -1,4 +1,4 @@
-import SelectClientData from "@/components/pagecomponent/back/clients/statment/SelectClientData";
+import SelectClientData from "@/app/_pagecomponent/clients/statment/SelectClientData";
 import Caption from "@/components/shared/Caption";
 import { getGroupClientWithTransactions } from "@/db/clients";
 export const dynamic = "force-dynamic";

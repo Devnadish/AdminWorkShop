@@ -1,6 +1,6 @@
 import React from 'react'
 import {  Car } from "lucide-react";
-import DeleteClient from "@/components/pagecomponent/back/clients/client/DeleteClient";
+import DeleteClient from "@/app/_pagecomponent/clients/client/DeleteClient";
 import { ScrollArea  } from "@/components/ui/scroll-area";
 import {
     Table,

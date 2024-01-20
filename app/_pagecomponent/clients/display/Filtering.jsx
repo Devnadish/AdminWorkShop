@@ -13,7 +13,7 @@ import {
   getClientsWithPositiveBalance,
   getClientsWithgetNegativeBalance,
 } from "@/db/clients";
-import ShowClientCard from "@/components/pagecomponent/back/clients/display/ShowClientCard";
+import ShowClientCard from "@/app/_pagecomponent/clients/display/ShowClientCard";
 
 function Filtering({ clientsData }) {
   const [clients, setClients] = useState(clientsData);

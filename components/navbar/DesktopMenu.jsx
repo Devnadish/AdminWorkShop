@@ -1,4 +1,4 @@
-
+"use client"
 import {
   Menubar,
   MenubarContent,
@@ -19,7 +19,7 @@ export function DesktopMenu({ toggleSidebar , type =  "desktop" }) {
   const menuStyle = "flex w-full items-center justify-between px-1"
   const mainMenu = "w-[250px]  md:w-60 font-tajwal"
   return (
-    <Menubar className="bg-transparent h-full   w-full  flex items-center gap-4 justify-around flex-col md:flex-row border-none" dir="RTL">
+    <Menubar className="bg-transparent h-full   flex-grow  flex items-center gap-4 justify-around flex-col md:flex-row border-none" dir="RTL">
       <MenuWithChild menuTitle="العملاء" menuIcon={<UsersRound size={20} strokeWidth={1} />} submenu={clientMenu} menuStyle={menuStyle} mainMenu={mainMenu} toggleSidebar={toggleSidebar} type={type}/>
       <MenuWithChild menuTitle="الصيانة" menuIcon={<FaCarCrash size={20} strokeWidth={1} />} submenu={maintainanceMenu} menuStyle={menuStyle} mainMenu={mainMenu} toggleSidebar={toggleSidebar} type={type} />
       <MenuWithChild menuTitle="المالية" menuIcon={<BadgeDollarSign size={20} strokeWidth={1} />} submenu={fininceMenu} menuStyle={menuStyle} mainMenu={mainMenu} toggleSidebar={toggleSidebar} type={type} />

@@ -1,11 +1,11 @@
  import  { useState } from "react";
-import ExpandMenu from "../dashboard/ExpandMenu";
 import { FaCarCrash } from "react-icons/fa";
 import { GiCash } from "react-icons/gi";
 import { LiaCashRegisterSolid } from "react-icons/lia";
 import { BiExport } from "react-icons/bi";
 import { BsCashCoin } from "react-icons/bs";
 import { User } from "lucide-react";
+import ExpandItem from "@/components/shared/ExpandItem";
 
 
 function ShowCardInfo({ info }) {
@@ -20,7 +20,7 @@ function ShowCardInfo({ info }) {
   const balance = fixOrderReceiveValue - totalSpentValue;
 
   return (
-    <ExpandMenu
+    <ExpandItem
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       menuTitle={info.clientName}
@@ -54,7 +54,7 @@ function ShowCardInfo({ info }) {
           <p>{balance}</p>
         </div>
       </div>
-    </ExpandMenu>
+    </ExpandItem>
   );
 }
 

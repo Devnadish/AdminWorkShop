@@ -3,7 +3,7 @@ import { Car } from "lucide-react";
 import { fetchClientNames } from "@/db/clients";
 
 import PageTitle from "@/components/shared/PageTitle";
-import CarForm from "@/components/pagecomponent/back/clients/cars/CarForm";
+import CarForm from "@/app/_pagecomponent/clients/cars/CarForm";
 
 export const dynamic = "force-dynamic";
 async function AddCar() {

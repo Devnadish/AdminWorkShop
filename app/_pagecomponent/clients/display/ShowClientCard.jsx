@@ -1,7 +1,7 @@
 import React from 'react'
 import { getTimeElapsed } from "@/lib/timeanddate";
 import { ArrowDownSquare, ArrowUpSquare, Car, DollarSign, Phone, PhoneCallIcon, Scale } from "lucide-react";
-import CardAction from "@/components/pagecomponent/back/clients/display/CardAction";
+import CardAction from "@/app/_pagecomponent/clients/display/CardAction";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from '@/components/ui/button';
 import CallClient from '@/components/shared/CallClient';

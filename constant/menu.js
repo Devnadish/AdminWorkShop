@@ -133,7 +133,6 @@ export const settingeMenu = [
     id: 1,
     title: "المستخدمين ",
     icon: <Smile size={20} strokeWidth={1} />,
-    href: "/service",
+    href: "/dashboard/signup",
   },
-
 ];

@@ -1,9 +1,6 @@
 "use client";
 import React, { useState  } from "react";
 import { Menu, Angry, Lightbulb } from "lucide-react";
-import ClientMenu from "./ClientMenu";
-import FixOrderMenu from "./FixOrderMenu";
-import FinicalMenu from "./FinicalMenu";
 import Link from "next/link";
 import { FaChartColumn } from "react-icons/fa6";
 import { VscCommentUnresolved } from "react-icons/vsc";
@@ -19,8 +16,7 @@ import { FaCarCrash } from "react-icons/fa";
 import { FaCashRegister } from "react-icons/fa";
 
 import { getRecordCounts } from "@/db/dashboard";
-import Logout from "../auth/Logout";
-import Setting from "./Users";
+import Logout from "@/app/_pagecomponent/auth/Logout";
 import { Home, Bell } from "lucide-react";
 import {
   DropdownMenu,
@@ -52,8 +48,8 @@ const gotoActivity=(url) => {router.push(url); return}
 
 
   return (
-    <>
-      <div className="flex items-center justify-between sticky top-0 z-50 w-full border-b border-white/40 bg-background/95 backdrop-blur  supports-[backdrop-filter]:bg-background/60 px-8 h-[55px] ">
+
+      <div className="flex items-center justify-between  w-full border-b-1   px-8 h-[55px] bg-slate-700 shadow-xl">
         {/* mobile Menu */}
         <div className="flex  justify-center items-center    text-sky-950  rounded-md h-10  md:hidden " id="sidebar">
             <Sheet
@@ -73,7 +69,7 @@ const gotoActivity=(url) => {router.push(url); return}
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-auto bg-sky-800 flex  flex-col justify-between w-1/2 p-2 py-9">
-                <SidebarMenu toggleSidebar={closeSidebar} />
+              <DesktopMenu toggleSidebar={toggleSidebar} type={"mobile"} />
                 <SheetFooter >
                   <Logout />
                 </SheetFooter>
@@ -81,33 +77,22 @@ const gotoActivity=(url) => {router.push(url); return}
             </Sheet>
           </div>
           {/* md menu */}
-        <div className="w-full md:w-1/2  md:flex md:items-center justify-center hidden"><DesktopMenu /></div>
+
+        <div className="w-full md:w-1/2  md:flex md:items-center justify-center hidden "><DesktopMenu /></div>
           <div className=" flex  items-center   bg-yellow-300 text-sky-950  rounded-md ">
-          <DropMenu gotoActivity={gotoActivity}  />
+          <ClientActivityDropMenu gotoActivity={gotoActivity}  />
           <Link className="flex items-center justify-center rounded-l-none p-0 w-8 " href={"/"}>
             <Home size={20} strokeWidth={1.25} />
             </Link>
-
           </div>
         </div>
       )
-    </>
-  );
+
+
 };
 
 export default DashBoardMenu;
 
-
-const SidebarMenu = ({ toggleSidebar }) => (
-  <div className="mt-4 flex flex-col gap-2 ">
-    {/* <FastMenu toggleSidebar={toggleSidebar} />
-    <ClientMenu toggleSidebar={toggleSidebar} />
-    <FixOrderMenu toggleSidebar={toggleSidebar} />
-    <FinicalMenu toggleSidebar={toggleSidebar} />
-    <Setting toggleSidebar={toggleSidebar} /> */}
-    <DesktopMenu toggleSidebar={toggleSidebar} type={"mobile"} />
-  </div>
-);
 
 
 
@@ -149,7 +134,7 @@ const FastMenu = ({ toggleSidebar }) => {
 };
 
 
-const DropMenu = ({ gotoActivity }) => {
+const ClientActivityDropMenu = ({ gotoActivity }) => {
   const [open,setOpen]=useState(false);
   const [clientData, setClientData]=useState({});
   const collectData = async  () => {

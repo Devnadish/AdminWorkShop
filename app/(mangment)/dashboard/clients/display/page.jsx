@@ -1,4 +1,4 @@
-import Filtering from "@/components/pagecomponent/back/clients/display/Filtering";
+import Filtering from "@/app/_pagecomponent/clients/display/Filtering";
 import { getAllClients } from "@/db/clients";
 import React from "react";
 

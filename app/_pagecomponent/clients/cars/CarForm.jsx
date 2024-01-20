@@ -5,7 +5,7 @@ import Submit from '@/components/shared/Submit';
 import { Car } from 'lucide-react';
 import React, { useState } from 'react'
 import { AddNewCar } from "@/db/cars";
-import SelectClient from "@/components/pagecomponent/back/clients/cars/SelectClient";
+import SelectClient from "@/app/_pagecomponent/clients/cars/SelectClient";
 
 import { toast } from "react-hot-toast";
 import { validateForm } from "@/lib/validation/addCar";

@@ -1,6 +1,7 @@
-import DashBoardMenu from "./DashBoardMenu";
+import DashBoardMenu from "@/components/navbar/DashBoardMenu";
+
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../../app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 
 export const dynamic = "force-dynamic";
@@ -11,11 +12,8 @@ const MenuSide = async () => {
   // if (session) redirect("/dashboard");
 
 
-  return (
-    <>
-     <DashBoardMenu user={session} />
-      )
-    </>
-  );
+  return      <DashBoardMenu user={session} />
+
+
 };
 export default MenuSide;
