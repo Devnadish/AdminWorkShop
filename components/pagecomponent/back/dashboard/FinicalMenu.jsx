@@ -4,7 +4,7 @@ import {useState} from "react";
 import ExpandMenu from "./ExpandMenu";
 import { BsTools } from "react-icons/bs";
 import { FaCashRegister } from "react-icons/fa6";
-
+import { FaCarCrash } from "react-icons/fa"
 
 const FinicalMenu = ({ toggleSidebar }) => {
   const [isOpen, setIsOpen] = useState(false);

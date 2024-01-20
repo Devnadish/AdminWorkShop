@@ -32,7 +32,7 @@ function SelectOpenCard({ openCards, setCarId, carId, Client, setClient }) {
         <DropdownMenuContent className="w-[320px]">
           {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
           {openCards.map((option, index) => (
-            <DropdownMenuItem key={option.id} onClick={() => { handleSelect(option.selectedCar, option.clientId, option.clientName, option.fixOrederId, option.fixOrederAmt) }}>
+            <DropdownMenuItem key={option.id} onClick={() => { handleSelect(option.selectedCar, option.clientId, option.clientName, option.fixOrederId, option.fixOrederAmt) }} >
               <div className="flex items-center gap-4 w-full">
                 <p className="w-[80px] bg-blue-600 text-white px-1 rounded">{option.selectedCar}</p>
                 <p>{option.clientName}</p>

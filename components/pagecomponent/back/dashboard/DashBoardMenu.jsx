@@ -1,12 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Menu, Angry, Lightbulb, RefreshCcw } from "lucide-react";
+import React, { useState  } from "react";
+import { Menu, Angry, Lightbulb } from "lucide-react";
 import ClientMenu from "./ClientMenu";
 import FixOrderMenu from "./FixOrderMenu";
 import FinicalMenu from "./FinicalMenu";
 import Link from "next/link";
 import { FaChartColumn } from "react-icons/fa6";
 import { VscCommentUnresolved } from "react-icons/vsc";
+import { useRouter } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -20,15 +21,24 @@ import { FaCashRegister } from "react-icons/fa";
 import { getRecordCounts } from "@/db/dashboard";
 import Logout from "../auth/Logout";
 import Setting from "./Users";
-import { Home } from "lucide-react";
-
+import { Home, Bell } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import DesktopMenu from "./DesktopMenu";
 
 
 const DashBoardMenu = ({user}) => {
+  const router=useRouter()
   const [isOpen, setIsOpen] = useState(false);
-  const [recordCounts, setRecordCounts] = useState(null);
-  // const { data: session } = useSession();
-//  if(!user) return
+const gotoActivity=(url) => {router.push(url); return}
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -36,39 +46,30 @@ const DashBoardMenu = ({user}) => {
     setIsOpen(false);
   };
 
-  const refresData = async () => {
-    setRecordCounts("");
-    const data = await getRecordCounts();
-    setRecordCounts(data);
-  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getRecordCounts();
-      setRecordCounts(data);
-    };
-    fetchData();
-  }, []);
 
   return (
     <>
-        <div className="flex items-center justify-between sticky top-0 z-50 shadow-2xl  w-full h-14 bg-slate-800">
-          <div className="flex absolute top-0 z-50 ">
+      <div className="flex items-center justify-between sticky top-0 z-50 w-full border-b border-white/40 bg-background/95 backdrop-blur  supports-[backdrop-filter]:bg-background/60 px-8 h-[55px] ">
+        {/* mobile Menu */}
+        <div className="flex  justify-center items-center    text-sky-950  rounded-md h-10  md:hidden " id="sidebar">
             <Sheet
               open={isOpen}
               onOpenChange={setIsOpen}
               onClose={toggleSidebar}
+              className="w-1/2"
+
             >
               <SheetTrigger asChild>
                 <Button
                   variant="outline"
-                  className="bg-yellow-300  px-2 h-10  mt-2 mr-2"
+                  className="bg-yellow-300  px-2   "
                   size="sm"
                 >
-                  <Menu className="text-black" />
+                <Menu className="text-black" size={20} strokeWidth={1.25} />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="overflow-auto bg-sky-800 flex  flex-col justify-between w-full p-2 py-9">
+              <SheetContent className="overflow-auto bg-sky-800 flex  flex-col justify-between w-1/2 p-2 py-9">
                 <SidebarMenu toggleSidebar={closeSidebar} />
                 <SheetFooter>
                   <Logout />
@@ -76,11 +77,14 @@ const DashBoardMenu = ({user}) => {
               </SheetContent>
             </Sheet>
           </div>
-          <ClientActivity   recordCounts={recordCounts}     refresData={refresData}    />
-          <div className="absolute left-3 top-2   z-40 flex  justify-center items-center   bg-yellow-300 text-sky-950 rounded-md h-10 w-10">
-            <Link href={"/"}>
-              <Home size={30} />
+          {/* md menu */}
+        <div className="w-full md:w-1/2  md:flex md:items-center justify-center hidden"><DesktopMenu /></div>
+          <div className=" flex  items-center   bg-yellow-300 text-sky-950  rounded-md ">
+          <DropMenu gotoActivity={gotoActivity}  />
+          <Link className="flex items-center justify-center rounded-l-none p-0 w-8 " href={"/"}>
+            <Home size={20} strokeWidth={1.25} />
             </Link>
+
           </div>
         </div>
       )
@@ -90,13 +94,15 @@ const DashBoardMenu = ({user}) => {
 
 export default DashBoardMenu;
 
+
 const SidebarMenu = ({ toggleSidebar }) => (
   <div className="mt-4 flex flex-col gap-2 ">
-    <FastMenu toggleSidebar={toggleSidebar} />
+    {/* <FastMenu toggleSidebar={toggleSidebar} />
     <ClientMenu toggleSidebar={toggleSidebar} />
     <FixOrderMenu toggleSidebar={toggleSidebar} />
     <FinicalMenu toggleSidebar={toggleSidebar} />
-    <Setting toggleSidebar={toggleSidebar} />
+    <Setting toggleSidebar={toggleSidebar} /> */}
+    <DesktopMenu/>
   </div>
 );
 
@@ -140,28 +146,85 @@ const FastMenu = ({ toggleSidebar }) => {
 };
 
 
+const DropMenu = ({ gotoActivity }) => {
+  const [open,setOpen]=useState(false);
+  const [clientData, setClientData]=useState({});
+  const collectData = async  () => {
+    const data = await getRecordCounts();
+    setOpen(!open)
+    setClientData(pre=>data)
+  }
+  const handleClose=() => {
+    setOpen(false)
+  }
 
-function ClientActivity(props) {
-  return (
-    <div className="flex justify-center justify-center w-full">
-      <div className="border w-[280px] h-12 flex items-center justify-around">
-        <Link href={"/dashboard/clients/comment"}  className="bg-yellow-300 rounded px-2 py-1 flex items-center gap-2 ">
-          <VscCommentUnresolved size={24} />
-          <p>{props.recordCounts?.pendingComments}</p>
-        </Link>
-        <Link href={"/dashboard/clients/complain"} className="bg-red-500 text-white rounded px-1 py-1 flex items-center gap-2 ">
-          <Angry />
-          <p>{props.recordCounts?.pendingComplains}</p>
-        </Link>
-        <Link href={"/dashboard/clients/suggestion"} className="bg-blue-400 text-white rounded px-1 py-1 flex items-center gap-2 ">
-          <Lightbulb />
-          <p>{props.recordCounts?.pendingSuggestions}</p>
-        </Link>
-        <Button size={"sm"} onClick={() => props.refresData()}>
-          {" "}
-          <RefreshCcw />
-        </Button>
-      </div>
-    </div>
-  );
+const DoPush=(url)=>{
+  gotoActivity(url)
+  handleClose()
+
 }
+
+  return (
+    <>
+      <DropdownMenu open={open} onOpenChange={collectData} onClose={handleClose}   dir="RTL">
+     <DropdownMenuTrigger asChild onClick={collectData}>
+        <Button variant="outline" className="rounded-l-none p-0 w-8 " ><Bell size={20} strokeWidth={1.25} /></Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel className="bg-blue-400 text-white text-center">تفاعل العملاء</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+            <DropdownMenuItem onClick={() => DoPush("/dashboard/clients/comment")}>
+            <div className="flex items-center justify-between px-1 w-full">
+              <div className="flex items-center gap-1">
+                <VscCommentUnresolved size={15}/>
+
+              <p>مشاركات  العملاء</p>
+                </div>
+              <div className="flex gap-1 ">
+                  <span className="text-red-500 px-1   flex items-center justify-center">{clientData.pendingComments || 0}</span>
+                  <span className="text-green-500 px-1 flex items-center justify-center">{clientData.visibleComments || 0}</span>
+              </div>
+
+            </div>
+
+          </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => DoPush("/dashboard/clients/complain")}>
+            <div className="flex items-center justify-between px-1 w-full">
+                <div className="flex items-center gap-1">
+                  <Angry size={15} strokeWidth={1.25} />
+
+              <p>شكاوي  العملاء</p>
+                </div>
+              <div className="flex gap-1 ">
+                  <span className="text-red-400 px-1    flex items-center justify-center">{clientData.pendingComplains}</span>
+                  <span className="text-green-500 px-1   flex items-center justify-center">{clientData.visibleComplains}</span>
+              </div>
+
+            </div>
+
+          </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => DoPush("/dashboard/clients/suggestion")}>
+            <div className="flex items-center justify-between px-1 w-full">
+                <div className="flex items-center gap-1">
+                  <Lightbulb size={15} strokeWidth={1.25} />
+              <p>اقتراحات  العملاء</p>
+              </div>
+              <div className="flex gap-1 ">
+                  <span className="text-red-500 px-1  flex items-center justify-center">{clientData.pendingSuggestions}</span>
+                  <span className="text-green-500 px-1  flex items-center justify-center">{clientData.visibleSuggestions}</span>
+              </div>
+
+            </div>
+
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+
+
+
+
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </>
+  )}

@@ -105,7 +105,7 @@ function ReciptForm({ openCards }) {
             id="amount"
             roundedCorners="rounded-none"
             value={currentDate}
-            defaultValue={currentDate}
+            // defaultValue={currentDate}
             disabled
           />
         </div>
