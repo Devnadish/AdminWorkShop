@@ -1,6 +1,6 @@
 import * as React from "react";
 import DeleteClient from "@/app/_pagecomponent/clients/client/DeleteClient";
-
+import { Button } from '@/components/ui/button';
 import { Separator } from "@/components/ui/separator"
 import {
   Card,
@@ -28,23 +28,27 @@ function ClientCard({
           <User size={20} strokeWidth={1.25} className="text-blue-500" />
           {clientName}
         </CardTitle>
-        <div className="flex gap-2">
+        <div className="flex items-center justify-between  gap-2">
           <CardDescription className="flex items-center gap-2 shadow-lg py-1 px-2 rounded-md border border-blue-400">
             <Phone size={20} strokeWidth={1.25} className="text-blue-500" />
             {phone}
           </CardDescription>
+          <Button>اتصل</Button>
+        </div>
+        <div className="flex items-center justify-between  gap-2">
           <CardDescription className="flex items-center gap-2">
             <AtSign size={18} strokeWidth={1.25} className="text-blue-500" />
             {email}
           </CardDescription>
+          {email && <Button>ارسال</Button>}
         </div>
       </CardHeader>
-      <Separator/>
+      <Separator />
       <CardContent className="py-4">
         <div className="flex items-center justify-around  gap-4 ">
           <div className="flex gap-2">
-          <Car size={20} strokeWidth={1.25} className="text-green-500" />
-          <p className="text-sm">{carNo}</p>
+            <Car size={20} strokeWidth={1.25} className="text-green-500" />
+            <p className="text-sm">{carNo}</p>
           </div>
 
           <p className="text-sm">{carName}</p>

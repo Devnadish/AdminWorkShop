@@ -14,7 +14,12 @@ import {
   ScrollText,
   ShoppingCart,
   Smile,
-  Siren, MessageCircle, Wrench, SmilePlus, Frown
+  BookOpenText,
+  Siren,
+  MessageCircle,
+  Wrench,
+  SmilePlus,
+  Frown,
 } from "lucide-react";
 import { FaCarCrash } from "react-icons/fa";
 import { MdEditNote } from "react-icons/md";
@@ -134,5 +139,11 @@ export const settingeMenu = [
     title: "المستخدمين ",
     icon: <Smile size={20} strokeWidth={1} />,
     href: "/dashboard/signup",
+  },
+  {
+    id: 2,
+    title: "التعريفات ",
+    icon: <BookOpenText size={20} strokeWidth={1} />,
+    href: "/dashboard/definitions",
   },
 ];

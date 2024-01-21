@@ -27,11 +27,7 @@ function ShowClients({ clients }) {
                         carName={client.carName}
                         CarCount={client.CarCount}
                         id={client.id}
-
-
                     />
-
-
                 ))}
 
             {/* </ScrollArea> */}

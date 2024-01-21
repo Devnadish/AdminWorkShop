@@ -276,6 +276,7 @@ export async function displayClients() {
          CarCount: carClients.length,
          CarNo: clientCar.CarNo,
          carName: clientCar.carName,
+         id: car.clientIDs,
          // indexInCarClients: index,
        });
      });
@@ -303,26 +304,97 @@ const uniqueClientCarsArray = clientCarsArray.reduce((unique, o) => {
 }
 
 
+export async function getClient(id) {
+  const ClientData = await db.Client.findFirst({
+    where: {
+      clientIDs: id,
+    },
+  });
+  revalidatePath("/dashboard/clients/new");
+  return ClientData;
+}
+
 export async function deleteClient(id) {
 
 // check if clent has fix card
 
-  // const clientFixOrders = await db.openFixingOrder.findMany({
-  //   where: {
-  //     clientId: id,
-  //   },
-  // });
+  const clientFixOrders = await db.openFixingOrder.findFirst({
+    where: {
+      clientId: id,
+    },
+  });
+  if(clientFixOrders){return {code:400 ,msg:"يوجد حركة سابقة للعميل لايمكن الحذف  ..  راجع  الادارة"}}
 
 
   const deletedItem = await db.Client.delete({
     where: {
-      id: id,
+      clientIDs: id,
     },
   });
   revalidatePath("/dashboard/clients/new");
-  return deletedItem;
+  return {code:200 ,msg:"تم مسح ملف العميل بنجاح .."}
 
 }
+
+
+
+export async function updateClient(id, formData) {
+  const data = {
+    name: formData.get("name"),
+    mobile: formData.get("mobile"),
+    email: formData.get("email"),
+  };
+
+  const getClient = await db.Client.findFirst({
+    where: {
+      clientIDs: id,
+    },
+  });
+
+  // Check Phone
+  if (getClient.mobile !== data.mobile) {
+    const checkMobile = await db.Client.findFirst({
+      where: {
+        mobile: data.mobile,
+      },
+    });
+    if (checkMobile) {
+      return {
+        code: 400,
+        msg: "لايمكن التعديل .. الرقم مسجل باسم : " + checkMobile.name,
+      };
+    }
+  }
+  // Check email
+  if (getClient.email !== data.email) {
+    const checkMobile = await db.Client.findFirst({
+      where: {
+        email: data.email,
+      },
+    });
+    if (checkMobile) {
+      return {
+        code: 400,
+        msg: "لايمكن التعديل .. الايميل  مسجل باسم : " + checkMobile.name,
+      };
+    }
+  }
+
+  try {
+    const updatedClient = await db.Client.update({
+      where: {
+        clientIDs: id,
+      },
+      data: data,
+    });
+    revalidatePath("/dashboard/clients/new");
+    return updatedClient;
+  } catch (error) {
+    console.error("Error updating client:", error);
+    throw error; // Re-throw the error to be handled by the caller
+  }
+}
+
 
 
 export async function getClientTransactions(clientId) {
