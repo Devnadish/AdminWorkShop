@@ -14,10 +14,10 @@ function DeleteClient({ id }) {
   }
   return (
     <div className="flex items-center justify-evenly  w-full">
-      <Button onClick={() => handleDelete(id)} size="sm" className="flex items-center justify-center  h-9 h-9 bg-transparent ">
+      <Button onClick={() => handleDelete(id)} size="sm" className="flex items-center justify-center border  h-9 h-9 bg-transparent ">
         <Trash size={24} className="text-red-500   cursor-pointer" />
       </Button>
-      <Button onClick={() => handleDelete(id)} size="sm" className="flex items-center justify-center h-9 h-9 bg-transparent ">
+      <Button onClick={() => handleDelete(id)} size="sm" className="flex items-center justify-center h-9 h-9 border bg-transparent ">
         <FaUserEdit size={24} className="text-blue-500   cursor-pointer" />
       </Button>
     </div>

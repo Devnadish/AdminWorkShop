@@ -1,7 +1,7 @@
 import React from 'react'
-import {  Car } from "lucide-react";
-import DeleteClient from "@/app/_pagecomponent/clients/client/DeleteClient";
-import { ScrollArea  } from "@/components/ui/scroll-area";
+import { Car } from "lucide-react";
+
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
     Table,
     TableBody,
@@ -11,40 +11,72 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import CardComponent from '@/app/_pagecomponent/clients/display/ClientCard';
+import ShowClientCard from '../display/ShowClientCard';
+import ClientCard from '@/app/_pagecomponent/clients/display/ClientCard';
 
 function ShowClients({ clients }) {
     return (
+        <div className='grid grid-cols-1 place-items-start gap-6 md:grid-cols-4 '>
+            {/* <ScrollArea className="h-[50vh] border  rounded-md w-full flex items-center justify-center p-4 "> */}
+                {clients?.map((client) => (
+                    <ClientCard key={client.id} clientName={client.clientName}
+                        phone={client.mobile}
+                        email={client.email}
+                        carNo={client.CarNo}
+                        carName={client.carName}
+                        CarCount={client.CarCount}
+                        id={client.id}
+
+
+                    />
+
+
+                ))}
+
+            {/* </ScrollArea> */}
+        </div>
+
+    )
+}
+
+
+
+
+
+function ShowClients1({ clients }) {
+    return (
         <div className='max-w-4xl flex items-center justify-center'>
             <ScrollArea className="h-[50vh] border  rounded-md w-full flex items-center justify-center p-4 ">
-        <Table dir='RTL' className='p-2'>
-            <TableCaption className='font-tajwal text-right underline underline-offset-2 text-base' >  عدد العملاء : <span>{clients.length}</span></TableCaption>
-            <TableHeader>
-                <TableRow className=''>
-                    <TableHead className="text-right">الاسم</TableHead>
-                    <TableHead className=" text-right">الجوال</TableHead>
-                    <TableHead className=" text-right">الايميل</TableHead>
-                    <TableHead className=" text-right"> رقم السيارة</TableHead>
-                    <TableHead className=" text-right"> اسم السيارة</TableHead>
-                    <TableHead className=" text-right"> <Car /></TableHead>
-                    <TableHead className=""> </TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {clients?.map((client) => (
-                    <TableRow key={client.id}>
-                        <TableCell className="font-medium">{client.clientName}</TableCell>
-                        <TableCell className="font-medium">{client.mobile}</TableCell>
-                        <TableCell className="font-medium">{client.email}</TableCell>
-                        <TableCell className="font-medium">{client.CarNo}</TableCell>
-                        <TableCell className="font-medium">{client.carName}</TableCell>
-                        <TableCell className="font-medium">{client.CarCount}</TableCell>
-                        <TableCell className="font-medium">
-                            <DeleteClient className="text-red-500 text-2xl h-6 w-6 cursor-pointer" id={client.id} />
-                            </TableCell>
-                    </TableRow>
-                       ))}
-          </TableBody>
-        </Table>
+                <Table dir='RTL' className='p-2'>
+                    <TableCaption className='font-tajwal text-right underline underline-offset-2 text-base' >  عدد العملاء : <span>{clients.length}</span></TableCaption>
+                    <TableHeader>
+                        <TableRow className=''>
+                            <TableHead className="text-right">الاسم</TableHead>
+                            <TableHead className=" text-right">الجوال</TableHead>
+                            <TableHead className=" text-right">الايميل</TableHead>
+                            <TableHead className=" text-right"> رقم السيارة</TableHead>
+                            <TableHead className=" text-right"> اسم السيارة</TableHead>
+                            <TableHead className=" text-right"> <Car /></TableHead>
+                            <TableHead className=""> </TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {clients?.map((client) => (
+                            <TableRow key={client.id}>
+                                <TableCell className="font-medium">{client.clientName}</TableCell>
+                                <TableCell className="font-medium">{client.mobile}</TableCell>
+                                <TableCell className="font-medium">{client.email}</TableCell>
+                                <TableCell className="font-medium">{client.CarNo}</TableCell>
+                                <TableCell className="font-medium">{client.carName}</TableCell>
+                                <TableCell className="font-medium">{client.CarCount}</TableCell>
+                                <TableCell className="font-medium">
+                                    {/* <DeleteClient className="text-red-500 text-2xl h-6 w-6 cursor-pointer" id={client.id} /> */}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </ScrollArea>
         </div>
 

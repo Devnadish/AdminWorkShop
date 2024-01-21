@@ -105,7 +105,7 @@ export const fininceMenu = [
     id: 1,
     title: "سند قبض ",
     icon: <Smile size={20} strokeWidth={1} />,
-    href: "/dashboard/finince/reciet",
+    href: "/dashboard/finince/recipt",
   },
   {
     id: 2,

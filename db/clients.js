@@ -10,6 +10,7 @@ export async function addClient(client) {
         msg: `العميل موجود مسبقا باسم   ${check.cName} ورقم ${check.cId}`,
         client: check.client,
         check,
+        code: 401,
       };
     }
 
@@ -20,7 +21,7 @@ export async function addClient(client) {
        },
      });
 
-     if (existingCar) {  return { msg: "رقم اللوحة  يخص   لعميل اخر" }    }
+     if (existingCar) {  return { msg: "رقم اللوحة  يخص   لعميل اخر",code:403 }}
 
 
 
@@ -55,6 +56,7 @@ export async function addClient(client) {
     return {
       msg: "تم تأسيس كرت للعميل بنجاح ",
       clientId: ClientCounter,
+      code: 200,
     };
   } catch (error) {
     if (

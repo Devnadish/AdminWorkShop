@@ -15,8 +15,11 @@ const INPUT = ({
   w = "w-full",
   textsize = "text-[1rem]",
   bgColor="bg-white/80",
+  iconBgColor ="bg-gray-700",
   roundedCorners ="rounded-md",
+
   ...setting
+
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -40,7 +43,7 @@ const INPUT = ({
       />
       {icon && (
         <div
-        className="absolute inset-y-0 right-0 flex items-center justify-center w-[40px] pointer-events-none bg-gray-700">
+          className={`absolute inset-y-0 right-0 flex items-center justify-center w-[40px] pointer-events-none ${iconBgColor}`}>
           {icon}
         </div>
       )}

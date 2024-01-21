@@ -3,11 +3,12 @@ import React from "react";
 import INPUT from "@/components/shared/INPUT";
 import ClearButton from "@/components/shared/ClearButton";
 import Submit from "@/components/shared/Submit";
-import { Mail, Phone, User } from "lucide-react";
-import { toast } from "react-hot-toast";
+import {  Phone, User } from "lucide-react";
 import { addClient } from "@/db/clients";
 import { validateForm } from "@/lib/validation/clients";
-import { Car } from "lucide-react";
+import { toast } from "sonner"
+
+import { Car, CarFront } from "lucide-react";
 function Newform() {
   const handleSubmit = async (data) => {
     const name = data.get("name");
@@ -30,19 +31,26 @@ function Newform() {
 
     try {
       const result = await addClient(newClient);
-      toast.success(result.msg, { duration: 4000, position: "bottom-center" });
+      // toast.success(result.msg, { duration: 4000, position: "bottom-center" });
+      if (result.code === 403 || result.code === 401 ){
+        toast.error(result.msg)
+        return
+      }
+      if (result.code === 200) {
+        toast.success(result.msg )
+        return
+      }
     } catch (error) {
-      toast.error("حدث خطأ ما، يرجى المحاولة مرة أخرى", {
-        duration: 4000,
-        position: "bottom-center",
-      });
+      toast.error("حدث خطأ ما، يرجى المحاولة مرة أخرى");
     }
   };
   return (
+
+
     <form
       action={handleSubmit}
       id="newClientForm"
-      className="flex flex-col gap-4 p-4 w-full text-white items-center justify-center max-w-md border rounded-md border-white/30"
+      className="flex flex-col gap-4 p-4 w-full text-white items-center justify-center max-w-md border rounded-md border-black/30"
     >
       <div className="flex flex-col gap-4 md:flex-row">
         <INPUT
@@ -58,7 +66,8 @@ function Newform() {
           placeholder="رقم الجوال"
           icon={<Phone />}
           maxLength="10"
-        />
+          iconBgColor="bg-red-700"
+                  />
       </div>
 
       <div className="flex flex-col gap-4 md:flex-row">
@@ -67,31 +76,23 @@ function Newform() {
           name="CarNo"
           placeholder="رقم السيارة"
           icon={<Car />}
+          iconBgColor="bg-red-700"
         />
         <INPUT
           type="text"
           name="CarName"
           placeholder="اسم السيارة"
-          icon={<Car />}
+          icon={<CarFront />}
           maxLength="10"
         />
       </div>
-
-
-
-      <div className="flex flex-col gap-4 md:flex-row items-center justify-center  w-full">
-        {/* <INPUT
-          type="email"
-          name="email"
-          placeholder="الايميل"
-          icon={<Mail />}
-        /> */}
-        {/* <div className="flex items-center justify-around "> */}
-          <Submit />
+      <div className="flex flex-col gap-4 md:flex-row items-center justify-end  w-full">
+          <Submit title="حفظ العميل"/>
           <ClearButton formId={"newClientForm"} FoucFiled={"clientnameId"} />
         {/* </div> */}
       </div>
     </form>
+
   );
 }
 

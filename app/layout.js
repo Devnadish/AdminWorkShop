@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { Toaster as Sonnar} from "@/components/ui/sonner";
 import DashBoardMenu from "@/app/_pagecomponent/dashboard/MenuSide";
 import Provider, { AuthProvider } from "provider/Provider";
 import { Tajwal, Amiri } from "@/lib/fonts";
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
             {children}
           </main>
         </AuthProvider>
+        <Sonnar richColors  position="bottom-center" />
 
         <Toaster
           position="bottom-center "
