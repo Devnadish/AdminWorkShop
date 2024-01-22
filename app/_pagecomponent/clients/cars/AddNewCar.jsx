@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import { UserRoundPlus } from "lucide-react";
+import { Car } from "@/lib/icons";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,9 +10,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import Newform from "./Newform";
+import CarForm from "./CarForm";
 
-function NewBtnClient() {
+function AddNewCar({clientData}) {
   const [open, setOpen] = useState(false);
   return (
     <div className="self-end">
@@ -20,18 +20,18 @@ function NewBtnClient() {
         onClick={() => setOpen(true)}
         className="bg-green-500 text-white flex items-center gap-4 font-tajwal font-bold"
       >
-        <UserRoundPlus size={20} strokeWidth={1.25} />
-        عميل جديد
+        <Car size={20} strokeWidth={1.25} />
+        سيارة جديدة
       </Button>
 
       <AlertDialog dir="RTL" open={open} onOpenChange={setOpen}>
         <AlertDialogContent className="bg-gray-300">
           <AlertDialogHeader>
             <AlertDialogTitle className="w-full text-center font-tajwal font-bold text-xl">
-              عميل جديد
+            سيارة جديدة
             </AlertDialogTitle>
           </AlertDialogHeader>
-          <Newform setOpen={setOpen}/>
+          <CarForm setOpen={setOpen} clientData={clientData}/>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
           </AlertDialogFooter>
@@ -41,4 +41,4 @@ function NewBtnClient() {
   );
 }
 
-export default NewBtnClient;
+export default AddNewCar;

@@ -1,4 +1,3 @@
-import * as React from "react";
 import DeleteClient from "@/app/_pagecomponent/clients/client/DeleteClient";
 import { Button } from '@/components/ui/button';
 import { Separator } from "@/components/ui/separator"
@@ -22,7 +21,7 @@ function ClientCard({
   id,
 }) {
   return (
-    <Card className="w-[300px]" dir="RTL">
+    <Card className="w-[300px] min-h-[250px]" dir="RTL">
       <CardHeader className="py-4">
         <CardTitle className="flex items-center gap-2 font">
           <User size={20} strokeWidth={1.25} className="text-blue-500" />
@@ -52,7 +51,7 @@ function ClientCard({
           </div>
 
           <p className="text-sm">{carName}</p>
-          <p className="text-sm bg-green-400 text-white px-2 rounded-full">{CarCount}</p>
+          <p className="text-sm bg-blue-500 text-white px-2 rounded-full">{CarCount}</p>
         </div>
       </CardContent>
       <Separator />

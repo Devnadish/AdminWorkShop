@@ -3,13 +3,13 @@ import React from "react";
 import INPUT from "@/components/shared/INPUT";
 import ClearButton from "@/components/shared/ClearButton";
 import Submit from "@/components/shared/Submit";
-import {  Phone, User } from "lucide-react";
+import {  Phone, User,Car,  CarFront } from "@/lib/icons"
 import { addClient } from "@/db/clients";
 import { validateForm } from "@/lib/validation/clients";
 import { toast } from "sonner"
 
-import { Car, CarFront } from "lucide-react";
-function Newform() {
+
+function Newform({setOpen}) {
   const handleSubmit = async (data) => {
     const name = data.get("name");
     const mobile = data.get("mobile");
@@ -38,12 +38,15 @@ function Newform() {
       }
       if (result.code === 200) {
         toast.success(result.msg )
+        setOpen(false)
         return
       }
+
     } catch (error) {
       toast.error("حدث خطأ ما، يرجى المحاولة مرة أخرى");
     }
   };
+  
   return (
 
 
@@ -59,6 +62,8 @@ function Newform() {
           placeholder="اسم العميل"
           icon={<User />}
           id="clientnameId"
+          iconBgColor=" bg-gray-500"
+
         />
         <INPUT
           type="text"
@@ -66,7 +71,8 @@ function Newform() {
           placeholder="رقم الجوال"
           icon={<Phone />}
           maxLength="10"
-          iconBgColor="bg-red-700"
+          iconBgColor="bg-amber-700"
+         
                   />
       </div>
 
@@ -76,7 +82,7 @@ function Newform() {
           name="CarNo"
           placeholder="رقم السيارة"
           icon={<Car />}
-          iconBgColor="bg-red-700"
+          iconBgColor="bg-amber-700"
         />
         <INPUT
           type="text"
@@ -84,6 +90,8 @@ function Newform() {
           placeholder="اسم السيارة"
           icon={<CarFront />}
           maxLength="10"
+          iconBgColor=" bg-gray-500"
+         
         />
       </div>
       <div className="flex flex-col gap-4 md:flex-row items-center justify-end  w-full">
