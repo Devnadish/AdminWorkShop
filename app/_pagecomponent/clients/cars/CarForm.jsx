@@ -60,7 +60,7 @@ function CarForm({ clientData, setOpen }) {
         name="CarNo"
         placeholder=" رقم اللوحة الاجنبي"
         icon={<Car />}
-        iconBgColor="bg-systemColor-alzami"
+        iconBgColor="bg-systemColor-required"
       />
 
       <INPUT

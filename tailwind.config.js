@@ -51,7 +51,13 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         systemColor:{
-          alzami:"hsl(var(--alzami))",
+          required:"hsl(var(--required))",
+          optional:"hsl(var(--optional))",
+          balnceFromClient:"hsl(var(--balnceFromClient))",
+          balnceToClient:"hsl(var(--balnceToClient))",
+          info:"hsl(var(--info))",
+          update:"hsl(var(--update))",
+          delete:"hsl(var(--delete))",
         }
       },
       borderRadius: {

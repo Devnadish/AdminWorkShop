@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { User,  Car } from "@/lib/icons";
 import CardActions from "./CardActions";
+import ShowDate from "@/components/shared/ShowDate";
 
 const CarsCard = ({ cars,clientData }) => {
   return (
@@ -30,9 +31,10 @@ const SingleCard = ({ car,clientData }) => {
       dir="RTL"
     >
       <CardHeader className="py-1">
+      <ShowDate create={car.createdDate} update={car.updatedDate}/>
       <div className="flex items-center  justify-between gap-2">
         <div className="flex items-center gap-2">
-          <Car size={40} strokeWidth={1.25} className="text-green-500" />
+          <Car size={40} strokeWidth={1.25} className="text-green-500 " />
           <CardTitle className="flex items-center gap-2 font">
             {car.CarNo}
           </CardTitle>

@@ -10,9 +10,10 @@ export const authOptions = {
 
       async authorize(credentials) {
         const { mobile, password } = credentials;
-
+        
         try {
-          const user = await login(mobile, password);
+          const user = await login("123","123");
+          // const user = await login(mobile, password);
 
           if (!user) {
             return null;

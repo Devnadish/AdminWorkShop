@@ -10,7 +10,7 @@ function SelectClient({ clientData, ClientId, setClientId }) {
   };
 
   return (
-    <div className="flex items-center justify-center border   bg-systemColor-alzami">
+    <div className="flex items-center justify-center border   bg-systemColor-required">
       <div className="w-[50px] flex items-center justify-center bg--600 h-8">
         <Users />
       </div>

@@ -153,14 +153,15 @@ if(carData){
           }
           bgColor="bg-white/30"
         />
-        <div className="flex items-center justify-start w-full bg-black py-3 px-3 rounded">
-          <div className="flex items-center justify-between gap-3 w-full">
+        <div className="flex items-center justify-start w-full bg-black py-3 px-3 rounded gap-4">
+          <div className="flex items-center justify-between gap-3 flex-1">
             <INPUT
               placeholder="Car Plate Number"
               name="car"
               icon={<CarIcon />}
               value={Carid}
               onChange={(e) => setCarid(e.target.value)}
+              iconBgColor="bg-systemColor-required"
             />
 
             <Button
@@ -169,8 +170,8 @@ if(carData){
             >
               <CheckCircle size={24} />
             </Button>
-
-            <div className="flex items-center gap-3 border flex-grow p-1 rounded border-white/40 text-white/60 ">
+            </div>
+            <div className="flex items-center gap-3 border flex-grow p-1 rounded border-white/40 text-white/60 flex-1">
               <span>
                اسم العميل :
               </span>
@@ -185,16 +186,16 @@ if(carData){
             >
               <Search size={24} />
             </Button>
-          </div>
+          
         </div>
 
       </div>
 
-      <div className="flex items-center justify-center flex-col gap-4  border rounded-md border-white/30 p-4">
+      {/* <div className="flex items-center justify-center flex-col gap-4  border rounded-md border-white/30 p-4"> */}
         <form
           action={handlesubmit}
           id="fixingForm"
-          className="flex flex-col items-center justify-center  w-full gap-3 bg-gray-800 p-2 mb-4 "
+          className="flex items-center justify-center flex-col gap-4 shadow-lg  border rounded-md border-white/30 p-4 bg-gray-700"
         >
           <Textarea
             placeholder="الخدمة المطلوبة"
@@ -209,12 +210,14 @@ if(carData){
               name="engName"
               icon={<BiHardHat />}
               h="h-10"
+              iconBgColor="bg-systemColor-optional"
             />
             <INPUT
               placeholder="موعد التسليم"
               name="deliveryDate"
               icon={<FaCalendarCheck />}
               h="h-10"
+              iconBgColor="bg-systemColor-optional"
             />
           </div>
 
@@ -224,18 +227,20 @@ if(carData){
               type="number"
               name="totalCost"
               onChange={(event) => setTotalCost(event.target.value)}
-              bgColor="bg-red-300"
+              // bgColor="bg-red-300"
               icon={<FaCashRegister />}
-              h="h-12"
+              h="h-9"
+              iconBgColor="bg-systemColor-required"
             />
             <INPUT
               placeholder="المبلغ المستلم"
               type="number"
               name="receivedAmount"
               onChange={(event) => setReceivedAmount(event.target.value)}
-              bgColor="bg-blue-300"
+              // bgColor="bg-blue-300"
               icon={<BsCashStack />}
-              h="h-12"
+              iconBgColor="bg-systemColor-optional"
+              h="h-9"
             />
 
             <INPUT
@@ -244,7 +249,7 @@ if(carData){
               disabled
               onChange={(event) => setDueAmount(event.target.value)}
               icon={<FaBalanceScale />}
-              h="h-12"
+              h="h-9"
             />
           </div>
 
@@ -253,7 +258,7 @@ if(carData){
             <ClearButton formId={"fixingForm"} FoucFiled={"serviceDetail"} />
           </div>
         </form>
-      </div>
+      {/* </div> */}
       {isShow && <ShowCars isShow={isShow} setIsShow={setIsShow} carData={carData} />}
     </div>
   );

@@ -78,9 +78,11 @@ const DashBoardMenu = ({ user }) => {
         </Sheet>
       </div>
       {/* md menu */}
-
-      <div className="w-full md:w-1/2  md:flex md:items-center justify-center hidden "><DesktopMenu /></div>
+    
+      <div className="w-full md:w-1/2  md:flex md:items-center justify-center hidden gap-4"><DesktopMenu /> </div>
+      <div className="text-white bg-purple-600 px-5 py-1 rounded-md font-tajwal font-bold animate-pulse text-xl">  <p>مازال النظام تحت التطوير</p></div>
       <div className="flex items-center gap-4">
+      
         <FastMenu />
         <div className=" flex  items-center   bg-yellow-300 text-sky-950  rounded-md ">
           <ClientActivityDropMenu gotoActivity={gotoActivity} />

@@ -10,8 +10,8 @@ async function page() {
   const fixOrder = await getAllOpenCard();
   return (
     <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">
-      <div className="w-[300px] mt-1">
-        <Caption title={"عدد الكروت "} data={fixOrder.length} fonSize="text-xl" titleBgColor="bg-green-600" align={"center"} dataBgColor="bg-green-700" />
+      <div className="w-full max-w-md mt-1">
+        <Caption title={"كروت الصيانة المفتوحة "} data={fixOrder.length} fonSize="text-xl" titleBgColor="bg-green-600" align={"center"} dataBgColor="bg-green-700" />
       </div>
 
       <div className="overflow-x-auto flex flex-wrap items-start justify-center w-full">

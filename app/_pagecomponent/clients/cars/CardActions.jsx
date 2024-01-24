@@ -159,7 +159,7 @@ const FormAction = ({ type, CarData, setCarData, setOpen }) => {
         
           placeholder=" اسم العميل"
           icon={<User />}
-          iconBgColor="bg-systemColor-alzami"
+          iconBgColor="bg-systemColor-required"
           disabled 
         />
 
@@ -169,7 +169,7 @@ const FormAction = ({ type, CarData, setCarData, setOpen }) => {
           value={CarData.CarNo}
           placeholder=" رقم اللوحة الاجنبي"
           icon={<Car />}
-          iconBgColor="bg-systemColor-alzami"
+          iconBgColor="bg-systemColor-required"
           disabled 
         />
 

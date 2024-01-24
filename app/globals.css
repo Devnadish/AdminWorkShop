@@ -28,7 +28,22 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     
-    --alzami:0 62.8% 30.6%;
+    --required:0 62.8% 30.6%;
+    --optional:220 8.9% 46.1%;
+
+    --balnceFromClient:142.1 70.6% 45.3%;
+    --balnceToClient:24.6 95% 53.1%;
+    
+    --info:217.2 91.2% 59.8%;
+    --update:83.7 80.5% 44.3%;
+    --delete:0 72.2% 50.6%;
+
+
+
+
+
+
+
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
