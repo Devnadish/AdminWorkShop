@@ -90,15 +90,15 @@ clientsWithCars.forEach(car => {
 }
 
 
-export async function getClientsWithCars() {
- const data = await db.car.findMany({
-   orderBy: {
-     clientId: "asc",
-   },
- });
-  return data
+// export async function getClientsWithCars() {
+//  const data = await db.car.findMany({
+//    orderBy: {
+//      clientId: "asc",
+//    },
+//  });
+//   return data
 
-}
+// }
 
 export async function getCarsData() {
   const cars = await db.car.findMany();

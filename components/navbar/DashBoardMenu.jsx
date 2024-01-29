@@ -15,7 +15,7 @@ import { FaCarCrash } from "react-icons/fa";
 import { FaCashRegister } from "react-icons/fa";
 
 import { getRecordCounts } from "@/db/dashboard";
-import Logout from "@/app/_pagecomponent/auth/Logout";
+import Logout from "@/app/(mangment)/dashboard/signup/_component/Logout";
 import { Home, Bell, Smile, UserRoundPlus } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import DesktopMenu from "./DesktopMenu";
 import Ttip from "@/components/shared/Ttip"
-import HeaderNewClient from "@/app/_pagecomponent/clients/client/HeaderNewClient";
+import HeaderNewClient from "@/app/(mangment)/dashboard/clients/_component/HeaderNewClient";
 
 
 const DashBoardMenu = ({ user }) => {
@@ -125,7 +125,7 @@ const FastMenu = () => {
 
       <Ttip tool={"سند صرف تشغليلي"}>
         <Link
-          href={"/dashboard/finince/fixpayment"}
+          href={"/dashboard/finince/payment/fixpayment"}
           // onClick={() => toggleSidebar()}
           prefetch={true}
           className={`${linkStyle} `}

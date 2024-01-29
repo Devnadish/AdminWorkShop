@@ -1,5 +1,5 @@
-import CardActions from "@/app/_pagecomponent/fixing/CardActions";
-import DisplayNOte from "@/app/_pagecomponent/fixing/DisplayNOte";
+import CardActions from "@/app/(mangment)/dashboard/fixing/_component/CardActions";
+import DisplayNOte from "@/app/(mangment)/dashboard/fixing/_component/DisplayNOte";
 import Caption, { DateCaption, VCaption } from "@/components/shared/Caption";
 import { getAllOpenCard } from "@/db/fixing"
 

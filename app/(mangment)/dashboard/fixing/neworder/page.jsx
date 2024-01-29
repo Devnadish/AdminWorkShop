@@ -1,4 +1,4 @@
-import NewFixOrder from "@/app/_pagecomponent/fixing/NewFixOrder";
+import NewFixOrder from "@/app/(mangment)/dashboard/fixing/_component/NewFixOrder";
 import React from "react";
 import { getAllClients } from "@/db/clients";
 import { getCarsData } from "@/db/cars";

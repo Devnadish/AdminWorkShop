@@ -2,7 +2,7 @@ import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { Toaster as Sonnar} from "@/components/ui/sonner";
-import DashBoardMenu from "@/app/_pagecomponent/dashboard/MenuSide";
+import DashBoardMenu from "@/app/dashboard/_component/MenuSide";
 import Provider, { AuthProvider } from "provider/Provider";
 import { Tajwal, Amiri } from "@/lib/fonts";
 

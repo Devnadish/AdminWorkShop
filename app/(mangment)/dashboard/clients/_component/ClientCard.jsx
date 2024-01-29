@@ -1,4 +1,4 @@
-import DeleteClient from "@/app/_pagecomponent/clients/client/DeleteClient";
+import DeleteClient from "@/app/(mangment)/dashboard/clients/_component/DeleteClient";
 import { Button } from '@/components/ui/button';
 import { Separator } from "@/components/ui/separator"
 import {

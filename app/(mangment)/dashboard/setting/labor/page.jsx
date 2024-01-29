@@ -1,4 +1,4 @@
-import NewLabor from "@/app/_pagecomponent/labor/NewLabor";
+import NewLabor from "@/app/(mangment)/dashboard/setting/_component/NewLabor";
 import DeleteExpinces from "@/components/shared/DeleteExpinces";
 import PageTitle from "@/components/shared/PageTitle";
 import { displayAllLabor } from "@/db/labor";

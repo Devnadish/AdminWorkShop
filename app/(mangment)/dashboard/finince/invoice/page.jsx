@@ -1,6 +1,6 @@
-import CloseCardActions from "@/app/_pagecomponent/fixing/CloseCardActions";
-import CreateInvoice from "@/app/_pagecomponent/invoice/CreateInvoice";
-import ShareInvoice from "@/app/_pagecomponent/invoice/ShareInvoice";
+import CloseCardActions from "@/app/(mangment)/dashboard/fixing/_component/CloseCardActions";
+import CreateInvoice from "@/app/(mangment)/dashboard/finince/invoice/_component/CreateInvoice";
+import ShareInvoice from "@/app/(mangment)/dashboard/finince/invoice/_component/ShareInvoice";
 import Caption, { DateCaption } from "@/components/shared/Caption";
 import { getAllOpenFixOrder } from "@/db/fixing";
 import React from "react";

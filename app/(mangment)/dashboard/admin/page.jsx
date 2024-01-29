@@ -1,4 +1,4 @@
-import InfoBox, { InfoBoxWithNoBalance} from "@/app/_pagecomponent/dashboard/InfoBox"
+import InfoBox, { InfoBoxWithNoBalance} from "@/app/dashboard/_component/InfoBox"
 import {
   calculateClientRecipts,
   calculateClientSums,
@@ -17,12 +17,12 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { FaTools } from "react-icons/fa";
 import { GiOfficeChair } from "react-icons/gi";
 
-import FixingInfo from "@/app/_pagecomponent/dashboard/FixingInfo";
-import ClientTransaction from "@/app/_pagecomponent/dashboard/ClientTransaction";
-import MangmentExpense from "@/app/_pagecomponent/dashboard/MangmentExpense";
-import FininceInfo from "@/app/_pagecomponent/dashboard/FininceInfo";
-import FixingExpenses from "@/app/_pagecomponent/dashboard/FixingExpenses";
-import GeneralInfo from "@/app/_pagecomponent/dashboard/GeneralInfo";
+import FixingInfo from "@/app/dashboard/_component/FixingInfo";
+import ClientTransaction from "@/app/dashboard/_component/ClientTransaction";
+import MangmentExpense from "@/app/dashboard/_component/MangmentExpense";
+import FininceInfo from "@/app/dashboard/_component/FininceInfo";
+import FixingExpenses from "@/app/dashboard/_component/FixingExpenses";
+import GeneralInfo from "@/app/dashboard/_component/GeneralInfo";
 
 export const dynamic = "force-dynamic";
 export default async function Dashboard() {

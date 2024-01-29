@@ -11,6 +11,6 @@ export const config = {
   matcher: [
     "/dashboard",
     "/dashboard/clients/new",
-    "/dashboard/clients/display",
+    
   ],
 };

@@ -4,7 +4,7 @@ import INPUT from "@/components/shared/INPUT";
 import Submit from "@/components/shared/Submit";
 import React, { useState } from "react";
 import { AddNewCar } from "@/db/cars";
-import SelectClient from "@/app/_pagecomponent/clients/cars/SelectClient";
+import SelectClient from "@/app/(mangment)/dashboard/car/_component/SelectClient";
 import { toast } from "sonner";
 import { validateForm } from "@/lib/validation/addCar";
 import { CarFront, Car, GiKeyCard, RiCalendar2Fill } from "@/lib/icons";

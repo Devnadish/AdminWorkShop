@@ -1,5 +1,5 @@
 // "use client"
-import DisplayInvoice from "@/app/_pagecomponent/invoice/DisplayInvoice";
+import DisplayInvoice from "@/app/(mangment)/dashboard/finince/invoice/_component/DisplayInvoice";
 import { collectInvoice } from "@/db/invoice";
 import React from "react";
 

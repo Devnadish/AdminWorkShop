@@ -1,8 +1,5 @@
-import { GiCash } from "react-icons/gi";
-import { LiaCashRegisterSolid } from "react-icons/lia";
-import { HiMiniUserGroup } from "react-icons/hi2";
-import { FaTools } from "react-icons/fa";
-import { GiOfficeChair } from "react-icons/gi";
+import { GiCash,LiaCashRegisterSolid,HiMiniUserGroup,FaTools,GiOfficeChair } from '@/lib/icons';
+
 const FininceInfo = ({
   totalIncome,
   clientBalance,

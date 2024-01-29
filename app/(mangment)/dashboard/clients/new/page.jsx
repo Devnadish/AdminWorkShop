@@ -1,8 +1,8 @@
 import PageTitle from "@/components/shared/PageTitle";
 import { User } from "lucide-react";
 import { displayClients } from "@/db/clients";
-import ShowClients from "@/app/_pagecomponent/clients/client/ShowClients";
-import NewBtnClient from "@/app/_pagecomponent/clients/client/NewBtnClient";
+import ShowClients from "@/app/(mangment)/dashboard/clients/_component/ShowClients";
+import NewBtnClient from "@/app/(mangment)/dashboard/clients/_component/NewBtnClient";
 
 export const dynamic = "force-dynamic";
 

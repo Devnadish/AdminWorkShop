@@ -4,21 +4,21 @@ import { revalidatePath } from "next/cache";
 
 
 
-export async function addTextComment(data) {
-  try {
-    // Check if the CarNo already exists for another client
+// export async function addTextComment(data) {
+//   try {
+//     // Check if the CarNo already exists for another client
 
-    const comment = await db.comment.create({ data });
-    revalidatePath("/");
-    revalidatePath("/dashboard/clients/comment");
-    return {
-      msg: "نشكر اهتمامك ... تم ارسال التعليق ستم عرضه خلال 48 ساعه للمراجعة",
-    };
-  } catch (error) {
-    console.error(error);
-    return "An error occurred while adding the car";
-  }
-}
+//     const comment = await db.comment.create({ data });
+//     revalidatePath("/");
+//     revalidatePath("/dashboard/clients/comment");
+//     return {
+//       msg: "نشكر اهتمامك ... تم ارسال التعليق ستم عرضه خلال 48 ساعه للمراجعة",
+//     };
+//   } catch (error) {
+//     console.error(error);
+//     return "An error occurred while adding the car";
+//   }
+// }
 export async function getAllComments() {
   try {
     const comments = await db.comment.findMany({

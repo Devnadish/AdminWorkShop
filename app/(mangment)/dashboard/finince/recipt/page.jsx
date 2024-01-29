@@ -1,7 +1,7 @@
 
 
 import PageTitle from "@/components/shared/PageTitle";
-import ReciptForm from "@/app/_pagecomponent/reciptform/ReciptForm";
+import ReciptForm from "@/app/(mangment)/dashboard/finince/recipt/_component/ReciptForm";
 import OpenFixCard from "@/components/shared/OpenFixCard";
 import { getCarsFromOpenFixOrder } from "@/db/fixing";
 

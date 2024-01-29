@@ -54,7 +54,7 @@ export const clientMenu = [
     id: 2,
     title: "  اضافة سيارة",
     icon: <Car size={20} strokeWidth={1} />,
-    href: "/dashboard/clients/addcar",
+    href: "/dashboard/car/new",
   },
   {
     id: 3,
@@ -62,12 +62,7 @@ export const clientMenu = [
     icon: <Receipt size={20} strokeWidth={1} />,
     href: "/dashboard/clients/statment/",
   },
-  {
-    id: 4,
-    title: " ارصدة العملاء",
-    icon: <Scale size={20} strokeWidth={1} />,
-    href: "/dashboard/clients/display",
-  },
+ 
 ];
 
 export const maintainanceMenu = [
@@ -116,13 +111,13 @@ export const fininceMenu = [
     id: 2,
     title: "سند صرف تشغيلي",
     icon: <Wrench size={20} strokeWidth={1} />,
-    href: "/dashboard/finince/fixpayment",
+    href: "/dashboard/finince/payment/fixpayment",
   },
   {
     id: 3,
     title: "سند صرف اداري",
     icon: <Frown size={20} strokeWidth={1} />,
-    href: "/dashboard/finince/mangmentpayment",
+    href: "/dashboard/finince/payment/mangmentpayment",
   },
   {
     id: 4,

@@ -15,7 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import SelectOpenCard from "@/app/_pagecomponent/finice/SelectOpenCard";
+import SelectOpenCard from "@/app/(mangment)/dashboard/finince/_component/SelectOpenCard";
 import { savePaymentVoucher } from "@/db/payment";
 
 function PaymentVoucher({ openCards }) {

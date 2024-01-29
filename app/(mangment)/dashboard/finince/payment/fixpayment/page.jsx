@@ -3,7 +3,7 @@ import {  Wrench } from "lucide-react";
 
 import OpenFixCard from "@/components/shared/OpenFixCard";
 import { getCarsFromOpenFixOrder } from "@/db/fixing";
-import PaymentVoucher from "@/app/_pagecomponent/payment/PaymentVoucher";
+import PaymentVoucher from "@/app/(mangment)/dashboard/finince/payment/_component/PaymentVoucher";
 export const dynamic = "force-dynamic";
 const FixPaymentVoucher = async () => {
   const openCards = await getCarsFromOpenFixOrder()

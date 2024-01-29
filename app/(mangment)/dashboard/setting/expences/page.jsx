@@ -1,4 +1,4 @@
-import NewExpencis from "@/app/_pagecomponent/Expences/NewExpencis";
+import NewExpencis from "@/app/(mangment)/dashboard/finince/payment/_component/NewExpencis";
 import DeleteExpinces from "@/components/shared/DeleteExpinces";
 import PageTitle from "@/components/shared/PageTitle";
 import { displayAllExpencies } from "@/db/expencisData";

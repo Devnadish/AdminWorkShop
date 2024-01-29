@@ -1,4 +1,4 @@
-import CardActions from "@/app/_pagecomponent/fixing/CardActions";
+import CardActions from "@/app/(mangment)/dashboard/fixing/_component/CardActions";
 import Caption, { DateCaption, VCaption } from "@/components/shared/Caption";
 import { getAllFixOrder } from "@/db/fixing"
 

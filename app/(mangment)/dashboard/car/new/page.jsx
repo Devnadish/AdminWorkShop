@@ -3,9 +3,9 @@ import { Car } from "@/lib/icons";
 import { fetchClientNames } from "@/db/clients";
 
 import PageTitle from "@/components/shared/PageTitle";
-import CarsCard from "@/app/_pagecomponent/clients/cars/CarsCard";
+import CarsCard from "@/app/(mangment)/dashboard/car/_component/CarsCard";
 import { getCarData } from "@/db/cars";
-import AddNewCar from "@/app/_pagecomponent/clients/cars/AddNewCar";
+import AddNewCar from "@/app/(mangment)/dashboard/car/_component/AddNewCar";
 
 export const dynamic = "force-dynamic";
 async function AddCar() {

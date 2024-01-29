@@ -1,4 +1,4 @@
-import ShowComments from '@/app/_pagecomponent/clients/comments/ShowComments';
+import ShowComments from '@/app/(mangment)/dashboard/clients/comment/_component/ShowComments';
 import PageTitle from '@/components/shared/PageTitle';
 import {  getAllCommentsForAdmin } from '@/db/comments';
 import {  MessagesSquare } from "lucide-react";
