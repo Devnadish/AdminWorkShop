@@ -1,6 +1,6 @@
 import NewFixOrder from "@/app/(mangment)/dashboard/fixing/_component/NewFixOrder";
 import React from "react";
-import { getAllClients } from "@/db/clients";
+import { getAllClients, getAllClientsFixCard } from "@/db/clients";
 import { getCarsData } from "@/db/cars";
 import { displayAllLabor } from "@/db/labor";
 
@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 async function NewFix() {
   try {
-    const clientdb = getAllClients();
+    const clientdb = getAllClientsFixCard();
     const carDatadb = getCarsData()
     const laborDatadb = displayAllLabor()
 

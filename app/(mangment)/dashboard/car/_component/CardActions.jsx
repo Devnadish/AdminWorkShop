@@ -23,7 +23,6 @@ import {
   User,
 } from "@/lib/icons";
 import { toast } from "sonner";
-import SelectClient from "./SelectClient";
 
 function CardActions({ id }) {
   const [open, setOpen] = useState(false);

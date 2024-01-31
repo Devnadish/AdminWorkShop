@@ -16,6 +16,7 @@ export const savePaymentVoucher = async (formData) => {
       client: data.fromName,
       fixNo: data.fixingCode,
       amt: data.amount,
+      detail:newVoucher.detail
     };
     return newVoucher;
 

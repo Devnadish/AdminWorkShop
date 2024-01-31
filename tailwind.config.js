@@ -1,13 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["./app/**/*.{js,jsx}", "./components/**/*.{js,jsx}"],
+  content: [
+    './pages/**/*.{js,jsx}',
+    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
+    './src/**/*.{js,jsx}',
+  ],
   prefix: "",
   theme: {
-    fontFamily: {
-      tajwal: ["var(--font-Tajwal)"],
-      amiri: ["var(--font-amiri)"],
-    },
     container: {
       center: true,
       padding: "2rem",
@@ -50,15 +51,6 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        systemColor:{
-          required:"hsl(var(--required))",
-          optional:"hsl(var(--optional))",
-          balnceFromClient:"hsl(var(--balnceFromClient))",
-          balnceToClient:"hsl(var(--balnceToClient))",
-          info:"hsl(var(--info))",
-          update:"hsl(var(--update))",
-          delete:"hsl(var(--delete))",
-        }
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -82,4 +74,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+}

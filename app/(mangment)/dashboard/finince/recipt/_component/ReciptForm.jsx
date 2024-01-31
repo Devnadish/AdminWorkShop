@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CircleDollarSign, Calendar} from "lucide-react";
 import INPUT from "@/components/shared/INPUT";
 import ClearButton from "@/components/shared/ClearButton";
-import toast from "react-hot-toast";
+import { toast } from "sonner"
 import { validateForm } from "@/lib/validation/recipt";
 import { saveRecietVoucher } from "@/db/reciet";
 import {
@@ -17,10 +17,9 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import SelectOpenCard from "@/app/(mangment)/dashboard/finince/_component/SelectOpenCard";
+import { ShowAlert } from "../../_component/ShowAlert";
 
-function ReciptForm({ openCards }) {
-  const [carId, setCarId] = useState("")
-  const [Client, setClient] = useState({ claientId: "", clientName: "", fixOrederId: "", fixAmount: 0 })
+function ReciptForm({ fromID,  fromName,  fixingCode }) {
   const [result, setResult] = useState({});
   const [open, setOpen] = useState(false);
   var today = new Date();
@@ -29,7 +28,6 @@ function ReciptForm({ openCards }) {
   var day = String(today.getDate()).padStart(2, '0');
   var currentDate = day + '-' + month + '-' + year;
 
-  // var currentDate = today.toISOString().slice(0, 10);
 
 
   const handleSubmit = async (data) => {
@@ -38,13 +36,13 @@ function ReciptForm({ openCards }) {
     const docDate = new Date(data.get("docDate")).toISOString().slice(0, 10);
     const RecietData = {
       detail,
-      fromID: parseFloat(Client.claientId) || null,
-      fromName: Client.clientName,
+      fromID: parseFloat(fromID) || null,
+      fromName: fromName,
       amount,
-      fixingCode: parseFloat(Client.fixOrederId) || null,
+      fixingCode: parseFloat(fixingCode) || null,
       docDate,
     };
-    const validation = validateForm(RecietData, Client.fixAmount);
+    const validation = validateForm(RecietData);
     if (!validation.isValid) {
       toast.error(validation.errorMessage);
       return;
@@ -59,8 +57,6 @@ function ReciptForm({ openCards }) {
       fixNo: Reciet.fixNo,
       msg: Reciet.msg,
     });
-    setCarId("")
-    setClient({ claientId: "", clientName: "", fixOrederId: "", fixAmount: 0 })
     document.getElementById("RecietForm").reset()
     setOpen(true);
   };
@@ -71,16 +67,13 @@ function ReciptForm({ openCards }) {
 
 
   return (
-    <div className="flex flex-col items-center justify-center w-full  border p-4 rounded-md border-white/30 gap-4">
-      <SelectOpenCard openCards={openCards} setCarId={setCarId} carId={carId} Client={Client} setClient={setClient}/>
+    <>
       <form
         action={handleSubmit}
         id="RecietForm"
-        className=" w-full flex flex-col items-center gap-2 "
+        className=" w-full flex flex-col items-center gap-2 bg-gray-400 rounded-md  shadow-lg py-3"
       >
-        <div className=" flex items-center justify-between     gap-4 w-full ">
-          {/* <FindCar/> */}
-
+        <div className=" flex items-center justify-between w-full  border-b p-4  gap-4">
           <INPUT
             placeholder={"المبلغ"}
             name={"amount"}
@@ -90,89 +83,43 @@ function ReciptForm({ openCards }) {
             h="h-9"
             w="w-[170px]"
             textsize="text-[1.5rem]"
-            bgColor="bg-gray-300"
+            bgColor="bg-white"
             id="amount"
             roundedCorners="rounded-none"
+            iconBgColor="bg-red-500"
           />
           <INPUT
-            // placeholder={"التاريخ"}
             name={"amount"}
             type={"text"}
             icon={<Calendar />}
             w="w-[170px]"
             textsize="text-[1rem]"
-            bgColor="bg-gray-300"
+            bgColor="bg-white"
             id="amount"
             roundedCorners="rounded-none"
             value={currentDate}
-            // defaultValue={currentDate}
             disabled
           />
         </div>
-        {/* header */}
-
-        <div className="relative   w-full  ">
-
+        <div className="relative   w-full px-3 ">
           <Textarea
             type="text"
             name="detail"
             placeholder="وصف السند"
-            className="border border-gray-300 rounded px-4 py-2 w-full resize-none"
+            className="border bg-white border-red-500 rounded-md px-4 py-2 w-full resize-none"
             rows={3}
           />
         </div>
 
-        <div className="flex items-center gap-4  w-1/2 self-end">
-          <Submit />
+        <div className="flex items-center gap-4  justify-end px-3 w-full">
+        <Submit color="bg-red-500" title="حفظ سند القبض" />
           <ClearButton formId={"RecietForm"} FoucFiled={"amount"} />
         </div>
       </form>
       <ShowAlert open={open} setIsopen={setOpen} data={result} />
-    </div>
+    </>
   );
 }
 
 export default ReciptForm;
 
-const ShowAlert = ({ open, setIsopen, data }) => {
-  return (
-
-    <AlertDialog open={open}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>تم انشاء سند فبض</AlertDialogTitle>
-        </AlertDialogHeader>
-
-        <div className="flex flex-col">
-          <div className="flex items-center justify-between border-b-2  py-1 mb-5">
-            <p className="flex gap-4 ">
-              <span>رقم السند</span>
-              <span className="">{data.recietNo}</span>
-            </p>
-            <p className="flex gap-4">
-              <span>رقم امر الاصلاح</span>
-              {data.fixNo}
-            </p>
-          </div>
-
-          <p className="flex gap-4">
-            <span>اسم العميل</span>
-            {data.client}
-          </p>
-          <p className="flex gap-4 bg-green-950 text-white self-end px-4 py-2 rounded text-xl font-semibold">
-            <span>المبلغ</span>
-            <span className="bg-red-500 px-3 rounded">
-              {data.amt}
-            </span>
-          </p>
-        </div>
-
-        <AlertDialogFooter className="flex items-center gap-4">
-          <AlertDialogAction onClick={() => setIsopen(false)}>
-            اغلاق
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}

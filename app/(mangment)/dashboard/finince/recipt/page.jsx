@@ -2,18 +2,19 @@
 
 import PageTitle from "@/components/shared/PageTitle";
 import ReciptForm from "@/app/(mangment)/dashboard/finince/recipt/_component/ReciptForm";
-import OpenFixCard from "@/components/shared/OpenFixCard";
+import OpenFixCard from "@/app/(mangment)/dashboard/finince/_component/OpenFixCard";
 import { getCarsFromOpenFixOrder } from "@/db/fixing";
+import {  LiaCashRegisterSolid } from "@/lib/icons";
 
 export const dynamic = "force-dynamic";
 const RecietVoucher = async () => {
   const openCards = await getCarsFromOpenFixOrder()
   return (
-    <div className=" flex flex-col gap-4 max-w-3xl mx-auto gap-4 w-full">
-      <PageTitle title="سند قبض" />
+    <div className=" flex flex-col  max-w-6xl mx-auto  w-full">
+      <PageTitle title="سند قبض" bgColor="bg-green-500" icon={<LiaCashRegisterSolid size={34}/>}/>
 
-      <ReciptForm openCards={openCards}/>
-      <OpenFixCard/>
+      {/* <ReciptForm openCards={openCards}/> */}
+      <OpenFixCard type="recipt"/>
     </div>
   );
 };

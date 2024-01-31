@@ -1,15 +1,15 @@
 import React from 'react'
 
-function PageTitle({ title, icon, bgColor = "bg-sky-800" }) {
+function PageTitle({ title, icon, bgColor = "bg-sky-800",textColor="text-white" }) {
   return (
     <div
-      className={`  w-full  shadow-2xl mb-4 mt-1 h-14  flex items-center justify-center gap-4 `}
+      className="  w-full   h-16  flex items-center justify-center gap-4  mb-5 "
     >
       <div
-        className={`text-xl font-bold ${bgColor} flex items-center justify-center gap-2 rounded  text-center py-1 px-3 w-full`}
+        className={`w-10/12 text-xl h-12 font-bold ${bgColor}  ${textColor} flex items-center justify-center gap-2 rounded  text-center py-1 px-16  `}
       >
-        <h1 className='font-tajwal'> {title}</h1>
         {icon}
+        <h1 className='font-tajwal'> {title}</h1>
       </div>
     </div>
   );

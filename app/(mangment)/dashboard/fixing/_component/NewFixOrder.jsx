@@ -151,7 +151,7 @@ if(carData){
               className="text-orange-600 animate-pulse "
             />
           }
-          bgColor="bg-white/30"
+          bgColor="bg-sky-600"
         />
         <div className="flex items-center justify-start w-full bg-black py-3 px-3 rounded gap-4">
           <div className="flex items-center justify-between gap-3 flex-1">

@@ -2,6 +2,7 @@
 import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { AddRecietCounter } from "./reciet";
+import { ShowCars } from "@/app/(mangment)/dashboard/finince/_component/ShowCars";
 
 export async function newFixingOrder(fixingData) {
   let addReciptVoucher;
@@ -315,8 +316,8 @@ export async function getCardByCardID(cardId) {
   };
 }
 
-export async function calculateTotalAmountForOrders() {
-  const orders = await db.openFixingOrder.findMany();
+export async function calculateTotalAmountForOrders(type) {
+  const orders = await db.openFixingOrder.findMany({});
 
   // Fetch totalAmount and payment in separate queries
   const totalAmounts = await Promise.all(
@@ -346,19 +347,20 @@ export async function calculateTotalAmountForOrders() {
   );
 
   const results = orders.map((order, index) => ({
+    id:order.id,
+    crdate:order.createdDate,
+    clientId: order.clientId,
     clientName: order.clientName,
     FixNo: order.fixOrederId,
     selectedCar: order.selectedCar,
     fixOrederAmt: order.fixOrederAmt,
     totalRecipt: totalAmounts[index]._sum.amount || 0,
     payment: payments[index]._sum.amount || 0,
-    balance:
-      order.fixOrederAmt -
-      totalAmounts[index]._sum.amount +
-      payments[index]._sum.amount,
+    balance:  (order.fixOrederAmt + totalAmounts[index]._sum.amount )-  payments[index]._sum.amount,
   }));
 
-  return results;
+  // return results;
+  return results.map((card)=>{return(<ShowCars key={card.id} card={card}  type={type}/>)});
 }
 
 export async function getClientInfo(id) {

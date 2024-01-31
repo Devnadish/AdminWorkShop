@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"phone":{"$numberInt":"1"}},"name":"isLogin_phone_key","unique":true}],"uuid":"c659a3b7bf6e427f8ca9bdacd787f6f0","collectionName":"isLogin","type":"collection"}

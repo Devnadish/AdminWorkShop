@@ -30,21 +30,21 @@ export function DesktopMenu({ toggleSidebar , type =  "desktop" }) {
 export default DesktopMenu
 
 const MenuWithChild = ({ menuTitle, submenu, menuStyle, mainMenu, menuIcon, toggleSidebar , type })=>{
+  
   const handleclose=()=>{
-    console.log(type)
     if (type === 'mobile') { toggleSidebar() }
 
   }
   return (
   <MenubarMenu className="w-full" >
-      <MenubarTrigger className="w-full bg-white/30 text-lg font-tajwal font-semibold flex items-center justify-center gap-4">
+      <MenubarTrigger   className="w-full bg-white/30 text-lg font-tajwal font-semibold flex items-center justify-center gap-4">
         {menuIcon}
         {menuTitle}
         </MenubarTrigger>
     <MenubarContent className={mainMenu} >
         {submenu.map(
           (menu)=>{return(
-            <MenubarItem key={menu.id} >
+            <MenubarItem asChild key={menu.id} >
               <Link href={menu.href} className={menuStyle} onClick={handleclose}>
               <p>
                 {menu.title}

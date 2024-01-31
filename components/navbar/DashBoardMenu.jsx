@@ -29,6 +29,7 @@ import {
 import DesktopMenu from "./DesktopMenu";
 import Ttip from "@/components/shared/Ttip"
 import HeaderNewClient from "@/app/(mangment)/dashboard/clients/_component/HeaderNewClient";
+import { PiEngineDuotone } from "@/lib/icons";
 
 
 const DashBoardMenu = ({ user }) => {
@@ -118,7 +119,7 @@ const FastMenu = () => {
           className={`${linkStyle} `}
           prefetch={true}
         >
-          <FaCarCrash size={25} className="text-yellow-300" />
+          <PiEngineDuotone size={25} className="text-yellow-300" />
           {/* كرت صيانة */}
         </Link>
       </Ttip>

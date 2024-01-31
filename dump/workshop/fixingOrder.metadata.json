@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"fixingId":{"$numberInt":"1"}},"name":"fixingOrder_fixingId_key","unique":true}],"uuid":"c87ea95720d6458897664ad041cf5035","collectionName":"fixingOrder","type":"collection"}

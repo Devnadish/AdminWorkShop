@@ -1,19 +1,8 @@
-import {  calculateTotalAmountForOrders  } from '@/db/fixing'
 import { ScrollArea } from "@/components/ui/scroll-area";
-import CopyBtn from './CopyBtn';
+import CopyBtn from '../../../../../components/shared/CopyBtn';
 import { Wrench } from 'lucide-react';
-export const dynamic = "force-dynamic";
 
-async function OpenFixCard() {
-  const Cardata = await calculateTotalAmountForOrders()
-
-  return <ShowCars cars={Cardata} />;
-}
-
-export default OpenFixCard
-
-
-const ShowCars = ({ cars }) => {
+export const ShowCars = ({ cars }) => {
 
 
   return (
@@ -41,13 +30,13 @@ const ShowCars = ({ cars }) => {
                   <span className="text-sm bg-white/40 py-1 px-3 text-black rounded ">
                     {client.clientName}
                   </span>
-                  <span > اسم العميل</span>
+                  <span> اسم العميل</span>
                 </p>
 
               </div>
               <div className='flex items-center justify-between p-2 bg-white/10'>
                 <div className='flex items-center gap-2 rounded bg-yellow-300  px-3 text-black py-1'>
-                  <p >
+                  <p>
                     <span className="rounded ">
                       {client.FixNo}
                     </span>
@@ -61,25 +50,25 @@ const ShowCars = ({ cars }) => {
                     <span className="text-sm  py-1 px-3  rounded ">
                       {client.fixOrederAmt}
                     </span>
-                    <span >اجمالي الكرت</span>
+                    <span>اجمالي الكرت</span>
 
                   </p>
 
                   <p className=" py-1   text-right px-2  bg-blue-600 order-3">
                     <span className="text-sm  py-1 px-3  rounded "> {client.totalRecipt} </span>
-                    <span > المستلم</span>
+                    <span> المستلم</span>
                   </p>
 
                   <p className=" py-1   text-right px-2  bg-blue-700 order-2">
                     <span className="text-sm  py-1 px-3  rounded "> {client.payment} </span>
-                    <span > المصروف</span>
+                    <span> المصروف</span>
                   </p>
 
                   <p className=" py-1   text-right px-2 bg-orange-800 order-1 ">
                     <span className="text-sm bg-white/40 py-1 px-3 text-black rounded ">
                       {client.balance}
                     </span>
-                    <span > المتبقي</span>
+                    <span> المتبقي</span>
                   </p>
 
                 </div>

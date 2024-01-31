@@ -21,7 +21,7 @@ function ClientCard({
   id,
 }) {
   return (
-    <Card className="w-[300px] min-h-[250px]" dir="RTL">
+    <Card className="w-[300px] min-h-[250px] bg-gray-300 " dir="RTL">
       <CardHeader className="py-4">
         <CardTitle className="flex items-center gap-2 font">
           <User size={20} strokeWidth={1.25} className="text-blue-500" />

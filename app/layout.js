@@ -16,14 +16,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ar" dir="rtl">
       <body
-        className={`relative flex flex-col items-center justify-center w-full m-auto bg-slate-800 ${Tajwal.variable} ${Amiri.variable}`}
+        className={`relative flex flex-col items-center justify-center w-full m-auto bg-primary ${Tajwal.variable} ${Amiri.variable}`}
         // suppressHydrationWarning={true}
       >
         <AuthProvider>
           <div id="navmenu" className="w-full sticky top-0 z-50">
             <DashBoardMenu />
           </div>
-          <main className="relative flex w-full items-center justify-center w-full text-white">
+          <main className="relative flex w-full items-center justify-center ">
             {children}
           </main>
         </AuthProvider>

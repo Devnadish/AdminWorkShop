@@ -81,7 +81,7 @@ export async function fetchClientNames() {
   return names;
 }
 
-export async function getAllClients() {
+export async function getAllClientsFixCard() {
   try {
     const clients = await db.client.findMany({
       select: { id: true, name: true, clientIDs: true, payment: true, recipts:true },
@@ -94,20 +94,50 @@ export async function getAllClients() {
           },
           select: { id: true, CarNo: true, carName: true },
         });
-        
+        // revalidatePath("/dashboard/clients/display");
 
         return { ...client, carsData };
       })
     );
-    console.log(clientsWithCars);
-    // return clientsWithCars;
-
-    return clientsWithCars.map((client)=>{return(<ShowClientCard client={client} />)});
+    return clientsWithCars;
   } catch (error) {
     console.error(error);
     return "An error occurred while retrieving clients and their cars";
   }
 }
+
+
+
+
+
+
+// export async function getAllClients() {
+//   try {
+//     const clients = await db.client.findMany({
+//       select: { id: true, name: true, clientIDs: true, payment: true, recipts:true },
+//     });
+//     const clientsWithCars = await Promise.all(
+//       clients.map(async (client) => {
+//         const carsData = await db.Car.findMany({
+//           where: {
+//             clientId: client.clientIDs,
+//           },
+//           select: { id: true, CarNo: true, carName: true },
+//         });
+        
+
+//         return { ...client, carsData };
+//       })
+//     );
+//     console.log(clientsWithCars);
+//     // return clientsWithCars;
+
+//     return clientsWithCars.map((client)=>{return(<ShowClientCard client={client} />)});
+//   } catch (error) {
+//     console.error(error);
+//     return "An error occurred while retrieving clients and their cars";
+//   }
+// }
 
 export async function checkClientExists(phone) {
   const existingClient = await db.client.findUnique({

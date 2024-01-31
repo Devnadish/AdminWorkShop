@@ -1,17 +1,17 @@
 import PageTitle from "@/components/shared/PageTitle";
-import {  Wrench } from "lucide-react";
 
-import OpenFixCard from "@/components/shared/OpenFixCard";
+import OpenFixCard from "@/app/(mangment)/dashboard/finince/_component/OpenFixCard";
 import { getCarsFromOpenFixOrder } from "@/db/fixing";
 import PaymentVoucher from "@/app/(mangment)/dashboard/finince/payment/_component/PaymentVoucher";
+import { FaTools } from "@/lib/icons";
 export const dynamic = "force-dynamic";
 const FixPaymentVoucher = async () => {
   const openCards = await getCarsFromOpenFixOrder()
   return (
-    <div className=" flex flex-col gap-4 max-w-3xl mx-auto gap-4 w-full">
-      <PageTitle title="سند صرف تشغيلي" icon={<Wrench />} />
-      <PaymentVoucher openCards={openCards} />
-      <OpenFixCard  />
+    <div className=" flex flex-col  max-w-6xl mx-auto  w-full">
+      <PageTitle title="سند صرف تشغيلي" icon={<FaTools />} bgColor="bg-red-500"/>
+      {/* <PaymentVoucher openCards={openCards} /> */}
+      <OpenFixCard  type="payment"/>
     </div>
   );
 };
