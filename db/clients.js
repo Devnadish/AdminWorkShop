@@ -84,27 +84,96 @@ export async function fetchClientNames() {
 export async function getAllClientsFixCard() {
   try {
     const clients = await db.client.findMany({
-      select: { id: true, name: true, clientIDs: true, payment: true, recipts:true },
+      select: { id: true, name: true, clientIDs: true },
     });
-    const clientsWithCars = await Promise.all(
-      clients.map(async (client) => {
-        const carsData = await db.Car.findMany({
-          where: {
-            clientId: client.clientIDs,
-          },
-          select: { id: true, CarNo: true, carName: true },
-        });
-        // revalidatePath("/dashboard/clients/display");
+    
 
-        return { ...client, carsData };
-      })
-    );
-    return clientsWithCars;
+    // const cars = await db.car.findMany({});
+    // const Fixcars = await db.openFixingOrder.findMany({});
+
+
+    // console.log(cars)
+    // console.log(Fixcars)
+
+
+
+
+
+    const cars = await db.car.findMany({});
+    const fixcars = await db.openFixingOrder.findMany({});
+    
+    // Compare two arrays and remove the cars where fixcars.selectedCar = cars.CarNo
+    const filteredCars = cars.filter(car => !fixcars.some(fixcar => fixcar.selectedCar === car.CarNo));
+    
+    // Group the new array with cars.clientId and return each client with his cars
+    const groupedByClientId = filteredCars.reduce((acc, car) => {
+      const { clientId, clientName } = car; // Assuming the client information is present in the car object
+      if (!acc[clientId]) {
+        acc[clientId] = { clientId, clientName, cars: [] };
+      }
+      acc[clientId].cars.push(car);
+      return acc;
+    }, {});
+    
+    // console.log(Object.values(groupedByClientId)); 
+
+    // console.log(groupedByClientId)
+    return Object.values(groupedByClientId);
+
+
+
+
+
+
+
+
+
+
+
+    // const clientData = [];
+    // await Promise.all(clients.map(async (clientCar) => {
+    //   const carsData = await db.Car.findMany({
+    //     where: {
+    //       clientId: clientCar.clientIDs,
+    //     },
+    //     select: { id: true, CarNo: true, carName: true },
+    //   });
+    //   clientData.push({ CID: clientCar.id, clientId: clientCar.clientIDs, clientName: clientCar.name, clientCar: carsData });
+    // }));
+  
+    // console.log(clientData);
+  
+    // return clientsWithCars;
   } catch (error) {
     console.error(error);
     return "An error occurred while retrieving clients and their cars";
   }
 }
+
+// export async function getAllClientsFixCard() {
+//   try {
+//     const clients = await db.client.findMany({
+//       select: { id: true, name: true, clientIDs: true, payment: true, recipts:true },
+//     });
+//     const clientsWithCars = await Promise.all(
+//       clients.map(async (client) => {
+//         const carsData = await db.Car.findMany({
+//           where: {
+//             clientId: client.clientIDs,
+//           },
+//           select: { id: true, CarNo: true, carName: true },
+//         });
+//         // revalidatePath("/dashboard/clients/display");
+
+//         return { ...client, carsData };
+//       })
+//     );
+//     return clientsWithCars;
+//   } catch (error) {
+//     console.error(error);
+//     return "An error occurred while retrieving clients and their cars";
+//   }
+// }
 
 
 

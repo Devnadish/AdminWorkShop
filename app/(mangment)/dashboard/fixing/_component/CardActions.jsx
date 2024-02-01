@@ -1,6 +1,6 @@
 "use client"
 import React,{useState}  from 'react'
-import {  newNote } from '@/db/fixing'
+ 
 import { Edit, Trash } from 'lucide-react'
 import {
   AlertDialog,
@@ -12,6 +12,7 @@ import {
 import Submit from '@/components/shared/Submit'
 import ClearButton from '@/components/shared/ClearButton'
 import { useSession } from "next-auth/react";
+import { newNote } from '@/db/fixNote';
 
 
 function CardActions({ cardid }) {

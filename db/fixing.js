@@ -3,8 +3,9 @@ import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { AddRecietCounter } from "./reciet";
 import { ShowCars } from "@/app/(mangment)/dashboard/finince/_component/ShowCars";
+import { newNote } from "./fixNote";
 
-export async function newFixingOrder(fixingData) {
+export async function newFixingOrder(fixingData,serviceNote) {
   let addReciptVoucher;
   try {
     // check if the maintenance exisit>>>>>>>>
@@ -20,7 +21,11 @@ export async function newFixingOrder(fixingData) {
 
     const fixCounter = await AddFixingCounter();
     const data = { ...fixingData, fixingId: fixCounter };
+    const Note={...serviceNote,CardId:fixCounter}
+    
     const order = await db.fixingOrder.create({ data });
+    const note=newNote(Note)
+
     const addToCarsInClient = await addFixCardValue(
       order.clientId,
       order.selectedCar
@@ -372,7 +377,3 @@ export async function getClientInfo(id) {
   return clients;
 }
 
-export async function newNote(data) {
-  const saveNote = await db.cardNote.create({ data });
-  revalidatePath("/dashboard");
-}

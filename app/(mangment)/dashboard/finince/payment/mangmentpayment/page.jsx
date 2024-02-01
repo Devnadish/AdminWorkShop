@@ -44,8 +44,8 @@ const PaymentVoucherForm = () => {
   };
 
   return (
-    <div className="container flex flex-col w-full items-center justify-center max-w-md">
-      <PageTitle title="سند صرف اداري" />
+    <div className=" flex flex-col w-full items-center justify-center max-w-6xl">
+      <PageTitle title="سند صرف اداري" bgColor="bg-blue-500"/>
       <form
         id="paymentForm"
         className="  w-full  flex flex-col gap-4 items-center justify-center border border-white/30 rounded-md p-4"

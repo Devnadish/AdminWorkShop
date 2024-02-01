@@ -202,6 +202,7 @@ model isLogin {
 model cardNote {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   note       String   @default("")
+  intialnote Boolean  @default(false)
   CardId     Int      @default(0)
   userID     String   @default("")
   userName   String   @default("")
