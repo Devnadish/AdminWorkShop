@@ -63,7 +63,7 @@ export async function getCarInfo(Carid) {
     if (existingCar.length === 0) {
       return { msg: "رقم اللوحة غير صحيح .. لا توجد بيانات برقم اللوحة  ", Carexisit: "not Exisit" };
     }
-    // console.log(existingCar)
+ 
 
     return existingCar;
   } catch (error) {
@@ -196,7 +196,6 @@ export async function deleteCar(id) {
     },
   });
 
-  console.log(CheckFixOrder)
   if(CheckFixOrder){return {code:400 ,msg:"يوجد حركة سابقة للسيارة لايمكن الحذف  ..  راجع  الادارة"}}
 
 

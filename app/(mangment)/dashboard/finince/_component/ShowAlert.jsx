@@ -21,7 +21,6 @@ import {
 import { Button } from "@/components/ui/button";
 
 export const ShowAlert = ({ open, setIsopen, data }) => {
-  console.log(data)
   return (
     <Drawer open={open} onOpenChange={setIsopen}  className="w-[300px] max-w-md border-t-8 border-red-500 " dir="RTL">
 

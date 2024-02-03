@@ -24,6 +24,7 @@ import {
 import { FaCarCrash } from "react-icons/fa";
 import { MdEditNote } from "react-icons/md";
 import { BsTools } from "react-icons/bs";
+import { ImagePlus } from "@/lib/icons";
 
 export const menuItem = [
   { id: 1, title: "خدماتنا", icon: <Wrench />, href: "/service" },
@@ -74,22 +75,29 @@ export const maintainanceMenu = [
   },
   {
     id: 2,
+    title: "اضافة صور لكرت الصيانة",
+    icon: <ImagePlus size={20} strokeWidth={1} />,
+    href: "/dashboard/fixing/addimage",
+  },
+  // {
+  //   id: 5,
+  //   title: "ملاحظات كرت صيانة",
+  //   icon: <MdEditNote size={20}   />,
+  //   href: "/service",
+  // },
+  {
+    id: 3,
     title: "عرض كروت الصيانة",
     icon: <FileEdit size={20} strokeWidth={1} />,
     href: "/dashboard/fixing/displayorders",
   },
   {
-    id: 3,
+    id: 4,
     title: "تفاصيل كرت صيانة",
     icon: <ViewIcon size={20} strokeWidth={1} />,
     href: "/dashboard/fixing/cardstatment",
   },
-  // {
-  //   id: 4,
-  //   title: "ملاحظات كرت صيانة",
-  //   icon: <MdEditNote size={20} strokeWidth={1} />,
-  //   href: "/service",
-  // },
+ 
 
   {
     id: 5,

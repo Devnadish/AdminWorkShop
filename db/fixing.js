@@ -188,6 +188,31 @@ export async function getAllFixOrder() {
   const existingOrder = await db.fixingOrder.findMany({});
   return existingOrder;
 }
+export async function FixOrderImage() {
+  const existingOrder = await db.fixingOrder.findMany({});
+  const openCards = [];
+  for (const openCard of existingOrder) {
+   
+
+    const carImage = await db.cardImage.findMany({
+      where: { CardId: openCard.selectedCar },
+    });
+    openCards.push({
+      id:openCard.id,
+      clientName: openCard.clientName,
+      CarNo: openCard.selectedCar,
+      coverImage:carImage[0]?.imageId || null,
+      carImage: carImage,
+    });
+  }
+
+// console.log(openCards)
+
+
+
+  return openCards;
+}
+
 
 export async function getAllOpenCard() {
   const existingOrder = await db.openFixingOrder.findMany({});
@@ -276,7 +301,6 @@ export async function deleteAndCloseFixOrder(id, fixOrederId, balance) {
     where: { fixingId: fixOrederId },
   });
   const receiptCounter = await AddRecietCounter();
-  console.log(receiptCounter);
 
   const createRecipt = await db.RecietVoucher.create({
     data: {

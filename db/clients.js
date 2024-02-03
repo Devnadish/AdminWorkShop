@@ -88,13 +88,7 @@ export async function getAllClientsFixCard() {
     });
     
 
-    // const cars = await db.car.findMany({});
-    // const Fixcars = await db.openFixingOrder.findMany({});
-
-
-    // console.log(cars)
-    // console.log(Fixcars)
-
+  
 
 
 
@@ -115,9 +109,7 @@ export async function getAllClientsFixCard() {
       return acc;
     }, {});
     
-    // console.log(Object.values(groupedByClientId)); 
-
-    // console.log(groupedByClientId)
+    
     return Object.values(groupedByClientId);
 
 
@@ -130,50 +122,13 @@ export async function getAllClientsFixCard() {
 
 
 
-    // const clientData = [];
-    // await Promise.all(clients.map(async (clientCar) => {
-    //   const carsData = await db.Car.findMany({
-    //     where: {
-    //       clientId: clientCar.clientIDs,
-    //     },
-    //     select: { id: true, CarNo: true, carName: true },
-    //   });
-    //   clientData.push({ CID: clientCar.id, clientId: clientCar.clientIDs, clientName: clientCar.name, clientCar: carsData });
-    // }));
   
-    // console.log(clientData);
-  
-    // return clientsWithCars;
   } catch (error) {
     console.error(error);
     return "An error occurred while retrieving clients and their cars";
   }
 }
-
-// export async function getAllClientsFixCard() {
-//   try {
-//     const clients = await db.client.findMany({
-//       select: { id: true, name: true, clientIDs: true, payment: true, recipts:true },
-//     });
-//     const clientsWithCars = await Promise.all(
-//       clients.map(async (client) => {
-//         const carsData = await db.Car.findMany({
-//           where: {
-//             clientId: client.clientIDs,
-//           },
-//           select: { id: true, CarNo: true, carName: true },
-//         });
-//         // revalidatePath("/dashboard/clients/display");
-
-//         return { ...client, carsData };
-//       })
-//     );
-//     return clientsWithCars;
-//   } catch (error) {
-//     console.error(error);
-//     return "An error occurred while retrieving clients and their cars";
-//   }
-// }
+ 
 
 
 
@@ -198,7 +153,6 @@ export async function getAllClientsFixCard() {
 //         return { ...client, carsData };
 //       })
 //     );
-//     console.log(clientsWithCars);
 //     // return clientsWithCars;
 
 //     return clientsWithCars.map((client)=>{return(<ShowClientCard client={client} />)});
@@ -393,13 +347,6 @@ const uniqueClientCarsArray = clientCarsArray.reduce((unique, o) => {
   return unique;
 }, []);
 
-// console.log(uniqueClientCarsArray);
-
-
-
-
-    // const clients=clientCarsArray
-    // console.log(clients);
     return uniqueClientCarsArray;
   } catch (error) {
     console.error(error);
