@@ -11,12 +11,9 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { FaCarCrash } from "react-icons/fa";
-import { FaCashRegister } from "react-icons/fa";
-
 import { getRecordCounts } from "@/db/dashboard";
-import Logout from "@/app/(mangment)/dashboard/signup/_component/Logout";
-import { Home, Bell, Smile, UserRoundPlus } from "lucide-react";
+import Logout from "@/app/dashboard/setting/auth/_component/Logout";
+import { Home, Bell, Smile ,FaCashRegister ,PiEngineDuotone} from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,9 +24,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DesktopMenu from "./DesktopMenu";
-import Ttip from "@/components/shared/Ttip"
-import HeaderNewClient from "@/app/(mangment)/dashboard/clients/_component/HeaderNewClient";
-import { PiEngineDuotone } from "@/lib/icons";
+import Ttip from "@/components/sharedcompnent/Ttip"
+import HeaderNewClient from "@/app/dashboard/clients/new/_component/NavBarNewClient";
 
 
 const DashBoardMenu = ({ user }) => {
@@ -40,9 +36,7 @@ const DashBoardMenu = ({ user }) => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-  const closeSidebar = () => {
-    setIsOpen(false);
-  };
+ 
 
   const toggleAndClose = () => {
     setIsOpen(!isOpen);
@@ -51,7 +45,7 @@ const DashBoardMenu = ({ user }) => {
 
   return (
 
-    <div className="flex items-center justify-between  w-full border-b-1   px-2 h-[55px] bg-slate-700 shadow-xl">
+    <div className="flex items-center justify-between   w-full border-b-1   px-2 h-[55px] bg-primary shadow-xl">
       {/* mobile Menu */}
       <div className="flex  justify-center items-center    text-sky-950  rounded-md h-10  md:hidden " id="sidebar">
         <Sheet
@@ -81,7 +75,7 @@ const DashBoardMenu = ({ user }) => {
       {/* md menu */}
     
       <div className="w-full md:w-1/2  md:flex md:items-center justify-center hidden gap-4"><DesktopMenu /> </div>
-      <div className="text-white bg-purple-600 px-5 py-1 rounded-md font-tajwal font-bold animate-pulse text-xl">  <p>مازال النظام تحت التطوير</p></div>
+      <div className="text-white bg-purple-600 px-5 py-1 rounded-md font-tajwal font-bold animate-pulse text-sm">  <p> النظام تحت التطوير</p></div>
       <div className="flex items-center gap-4">
       
         <FastMenu />
@@ -105,7 +99,7 @@ export default DashBoardMenu;
 
 const FastMenu = () => {
   const linkStyle =
-    "w-9  rounded h-9  shadow-lg border border-white/30 text-white flex  items-center justify-center text-xl";
+    "w-9  rounded h-9  shadow-lg border border-border text-primary-foreground flex  items-center justify-center text-xl";
   return (
     <div className="flex w-full items-center   gap-2">
 
@@ -131,7 +125,7 @@ const FastMenu = () => {
           prefetch={true}
           className={`${linkStyle} `}
         >
-          <FaCashRegister size={25} className="text-white/40" />
+          <FaCashRegister size={25} className="text-primary-foreground" />
         </Link>
       </Ttip>
       <Ttip tool={"سند قبض"}>
@@ -141,7 +135,7 @@ const FastMenu = () => {
           prefetch={true}
           className={`${linkStyle} `}
         >
-          <Smile size={25} className="text-white/40" />
+          <Smile size={25} className="text-primary-foreground" />
         </Link>
       </Ttip>
 
@@ -173,10 +167,10 @@ const ClientActivityDropMenu = ({ gotoActivity }) => {
     <>
       <DropdownMenu open={open} onOpenChange={collectData} onClose={handleClose} dir="RTL">
         <DropdownMenuTrigger asChild onClick={collectData}>
-          <Button variant="outline" className="rounded-l-none p-0 w-8 " ><Bell size={20} strokeWidth={1.25} /></Button>
+          <Button   className="rounded-l-none p-0 w-8 bg-white " ><Bell size={20} strokeWidth={1.5} className="text-blue-700"/></Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
-          <DropdownMenuLabel className="bg-blue-400 text-white text-center">تفاعل العملاء</DropdownMenuLabel>
+          <DropdownMenuLabel className="bg-blue-400 text-white text-center ">تفاعل العملاء</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => DoPush("/dashboard/clients/comment")}>

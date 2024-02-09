@@ -2,7 +2,7 @@
 import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { AddRecietCounter } from "./reciet";
-import { ShowCars } from "@/app/(mangment)/dashboard/finince/_component/ShowCars";
+import { ShowCars } from "@/app/dashboard/finince/_component/ShowCars";
 import { newNote } from "./fixNote";
 
 export async function newFixingOrder(fixingData,serviceNote) {
@@ -24,7 +24,11 @@ export async function newFixingOrder(fixingData,serviceNote) {
     const Note={...serviceNote,CardId:fixCounter}
     
     const order = await db.fixingOrder.create({ data });
-    const note=newNote(Note)
+   
+    if (Note.note) {
+      const note = newNote(Note);
+    
+    }
 
     const addToCarsInClient = await addFixCardValue(
       order.clientId,
@@ -400,4 +404,15 @@ export async function getClientInfo(id) {
 
   return clients;
 }
+
+export async function ShowFixOrderImage(cardId) {
+  
+   
+
+    const carImage = await db.cardImage.findMany({
+      where: { CardId: cardId },
+    });
+   
+    return carImage;
+  }
 

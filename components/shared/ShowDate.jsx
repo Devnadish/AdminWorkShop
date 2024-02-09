@@ -2,22 +2,19 @@ import React from "react";
 import { getTimeElapsed } from "@/lib/timeanddate";
 import { FiCalendar } from "react-icons/fi";
 import { MdOutlineEditCalendar } from "react-icons/md";
+import IconWithdata from "../sharedcompnent/IconWithdata";
 
 function ShowDate({ create, update }) {
   return (
-    <div className="flex items-center justify-end  text-base ">
-      <div
-        className={`flex items-center justify-end  border-b  text-white/70 px-3 py-1`}
-      >
-        <div className=" w-fit   px-3 text-[.7rem]  font-extralight  ">
-          <span>{getTimeElapsed(create)}</span>
-          <MdOutlineEditCalendar size={18} className="text-green-300" />
-        </div>
-        <div className=" w-fit   px-3 text-[.7rem]  font-extralight  ">
-          <span>{getTimeElapsed(update)}</span>
-          <FiCalendar size={18} className="text-green-300" />
-        </div>
-      </div>
+    <div  className="flex items-center justify-between  border-b border-border w-full  text-foreground/40  py-1">
+      <IconWithdata tooltip={"التاسيس"}>
+      <span className="text-[.7rem]">{getTimeElapsed(create)}</span>
+        <MdOutlineEditCalendar size={15} className="text-primary/50" />
+      </IconWithdata>
+      <IconWithdata tooltip={"اخر تعديل"}>
+        <span className="text-[.7rem]">{getTimeElapsed(update)}</span>
+        <FiCalendar size={15} className="text-primary/50" />
+      </IconWithdata>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { deleteExp } from "@/db/expencisData";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 
 function DeleteExpinces({ expName,id }) {

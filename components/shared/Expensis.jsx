@@ -1,21 +1,10 @@
 import React,{useEffect,useState} from 'react'
 import { Label } from '../ui/label';
-import { Button } from '../ui/button';
-import {  Plus } from "lucide-react";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+ 
 import { addCategory, getAllExpencies } from '@/db/payment';
-import toast from 'react-hot-toast';
+import { toast } from "sonner";
 import { Input } from '../ui/input';
-import Submit from './Submit';
+import Submit from '../sharedcompnent/Submit';
 
 
 
@@ -98,6 +87,3 @@ function Expensis({ setExpname }) {
 export default Expensis
 
 
-const FruitOption = ({ value, children }) => {
-  return <SelectItem value={value}>{children}</SelectItem>;
-};

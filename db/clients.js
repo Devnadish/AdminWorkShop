@@ -1,5 +1,5 @@
 "use server";
-import ShowTransaction from "@/app/(mangment)/dashboard/clients/statment/_component/ShowTransaction";
+import ShowTransaction from "@/app/dashboard/clients/statment/_component/ShowTransaction";
 // import ShowClientCard from "@/app/_pagecomponent/clients/display/ShowClientCard";
 import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
@@ -16,18 +16,15 @@ export async function addClient(client) {
       };
     }
 
+    const existingCar = await db.Car.findFirst({
+      where: {
+        CarNo: client.CarNo,
+      },
+    });
 
-     const existingCar = await db.Car.findFirst({
-       where: {
-         CarNo: client.CarNo,
-       },
-     });
-
-     if (existingCar) {  return { msg: "رقم اللوحة  يخص   لعميل اخر",code:403 }}
-
-
-
-
+    if (existingCar) {
+      return { msg: "رقم اللوحة  يخص   لعميل اخر", code: 403 };
+    }
 
     const ClientCounter = await AddClientCounter();
     // const data = { ...client, clientIDs: ClientCounter };
@@ -42,18 +39,14 @@ export async function addClient(client) {
       carName: client.CarName,
       clientName: client.name,
       clientId: ClientCounter,
-      MasterCar:true
+      MasterCar: true,
     };
 
     const result = await db.client.create({ data });
-    const carDb = await db.Car.create({ data: Cardata  });
+    const carDb = await db.Car.create({ data: Cardata });
 
-
-
-
-    
     revalidatePath("/dashboard/clients/addcar");
-     revalidatePath("/dashboard/clients/statment");
+    revalidatePath("/dashboard/clients/statment");
 
     return {
       msg: "تم تأسيس كرت للعميل بنجاح ",
@@ -74,10 +67,10 @@ export async function addClient(client) {
   }
 }
 
-
-
 export async function fetchClientNames() {
-  const names = await db.client.findMany({ select: { name: true, clientIDs :true} });
+  const names = await db.client.findMany({
+    select: { name: true, clientIDs: true },
+  });
   return names;
 }
 
@@ -86,19 +79,15 @@ export async function getAllClientsFixCard() {
     const clients = await db.client.findMany({
       select: { id: true, name: true, clientIDs: true },
     });
-    
-
-  
-
-
-
 
     const cars = await db.car.findMany({});
     const fixcars = await db.openFixingOrder.findMany({});
-    
+
     // Compare two arrays and remove the cars where fixcars.selectedCar = cars.CarNo
-    const filteredCars = cars.filter(car => !fixcars.some(fixcar => fixcar.selectedCar === car.CarNo));
-    
+    const filteredCars = cars.filter(
+      (car) => !fixcars.some((fixcar) => fixcar.selectedCar === car.CarNo)
+    );
+
     // Group the new array with cars.clientId and return each client with his cars
     const groupedByClientId = filteredCars.reduce((acc, car) => {
       const { clientId, clientName } = car; // Assuming the client information is present in the car object
@@ -108,32 +97,13 @@ export async function getAllClientsFixCard() {
       acc[clientId].cars.push(car);
       return acc;
     }, {});
-    
-    
+
     return Object.values(groupedByClientId);
-
-
-
-
-
-
-
-
-
-
-
-  
   } catch (error) {
     console.error(error);
     return "An error occurred while retrieving clients and their cars";
   }
 }
- 
-
-
-
-
-
 
 // export async function getAllClients() {
 //   try {
@@ -148,7 +118,6 @@ export async function getAllClientsFixCard() {
 //           },
 //           select: { id: true, CarNo: true, carName: true },
 //         });
-        
 
 //         return { ...client, carsData };
 //       })
@@ -271,8 +240,6 @@ export const AddClientCounter = async () => {
   return clientCounter;
 };
 
-
-
 export async function groupByClientId() {
   try {
     const groupedClients = await db.openFixingOrder.groupBy({
@@ -313,39 +280,37 @@ export async function groupByClientId() {
   }
 }
 
-
-
 export async function displayClients() {
   try {
-   const clientsData = await db.client.findMany({});
+    const clientsData = await db.client.findMany({});
 
-   const clientCarsArray = [];
+    const clientCarsArray = [];
 
-   for (const car of clientsData) {
-     const carClients = await db.Car.findMany({
-       where: { clientId: car.clientIDs },
-     });
+    for (const car of clientsData) {
+      const carClients = await db.Car.findMany({
+        where: { clientId: car.clientIDs },
+      });
 
-     carClients.forEach((clientCar) => {
-       clientCarsArray.push({
-         clientName: car.name,
-         mobile: car.mobile,
-         email: car.email,
-         CarCount: carClients.length,
-         CarNo: clientCar.CarNo,
-         carName: clientCar.carName,
-         id: car.clientIDs,
-         // indexInCarClients: index,
-       });
-     });
-   }
+      carClients.forEach((clientCar) => {
+        clientCarsArray.push({
+          clientName: car.name,
+          mobile: car.mobile,
+          email: car.email,
+          CarCount: carClients.length,
+          CarNo: clientCar.CarNo,
+          carName: clientCar.carName,
+          id: car.clientIDs,
+          // indexInCarClients: index,
+        });
+      });
+    }
 
-const uniqueClientCarsArray = clientCarsArray.reduce((unique, o) => {
-  if (!unique.some((obj) => obj.mobile === o.mobile)) {
-    unique.push(o);
-  }
-  return unique;
-}, []);
+    const uniqueClientCarsArray = clientCarsArray.reduce((unique, o) => {
+      if (!unique.some((obj) => obj.mobile === o.mobile)) {
+        unique.push(o);
+      }
+      return unique;
+    }, []);
 
     return uniqueClientCarsArray;
   } catch (error) {
@@ -353,7 +318,6 @@ const uniqueClientCarsArray = clientCarsArray.reduce((unique, o) => {
     return "An error occurred while retrieving clients and their cars";
   }
 }
-
 
 export async function getClient(id) {
   const ClientData = await db.Client.findFirst({
@@ -366,16 +330,19 @@ export async function getClient(id) {
 }
 
 export async function deleteClient(id) {
-
-// check if clent has fix card
+  // check if clent has fix card
 
   const clientFixOrders = await db.openFixingOrder.findFirst({
     where: {
       clientId: id,
     },
   });
-  if(clientFixOrders){return {code:400 ,msg:"يوجد حركة سابقة للعميل لايمكن الحذف  ..  راجع  الادارة"}}
-
+  if (clientFixOrders) {
+    return {
+      code: 400,
+      msg: "يوجد حركة سابقة للعميل لايمكن الحذف  ..  راجع  الادارة",
+    };
+  }
 
   const deletedItem = await db.Client.delete({
     where: {
@@ -383,11 +350,8 @@ export async function deleteClient(id) {
     },
   });
   revalidatePath("/dashboard/clients/new");
-  return {code:200 ,msg:"تم مسح ملف العميل بنجاح .."}
-
+  return { code: 200, msg: "تم مسح ملف العميل بنجاح .." };
 }
-
-
 
 export async function updateClient(id, formData) {
   const data = {
@@ -446,76 +410,70 @@ export async function updateClient(id, formData) {
   }
 }
 
-
-
 export async function getClientTransactions(clientId) {
-  const checkClient=await db.Client.findMany({where: { clientIDs: clientId },})
-  if(checkClient.length===0){
-    return {msg:"العميل  غير موجود في  ملف العملا ء" ,code:400}
+  const checkClient = await db.Client.findMany({
+    where: { clientIDs: clientId },
+  });
+  if (checkClient.length === 0) {
+    return { msg: "العميل  غير موجود في  ملف العملا ء", code: 400 };
   }
-  
+
   const FixOrderTransactions = await db.fixingOrder.findMany({
     where: { clientId: clientId },
   });
 
-  
   const reciptTranaction = [];
   const paymentTranaction = [];
 
- for (const trans of FixOrderTransactions) {
+  for (const trans of FixOrderTransactions) {
+    const ReciptData = await db.RecietVoucher.findMany({
+      where: { fixingCode: trans.fixingId },
+    });
 
-   const ReciptData = await db.RecietVoucher.findMany({
-     where: { fixingCode: trans.fixingId },
-   });
+    ReciptData.forEach((obj) => {
+      obj.type = "قبض";
+    });
 
-   ReciptData.forEach(obj => {
-    obj.type = "قبض";
-  });
+    const PaymentData = await db.PaymentVoucher.findMany({
+      where: { fixingCode: trans.fixingId },
+    });
 
-     const PaymentData = await db.PaymentVoucher.findMany({
-       where: { fixingCode: trans.fixingId },
-     });
-
-
-     PaymentData.forEach(obj => {
+    PaymentData.forEach((obj) => {
       obj.type = "صرف";
     });
 
-     reciptTranaction.push({
-       fixCode: trans.fixingId,
-       fixAmt: trans.total,
-       reciptData: ReciptData,
-     });
-       paymentTranaction.push({
-         fixCode: trans.fixingId,
-         fixAmt: trans.total,
-         paymentData: PaymentData,
-       });
+    reciptTranaction.push({
+      fixCode: trans.fixingId,
+      fixAmt: trans.total,
+      reciptData: ReciptData,
+    });
+    paymentTranaction.push({
+      fixCode: trans.fixingId,
+      fixAmt: trans.total,
+      paymentData: PaymentData,
+    });
+  }
+  const voucehrData = [
+    ...reciptTranaction[0].reciptData,
+    ...paymentTranaction[0].paymentData,
+  ];
 
- }
- const voucehrData=[...reciptTranaction[0].reciptData,...paymentTranaction[0].paymentData]
-  // return { paymentTransactions, receiptTransactions, FixOrderTransactions };
-  // return {FixOrderTransactions, reciptTranaction, paymentTranaction};
-  return   FixOrderTransactions.map((fix) => {
+  return FixOrderTransactions.map((fix) => {
     return (
-    
-        <ShowTransaction
-key={fix.fixingId}
+      <ShowTransaction
+        key={fix.fixingId}
         fixData={fix}
-          Client={fix.clientName}
-          fixingId={fix.fixingId}
-          selectedCar={fix.selectedCar}
-          total={fix.total}
-          receive={fix.receive}
-          detail={fix.detail}
-          isClosed={fix.isClosed}
-          voucehrData={voucehrData}
-
-        />
-      
+        Client={fix.clientName}
+        fixingId={fix.fixingId}
+        selectedCar={fix.selectedCar}
+        total={fix.total}
+        receive={fix.receive}
+        detail={fix.detail}
+        isClosed={fix.isClosed}
+        voucehrData={voucehrData}
+      />
     );
-
-  })
+  });
 }
 
 export async function getGroupClientWithTransactions() {
@@ -524,24 +482,37 @@ export async function getGroupClientWithTransactions() {
   });
 
   const newData = [];
-  await Promise.all(groupedClients.map(async (client,idx) => {
-    const FixAmt = await db.fixingOrder.findMany({
-      where: { clientId: client.fromID }
-    });
-    const sumFix = FixAmt.reduce((total, item) => total + item.total, 0);
+  await Promise.all(
+    groupedClients.map(async (client, idx) => {
+      const FixAmt = await db.fixingOrder.findMany({
+        where: { clientId: client.fromID },
+      });
+      const sumFix = FixAmt.reduce((total, item) => total + item.total, 0);
 
-    const ReciptAmt = await db.RecietVoucher.findMany({
-      where: { fromID: client.fromID }
-    });
-    const sumRecipt = ReciptAmt.reduce((total, item) => total + item.amount, 0);
+      const ReciptAmt = await db.RecietVoucher.findMany({
+        where: { fromID: client.fromID },
+      });
+      const sumRecipt = ReciptAmt.reduce(
+        (total, item) => total + item.amount,
+        0
+      );
 
-    
-    const PaymentAmt = await db.PaymentVoucher.findMany({
-      where: { fromID: client.fromID }
-    });
-    const sumPayment = PaymentAmt.reduce((total, item) => total + item.amount, 0);
-    newData.push({ fromId: client.fromID, fromName: client.fromName, sumFix: sumFix,sumRecipt:sumRecipt ,sumPayment:sumPayment});
-  }));
+      const PaymentAmt = await db.PaymentVoucher.findMany({
+        where: { fromID: client.fromID },
+      });
+      const sumPayment = PaymentAmt.reduce(
+        (total, item) => total + item.amount,
+        0
+      );
+      newData.push({
+        fromId: client.fromID,
+        fromName: client.fromName,
+        sumFix: sumFix,
+        sumRecipt: sumRecipt,
+        sumPayment: sumPayment,
+      });
+    })
+  );
 
-  return newData ;
+  return newData;
 }

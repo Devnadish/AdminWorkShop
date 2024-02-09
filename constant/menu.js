@@ -53,9 +53,9 @@ export const clientMenu = [
   },
   {
     id: 2,
-    title: "  اضافة سيارة",
+    title: "اضافة سيارة",
     icon: <Car size={20} strokeWidth={1} />,
-    href: "/dashboard/car/new",
+    href: "/dashboard/car",
   },
   {
     id: 3,

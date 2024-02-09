@@ -15,7 +15,7 @@
       // "@/pagecomponent/*": ["./pagecomponent/*"],
       "@/styles/*": ["./styles/*"],
       "@/lib/*": ["./lib/*"],
-      "@/Providers/*": ["./Providers/*"],
+      "@/provider/*": ["./provider/*"],
       "@/constant/*": ["./constant/*"],
       "@/db/*": ["./db/*"],
        "@/app/*": ["./app/*"]

@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { Car, Check } from "lucide-react";
-import INPUT from "@/components/shared/INPUT";
+import INPUT from "@/components/sharedcompnent/INPUT";
 import { Button } from "@/components/ui/button";
 import { Wrench } from "lucide-react";
 import { getCarInfoForVoucher } from "@/db/cars";
-import Spinner from "./Spinner";
+import Spinner from "../sharedcompnent/Spinner";
 
 export function CheckCarInfoForVoucher(props) {
 
