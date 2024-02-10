@@ -1,14 +1,5 @@
 "use client";
 import React from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle
-} from "@/components/ui/alert-dialog";
-
 
 import {
   Drawer,
@@ -68,41 +59,5 @@ export const ShowAlert = ({ open, setIsopen, data }) => {
 
     </DrawerContent>
   </Drawer>
-
-    // <AlertDialog open={open}>
-    //   <AlertDialogContent>
-    //     <AlertDialogHeader>
-    //       <AlertDialogTitle className="w-full bg-black/20 rounded flex items-center justify-center py-1">تم انشاء سند صرف تشغيلي</AlertDialogTitle>
-    //     </AlertDialogHeader>
-    //     <div className="flex flex-col">
-    //       <div className="flex items-center justify-between border-b-2  py-1 ">
-    //         <p className="flex gap-4  bg-black/20 rounded flex items-center justify-center py-1 px-4">
-    //           <span className="px-4 ">رقم السند</span>
-    //           <span className="px-4 bg-black/30 text-white rounded">{data.paymentNo}</span>
-    //         </p>
-    //         <p className="flex gap-4  bg-black/20 rounded flex items-center justify-center py-1 px-3">
-    //           <span>رقم امر الاصلاح</span>
-    //           <span className="px-4 bg-black/30 text-white rounded">{data.fixNo}</span>
-    //         </p>
-    //       </div>
-    //       <p className="flex gap-4  bg-black/20  flex items-center gap-4  py-1 px-3 rounded-r">
-    //         <span>اسم العميل</span>
-    //         <span>{data.client}</span>
-    //       </p>
-    //       <p className="flex gap-4 bg-black/20 text-black self-end px-4 py-2  text-xl font-semibold">
-    //         <span>المبلغ</span>
-    //         <span className="bg-red-500 px-3 rounded">
-    //           {data.amt}
-    //         </span>
-    //       </p>
-    //     </div>
-
-    //     <AlertDialogFooter className="flex items-center gap-4">
-    //       <AlertDialogAction onClick={() => setIsopen(false)}>
-    //         اغلاق
-    //       </AlertDialogAction>
-    //     </AlertDialogFooter>
-    //   </AlertDialogContent>
-    // </AlertDialog>
   );
 };

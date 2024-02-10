@@ -1,5 +1,5 @@
 "use client";
-import ShowDate from "@/components/shared/ShowDate";
+import ShowDate from "@/components/sharedcompnent/ShowDate";
 import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 import { Button } from "@/components/ui/button";
 import {

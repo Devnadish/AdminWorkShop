@@ -10,10 +10,8 @@ export const dynamic = "force-dynamic";
 const RecietVoucher = async () => {
   const openCards = await getCarsFromOpenFixOrder()
   return (
-    <div className=" flex flex-col  max-w-6xl mx-auto  w-full">
-      <PageTitle title="سند قبض" bgColor="bg-green-500" icon={<LiaCashRegisterSolid size={34}/>}/>
-
-      {/* <ReciptForm openCards={openCards}/> */}
+    <div className=" flex flex-col  max-w-5xl items-center justify-center  gap-4 w-full">
+      <PageTitle title="سند قبض"   icon={<LiaCashRegisterSolid size={34}/>}/>
       <OpenFixCard type="recipt"/>
     </div>
   );

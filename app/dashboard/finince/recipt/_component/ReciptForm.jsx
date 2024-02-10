@@ -2,33 +2,19 @@
 import React, { useState } from "react";
 import Submit from "@/components/sharedcompnent/Submit";
 import { Textarea } from "@/components/ui/textarea";
-import { CircleDollarSign, Calendar} from "lucide-react";
+import { CircleDollarSign, Calendar } from "lucide-react";
 import INPUT from "@/components/sharedcompnent/INPUT";
 import ClearButton from "@/components/sharedcompnent/ClearButton";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import { validateForm } from "@/lib/validation/recipt";
 import { saveRecietVoucher } from "@/db/reciet";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import SelectOpenCard from "@/app/dashboard/finince/_component/SelectOpenCard";
-import { ShowAlert } from "../../_component/ShowAlert";
 
-function ReciptForm({ fromID,  fromName,  fixingCode }) {
-  const [result, setResult] = useState({});
-  const [open, setOpen] = useState(false);
+function ReciptForm({ fromID, fromName, fixingCode }) {
   var today = new Date();
   var year = today.getFullYear();
-  var month = String(today.getMonth() + 1).padStart(2, '0');
-  var day = String(today.getDate()).padStart(2, '0');
-  var currentDate = day + '-' + month + '-' + year;
-
-
+  var month = String(today.getMonth() + 1).padStart(2, "0");
+  var day = String(today.getDate()).padStart(2, "0");
+  var currentDate = day + "-" + month + "-" + year;
 
   const handleSubmit = async (data) => {
     const detail = data.get("detail");
@@ -49,52 +35,34 @@ function ReciptForm({ fromID,  fromName,  fixingCode }) {
     }
 
     const Reciet = await saveRecietVoucher(RecietData);
-
-    setResult({
-      recietNo: Reciet.recietNo,
-      client: Reciet.client,
-      amt: Reciet.amt,
-      fixNo: Reciet.fixNo,
-      msg: Reciet.msg,
-    });
-    document.getElementById("RecietForm").reset()
-    setOpen(true);
+    document.getElementById("RecietForm").reset();
+    toast.success("تم انشاء سند القبض بنجاح");
   };
-
-
-
-
-
 
   return (
     <>
       <form
         action={handleSubmit}
         id="RecietForm"
-        className=" w-full flex flex-col items-center gap-2 bg-gray-400 rounded-md  shadow-lg py-3"
+        className=" w-full flex flex-col items-center gap-2 bg-background/30 rounded-md  shadow-lg py-3"
       >
-        <div className=" flex items-center justify-between w-full  border-b p-4  gap-4">
+        <div className=" flex items-center justify-between w-full  border-b py-2   gap-4">
           <INPUT
             placeholder={"المبلغ"}
             name={"amount"}
             type={"number"}
             icon={<CircleDollarSign />}
-            cN="flex-1"
-            h="h-9"
-            w="w-[170px]"
-            textsize="text-[1.5rem]"
-            bgColor="bg-white"
+            // w="w-[170px]"
+            textsize="text-[1rem]"
             id="amount"
             roundedCorners="rounded-none"
-            iconBgColor="bg-red-500"
+            iconBgColor="bg-destructive"
           />
           <INPUT
-            name={"amount"}
+            name={"date"}
             type={"text"}
             icon={<Calendar />}
-            w="w-[170px]"
             textsize="text-[1rem]"
-            bgColor="bg-white"
             id="amount"
             roundedCorners="rounded-none"
             value={currentDate}
@@ -106,20 +74,17 @@ function ReciptForm({ fromID,  fromName,  fixingCode }) {
             type="text"
             name="detail"
             placeholder="وصف السند"
-            className="border bg-white border-red-500 rounded-md px-4 py-2 w-full resize-none"
+            className="border border-primary rounded-md px-4 py-2 w-full resize-none"
             rows={3}
           />
         </div>
-
         <div className="flex items-center gap-4  justify-end px-3 w-full">
-        <Submit color="bg-red-500" title="حفظ سند القبض" />
+          <Submit color="bg-primary" title="حفظ سند القبض" />
           <ClearButton formId={"RecietForm"} FoucFiled={"amount"} />
         </div>
       </form>
-      <ShowAlert open={open} setIsopen={setOpen} data={result} />
     </>
   );
 }
 
 export default ReciptForm;
-

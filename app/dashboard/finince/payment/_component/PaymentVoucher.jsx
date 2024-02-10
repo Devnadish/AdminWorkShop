@@ -2,23 +2,19 @@
 import React, { useState } from "react";
 import Submit from "@/components/sharedcompnent/Submit";
 import { Textarea } from "@/components/ui/textarea";
-import { CircleDollarSign, Calendar} from "lucide-react";
+import { CircleDollarSign, Calendar } from "lucide-react";
 import INPUT from "@/components/sharedcompnent/INPUT";
 import ClearButton from "@/components/sharedcompnent/ClearButton";
 import { validateForm } from "@/lib/validation/recipt";
 import { savePaymentVoucher } from "@/db/payment";
-import { ShowAlert } from "../../_component/ShowAlert";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
-function PaymentVoucher({ fromID,  fromName,  fixingCode }) {
-  const [result, setResult] = useState({});
-  const [open, setOpen] = useState(false);
+function PaymentVoucher({ fromID, fromName, fixingCode }) {
   var today = new Date();
   var year = today.getFullYear();
-  var month = String(today.getMonth() + 1).padStart(2, '0');
-  var day = String(today.getDate()).padStart(2, '0');
-  var currentDate = day + '-' + month + '-' + year;
-
+  var month = String(today.getMonth() + 1).padStart(2, "0");
+  var day = String(today.getDate()).padStart(2, "0");
+  var currentDate = day + "-" + month + "-" + year;
 
   const handleSubmit = async (data) => {
     const detail = data.get("detail");
@@ -27,8 +23,8 @@ function PaymentVoucher({ fromID,  fromName,  fixingCode }) {
     const Paymentdata = {
       amount,
       detail,
-      paymentType:"fixing",
-      collector:"سند تشغيلي",
+      paymentType: "fixing",
+      collector: "سند تشغيلي",
       docDate,
       fromID: parseFloat(fromID) || null,
       fromName: fromName,
@@ -42,18 +38,9 @@ function PaymentVoucher({ fromID,  fromName,  fixingCode }) {
     }
 
     const payment = await savePaymentVoucher(Paymentdata);
-    
-    setResult({
-      paymentNo: payment.paymentNo,
-      client: payment.client,
-      amt: payment.amt,
-      fixNo: payment.fixNo,
-      msg: payment.msg,
-      detail:payment.detail
-    });
-    document.getElementById("paymentForm").reset()
-    setOpen(true);
-     
+
+    document.getElementById("paymentForm").reset();
+    toast.success("تم انشاء سند الصرف بنجاح");
   };
 
   return (
@@ -61,7 +48,7 @@ function PaymentVoucher({ fromID,  fromName,  fixingCode }) {
       <form
         action={handleSubmit}
         id="paymentForm"
-        className=" w-full flex flex-col items-center gap-2 bg-gray-400 rounded-md  shadow-lg py-3 px-3"
+        className=" w-full flex flex-col items-center gap-2 bg-background/40 rounded-md  shadow-lg py-3 px-3"
       >
         <div className=" flex items-center justify-between w-full  border-b p-4  gap-4 ">
           <INPUT
@@ -69,27 +56,19 @@ function PaymentVoucher({ fromID,  fromName,  fixingCode }) {
             name={"amount"}
             type={"number"}
             icon={<CircleDollarSign />}
-            cN="flex-1"
-            h="h-9"
-            w="w-[170px]"
-            textsize="text-[1.5rem]"
-            bgColor="bg-white"
-            id="amount"
-            roundedCorners="rounded-none"
-            iconBgColor="bg-red-500"
-          />
-          <INPUT
-            name={"amount"}
-            type={"text"}
-            icon={<Calendar />}
-            w="w-[170px]"
             textsize="text-[1rem]"
             id="amount"
-            bgColor="bg-white"
             roundedCorners="rounded-none"
+            iconBgColor="bg-destructive"
+          />
+          <INPUT
+            name={"date"}
+            type={"text"}
+            icon={<Calendar />}
+            textsize="text-[1rem]"
+            id="date"
             value={currentDate}
             disabled
-            iconBgColor="bg-red-500"
           />
         </div>
         <div className="relative   w-full  ">
@@ -97,19 +76,16 @@ function PaymentVoucher({ fromID,  fromName,  fixingCode }) {
             type="text"
             name="detail"
             placeholder="وصف السند"
-            className="border bg-white border-red-500 rounded-md px-4 py-2 w-full resize-none"
+            className="border   border-destructive rounded-md px-4 py-2 w-full resize-none"
             rows={3}
           />
         </div>
         <div className="flex items-center gap-4  w-full justify-end">
-          <Submit color="bg-red-500" title="حفظ سند صرف تشغيلي" />
+          <Submit color="bg-destructive" title="حفظ سند صرف تشغيلي" />
           <ClearButton formId={"RecietForm"} FoucFiled={"amount"} />
         </div>
       </form>
-      <ShowAlert open={open} setIsopen={setOpen} data={result} />
     </>
   );
 }
 export default PaymentVoucher;
-
-

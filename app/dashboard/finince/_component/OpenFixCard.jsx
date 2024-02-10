@@ -7,9 +7,9 @@ async function OpenFixCard({ type }) {
   return (
     <>
       <p
-        className={`w-fit flex items-center justify-end text-white   py-1 ${
-          type === "payment" ? "bg-red-500" : "bg-green-500"
-        }  px-3 mb-2 rounded-full font-bold`}
+        className={`w-fit flex items-center justify-end text-white bg-accent   py-1 ${
+          type === "payment" ? "bg-destructive" : "bg-primary/80"
+        }  px-3 mb-2 rounded font-bold`}
       >
         عدد السيارات تحت الصيانة :{" "}
         <span className="px-4 font-extrabold">{Cardata.length}</span>

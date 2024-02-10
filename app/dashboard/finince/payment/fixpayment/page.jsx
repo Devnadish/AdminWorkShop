@@ -8,9 +8,8 @@ export const dynamic = "force-dynamic";
 const FixPaymentVoucher = async () => {
   const openCards = await getCarsFromOpenFixOrder()
   return (
-    <div className=" flex flex-col  max-w-6xl mx-auto  w-full">
-      <PageTitle title="سند صرف تشغيلي" icon={<FaTools />} bgColor="bg-red-500"/>
-      {/* <PaymentVoucher openCards={openCards} /> */}
+    <div className=" flex flex-col  max-w-5xl items-center justify-center  gap-4 w-full">
+      <PageTitle title="سند صرف تشغيلي" icon={<FaTools />} />
       <OpenFixCard  type="payment"/>
     </div>
   );

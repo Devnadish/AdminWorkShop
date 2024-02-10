@@ -5,7 +5,7 @@ import { AddRecietCounter } from "./reciet";
 import { ShowCars } from "@/app/dashboard/finince/_component/ShowCars";
 import { newNote } from "./fixNote";
 
-export async function newFixingOrder(fixingData,serviceNote) {
+export async function newFixingOrder(fixingData, serviceNote) {
   let addReciptVoucher;
   try {
     // check if the maintenance exisit>>>>>>>>
@@ -21,13 +21,12 @@ export async function newFixingOrder(fixingData,serviceNote) {
 
     const fixCounter = await AddFixingCounter();
     const data = { ...fixingData, fixingId: fixCounter };
-    const Note={...serviceNote,CardId:fixCounter}
-    
+    const Note = { ...serviceNote, CardId: fixCounter };
+
     const order = await db.fixingOrder.create({ data });
-   
+
     if (Note.note) {
       const note = newNote(Note);
-    
     }
 
     const addToCarsInClient = await addFixCardValue(
@@ -196,27 +195,22 @@ export async function FixOrderImage() {
   const existingOrder = await db.fixingOrder.findMany({});
   const openCards = [];
   for (const openCard of existingOrder) {
-   
-
     const carImage = await db.cardImage.findMany({
       where: { CardId: openCard.selectedCar },
     });
     openCards.push({
-      id:openCard.id,
+      id: openCard.id,
       clientName: openCard.clientName,
       CarNo: openCard.selectedCar,
-      coverImage:carImage[0]?.imageId || null,
+      coverImage: carImage[0]?.imageId || null,
       carImage: carImage,
     });
   }
 
-// console.log(openCards)
-
-
+  // console.log(openCards)
 
   return openCards;
 }
-
 
 export async function getAllOpenCard() {
   const existingOrder = await db.openFixingOrder.findMany({});
@@ -295,11 +289,11 @@ export async function getAllOpenFixOrder() {
   return ordersWithSums;
 }
 export async function deleteAndCloseFixOrder(id, fixOrederId, balance) {
-   const deletedItem = await db.openFixingOrder.delete({
-     where: {
-       id: id,
-     },
-   });
+  const deletedItem = await db.openFixingOrder.delete({
+    where: {
+      id: id,
+    },
+  });
 
   const fixingOrderId = await db.fixingOrder.findMany({
     where: { fixingId: fixOrederId },
@@ -351,8 +345,6 @@ export async function getCardByCardID(cardId) {
 
 export async function calculateTotalAmountForOrders(type) {
   const orders = await db.openFixingOrder.findMany({});
-
-  // Fetch totalAmount and payment in separate queries
   const totalAmounts = await Promise.all(
     orders.map((order) =>
       db.recietVoucher.aggregate({
@@ -380,8 +372,8 @@ export async function calculateTotalAmountForOrders(type) {
   );
 
   const results = orders.map((order, index) => ({
-    id:order.id,
-    crdate:order.createdDate,
+    id: order.id,
+    crdate: order.createdDate,
     clientId: order.clientId,
     clientName: order.clientName,
     FixNo: order.fixOrederId,
@@ -389,11 +381,16 @@ export async function calculateTotalAmountForOrders(type) {
     fixOrederAmt: order.fixOrederAmt,
     totalRecipt: totalAmounts[index]._sum.amount || 0,
     payment: payments[index]._sum.amount || 0,
-    balance:  (order.fixOrederAmt + totalAmounts[index]._sum.amount )-  payments[index]._sum.amount,
+    balance:
+      order.fixOrederAmt +
+      totalAmounts[index]._sum.amount -
+      payments[index]._sum.amount,
   }));
 
   // return results;
-  return results.map((card)=>{return(<ShowCars key={card.id} card={card}  type={type}/>)});
+  return results.map((card) => {
+    return <ShowCars key={card.id} card={card} type={type} />;
+  });
 }
 
 export async function getClientInfo(id) {
@@ -406,13 +403,9 @@ export async function getClientInfo(id) {
 }
 
 export async function ShowFixOrderImage(cardId) {
-  
-   
+  const carImage = await db.cardImage.findMany({
+    where: { CardId: cardId },
+  });
 
-    const carImage = await db.cardImage.findMany({
-      where: { CardId: cardId },
-    });
-   
-    return carImage;
-  }
-
+  return carImage;
+}

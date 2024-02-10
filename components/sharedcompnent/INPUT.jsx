@@ -40,7 +40,7 @@ const INPUT = ({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         {...setting}
-        style={{ "::placeholder": { color: "red", fontSize: "1rem" } }}
+        style={{ "::placeholder": { color: "red", fontSize: ".7rem" } }}
       />
       {icon && (
         <div

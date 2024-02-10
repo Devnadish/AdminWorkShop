@@ -11,7 +11,7 @@ export const CardFinice = ({setTotalCost,setReceivedAmount,setDueAmount,totalCos
     const total = parseFloat(totalCost) || 0;
     const received = parseFloat(receivedAmount) || 0;
     setDueAmount(total - received);
-  }, [totalCost, receivedAmount]);
+  }, [totalCost, receivedAmount,setDueAmount]);
   return (
     <div className="flex  gap-4  flex-col md:flex-row  p-2  w-full bg-background/50 border-t-4 border-destructive shadow-xl">
       <INPUT

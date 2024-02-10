@@ -1,5 +1,4 @@
 import { getCardByCardID } from '@/db/fixing'
-import { getTimeElapsed } from '@/lib/timeanddate';
 import { CardTranscation } from './_components/CardTranscation';
 import { ArrangeTranaction } from './_components/lib';
 import { CardFinince } from './_components/CardFinince';
@@ -25,7 +24,6 @@ async function page({ params }) {
 
 
   return (
-    // <div className="w-full flex  items-center  flex-col bg-accent mt-3 justify-start rounded gap-4 max-w-5xl">
       <div className="text-white flex flex-col  flex-wrap items-center gap-3 w-full justify-start max-w-5xl ">
         <CardHead
           fixingId={data.fixingId}
@@ -44,7 +42,6 @@ async function page({ params }) {
         <CardFinince  total={data.total}  receive={data.receive}  ReciptSum={ReciptSum} PaymentSum={PaymentSum} CardSum={CardSum} />
         <CardTranscation tranaction={transactionData} ReciptSum={ReciptSum} PaymentSum={PaymentSum} CardSum={CardSum}/>
      
-      
     </div>
   );
 

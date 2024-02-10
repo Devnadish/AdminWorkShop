@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { User, Car } from "@/lib/icons";
 import CardActions from "./CardActions";
-import ShowDate from "@/components/shared/ShowDate";
+import ShowDate from "@/components/sharedcompnent/ShowDate";
 import CardCpm from "@/components/sharedcompnent/CardCpm";
 import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 import FastInfo from "@/components/sharedcompnent/FastInfo";

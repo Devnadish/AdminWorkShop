@@ -2,7 +2,7 @@ import React from "react";
 import { getTimeElapsed } from "@/lib/timeanddate";
 import { FiCalendar } from "react-icons/fi";
 import { MdOutlineEditCalendar } from "react-icons/md";
-import IconWithdata from "../sharedcompnent/IconWithdata";
+import IconWithdata from "./IconWithdata";
 
 function ShowDate({ create, update }) {
   return (
