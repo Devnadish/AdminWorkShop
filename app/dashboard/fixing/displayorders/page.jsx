@@ -1,45 +1,57 @@
-import CardActions from "@/app/dashboard/fixing/_component/CardActions";
-import Caption, { DateCaption, VCaption } from "@/components/sharedcompnent/Caption";
-import { getAllFixOrder } from "@/db/fixing"
+import { getAllFixOrder } from "@/db/fixing";
+import { BodyCard } from "./_components/BodyCard";
+import { FiniceCard } from "./_components/FiniceCard";
+import { HeaderCard } from "./_components/HeaderCard";
+import IconWithdata from "@/components/sharedcompnent/IconWithdata";
+import { MdCarCrash } from "@/lib/icons";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 async function page() {
-  const fixOrder =await  getAllFixOrder();
+  const fixOrder = await getAllFixOrder();
   return (
     <div className="flex flex-wrap items-start justify-center w-full max-w-6xl bg-black">
-      <p className="bg-orange-500 mt-4 rounded px-6">
-        عدد الكروت : <span>{fixOrder.length}</span>
-      </p>
-      <div className=" flex flex-wrap items-start justify-center w-full">
-        {fixOrder.map((fix) => (
-          <div
-            key={fix.id}
-            className={`max-w-sm rounded overflow-hidden shadow-lg m-4 border min-w-[300px] w-full   ${
-              !fix.isClosed ? "border-red-500 border-2" : "border-white/30"
-            } `}
-          >
-            <div className="flex flex-col gap-2 px-6 py-4">
-              <Caption title={"رقم الكرت "} data={fix.fixingId} align="center" fonSize="text-xl" titleBgColor="bg-blue-500" dataBgColor="bg-blue-700"/>
-              <Caption title={"اسم العميل"} data={fix.clientName}/>
-              <Caption title={"رقم السيارة"} data={fix.selectedCar}/>
-              <VCaption title={"الخدمة المطلوبة"} data={fix.detail}/>
-              <Caption title={"موعد التسليم"} data={fix.delivery}/>
-              <Caption title={"المهندس"} data={fix.engName}/>
-              <Caption title={"القيمة"} data={fix.total}/>
-              <Caption title={"المستلم"} data={fix.receive}/>
-              <Caption title={"المتبقي"} data={fix.total-fix.receive}/>
-              <Caption title={"حالة الكرت"} data={fix.isClosed ? "مقفل" : "مفتوح"} />
-              <div className="flex items-center justify-between">
-              <DateCaption title={fix.createdDate}/>
-              <DateCaption title={fix.updatedDate}/>
-              </div>
-              {/* <CardActions id={fix.id} /> */}
+      <div className="flex  items-center justify-start w-full  max-w-6xl my-2">
+        <IconWithdata tooltip={"عدد الكروت"}>
+          <MdCarCrash className="text-primary" size={30} />
+          {fixOrder.length}
+        </IconWithdata>
+      </div>
+      
+      <div className=" flex flex-wrap items-start justify-center w-full gap-4">
+        {fixOrder.map((fix) => {
+          let brd;
+          fix.isClosed
+            ? (brd = "border-white/30")
+            : (brd = "border-red-500 border-2");
+          return (
+            <div
+              key={fix.id}
+              className={`max-w-[300px] rounded flex items-center justify-between shadow-lg gap-3 p-2 flex-col border border-border min-w-[300px] w-full min-h-72  ${brd} `}
+            >
+              <HeaderCard
+                fixingId={fix.fixingId}
+                clientName={fix.clientName}
+                selectedCar={fix.selectedCar}
+                isClosed={fix.isClosed}
+                create={fix.createdDate}
+                update={fix.updatedDate}
+              />
+              <BodyCard
+                detail={fix.detail}
+                delivery={fix.delivery}
+                engName={fix.engName}
+              />
+              <FiniceCard total={fix.total} receive={fix.receive} />
+              <Link href={`/dashboard/fixing/cardstatment/${fix.fixingId}`} className="bg-blue-400/80 px-3 w-10/12 mb-2 py-0.5  text-center shadow rounded" >معلومات  تفصيليه</Link>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
 }
-export default page
+export default page;
+
+// rgb(138, 180, 248);
