@@ -41,7 +41,7 @@ const MenuWithChild = ({ menuTitle, submenu, menuStyle, mainMenu, menuIcon, togg
   }
   return (
   <MenubarMenu className="w-full" >
-      <MenubarTrigger   className="w-full  bg-secondary  text-secondary-foreground  text-lg font-tajwal font-semibold flex items-center justify-center gap-4">
+      <MenubarTrigger   className="w-full  bg-transparent  text-primary  text-lg font-tajwal font-semibold flex items-center justify-center gap-4 hover:bg-primary hover:text-white">
         {menuIcon}
         {menuTitle}
         </MenubarTrigger>

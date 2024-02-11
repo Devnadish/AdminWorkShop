@@ -8,6 +8,7 @@ import HeaderNewClient from "@/components/navbar/NavBarNewClient";
 
 export const FastMenu = () => {
   const linkStyle = "w-9  rounded h-9  shadow-lg border bg-background/80  border-border text-primary-foreground flex  items-center justify-center text-xl";
+  const iconColor="text-primary"
   return (
     <div className="flex w-full items-center   gap-2">
       <HeaderNewClient />
@@ -17,7 +18,7 @@ export const FastMenu = () => {
           className={`${linkStyle} `}
           prefetch={true}
         >
-          <PiEngineDuotone size={25} className="text-yellow-300" />
+          <PiEngineDuotone size={25} className={iconColor} />
           {/* كرت صيانة */}
         </Link>
       </Ttip>
@@ -28,7 +29,7 @@ export const FastMenu = () => {
           prefetch={true}
           className={`${linkStyle} `}
         >
-          <FaTools size={25} className="text-foreground/70" />
+          <FaTools size={25} className={iconColor} />
         </Link>
       </Ttip>
       <Ttip tool={"سند قبض"}>
@@ -38,7 +39,7 @@ export const FastMenu = () => {
           prefetch={true}
           className={`${linkStyle} `}
         >
-          <LiaCashRegisterSolid size={25} className="text-foreground/70" />
+          <LiaCashRegisterSolid size={25} className={iconColor} />
         </Link>
       </Ttip>
 

@@ -8,6 +8,7 @@ import DailogBox from "@/components/sharedcompnent/DailogBox";
 
 function NavBarNewClient() {
   const [open, setOpen] = useState(false);
+  const iconColor="text-primary"
   return (
     <div>
       <Ttip tool={"عميل جديد"}>
@@ -18,7 +19,7 @@ function NavBarNewClient() {
           <UserRoundPlus
             size={20}
             strokeWidth={1.25}
-            className="text-foreground"
+            className={iconColor}
           />
         </Button>
       </Ttip>

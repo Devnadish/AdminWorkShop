@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import {
   ChevronsDown,
   ChevronsUp,
-  PlusCircle
+
 } from "lucide-react";
-import { ImagePlus,   StickyNote } from '@/lib/icons';
+
 
 function ExpandNote({ isOpen, setIsOpen, menuTitle, menuIcon, children, color = "bg-sky-950" }) {
   return (
@@ -29,7 +29,7 @@ function ExpandNote({ isOpen, setIsOpen, menuTitle, menuIcon, children, color = 
             >
               <div className="flex items-center justify-center gap-4 w-full  h-full">
                 {menuIcon}
-                <div className="flex items-center justify-center py-1 text-sm  font-bold  w-full">{menuTitle}</div>
+                <div className="flex items-center justify-center text-foreground/80 py-1 text-sm  font-bold  w-full">{menuTitle}</div>
               </div>
               {isOpen ? <ChevronsUp /> : <ChevronsDown />}
             </Button>

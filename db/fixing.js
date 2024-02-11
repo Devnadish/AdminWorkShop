@@ -382,9 +382,7 @@ export async function calculateTotalAmountForOrders(type) {
     totalRecipt: totalAmounts[index]._sum.amount || 0,
     payment: payments[index]._sum.amount || 0,
     balance:
-      order.fixOrederAmt +
-      totalAmounts[index]._sum.amount -
-      payments[index]._sum.amount,
+      (order.fixOrederAmt - totalAmounts[index]._sum.amount) +  payments[index]._sum.amount,
   }));
 
   // return results;

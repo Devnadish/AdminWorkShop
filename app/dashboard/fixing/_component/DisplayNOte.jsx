@@ -20,7 +20,7 @@ function DisplayNOte({ note }) {
           : "تو جد :  " + note.length + " ملاحظات"
       }
       color={note.length === 0 ? "bg-secondary" : "bg-accent"}
-      menuIcon={<MdOutlineEditNote size={30} className="text-yellow-300" />}
+      menuIcon={<MdOutlineEditNote size={30} className="text-primary" />}
     >
       <div className="flex flex-col gap-4 p-3">
         {note.map((el, index) => {
