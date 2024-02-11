@@ -3,7 +3,7 @@ import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 import { XSquare } from "@/lib/icons";
 import { Separator } from "../ui/separator";
-function DailogBox({ children, open, setOpen, title,borederRed="border-primary" }) {
+function DailogBox({ children, open, setOpen, title,borederRed="border-border" }) {
   
   return (
     <AlertDialog dir="RTL" open={open} onOpenChange={setOpen}   >

@@ -13,14 +13,14 @@ function Submit({title="حفظ" ,w="w-6/12",color="bg-blue-500",icon=<Send size=
     >
       {status.pending ? (
         <div className={`flex items-center justify-center gap-2 ${textColor}`}>
-          <span>جاري الحفظ..</span> <Spinner />
+          <span>جاري الحفظ..</span> 
+          <Spinner />
         </div>
       ) : (
-        <>
+        <div className="flex items-center justify-center gap-2">
           <span >{title}</span>
           {icon}
-          {/* <Send size={18} /> */}
-        </>
+        </div>
       )}
     </Button>
   );

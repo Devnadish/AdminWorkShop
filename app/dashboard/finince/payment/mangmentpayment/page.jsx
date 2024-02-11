@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import ClearButton from "@/components/sharedcompnent/ClearButton";
-import Expensis from "@/components/shared/Expensis";
+import Expensis from "@/app/dashboard/finince/payment/mangmentpayment/_component/Expensis";
 import INPUT from "@/components/sharedcompnent/INPUT";
 import PageTitle from "@/components/sharedcompnent/PageTitle";
 import Submit from "@/components/sharedcompnent/Submit";
@@ -10,6 +10,7 @@ import { savePaymentVoucher } from "@/db/payment";
 import { validateForm } from "@/lib/validation/payment";
 import { CircleDollarSign } from "lucide-react";
 import { toast } from "sonner";
+import { GiOfficeChair } from "@/lib/icons";
 
 const PaymentVoucherForm = () => {
   const [PymentNo, setPymentNo] = useState(0);
@@ -24,9 +25,7 @@ const PaymentVoucherForm = () => {
     const docDate = new Date(data.get("docDate")).toISOString().slice(0, 10);
     const paymentType = "mangment";
     const collector = expname;
-
     const Paymentdata = { amount, detail, paymentType, docDate, collector };
-
      const validation = validateForm(Paymentdata);
      if (!validation.isValid) {
        toast.error(validation.errorMessage);
@@ -44,16 +43,15 @@ const PaymentVoucherForm = () => {
   };
 
   return (
-    <div className=" flex flex-col w-full items-center justify-center max-w-6xl">
-      <PageTitle title="سند صرف اداري" bgColor="bg-blue-500"/>
+    <div className=" flex flex-col w-full items-center justify-center max-w-6xl gap-8">
+      <PageTitle title="سند صرف اداري" icon={<GiOfficeChair/>}/>
+      <div className="flex max-w-3xl w-full">
       <form
         id="paymentForm"
-        className="  w-full  flex flex-col gap-4 items-center justify-center border border-white/30 rounded-md p-4"
+        className="  w-full  flex flex-col gap-4 items-center justify-center border border-border bg-accent rounded p-4 shadow-lg"
         action={handleSubmit}
       >
         <div className="flex w-full items-center justify-between gap-4">
-          {/* <DocementNO DocID={PymentNo} /> */}
-
           <Expensis setExpname={setExpname} />
         </div>
 
@@ -65,11 +63,7 @@ const PaymentVoucherForm = () => {
                 name={"amount"}
                 type={"number"}
                 icon={<CircleDollarSign />}
-                cN="flex-1"
-                h="h-9"
-                w="w-[200px]"
-                textsize="text-[1.5rem]"
-
+                textsize="text-[1rem]"
                 id="amount"
               />
             </div>
@@ -84,11 +78,12 @@ const PaymentVoucherForm = () => {
           className="border border-gray-300 rounded px-4 py-2 w-full resize-none"
         />
 
-        <div className="flex items-center justify-around w-full">
-          <Submit />
+        <div className="flex items-center justify-end gap-4  w-full">
+          <Submit color="bg-border" title="حفظ السند"/>
           <ClearButton formId={"paymentForm"} FoucFiled={"amount"} />
         </div>
       </form>
+      </div>
     </div>
   );
 };

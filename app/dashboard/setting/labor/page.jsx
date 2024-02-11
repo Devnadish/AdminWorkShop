@@ -1,5 +1,5 @@
 import NewLabor from "@/app/dashboard/setting/_component/NewLabor";
-import DeleteExpinces from "@/components/shared/DeleteExpinces";
+import DeleteExpinces from "@/app/dashboard/finince/payment/mangmentpayment/_component/DeleteExpinces";
 import PageTitle from "@/components/sharedcompnent/PageTitle";
 import { displayAllLabor } from "@/db/labor";
 

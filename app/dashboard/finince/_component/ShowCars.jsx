@@ -8,7 +8,7 @@ import { Amounts } from "@/components/sharedcompnent/Amounts";
 export const ShowCars = ({ card, type }) => {
   return (
     <>
-      <CardCpm  topBorderColor={type === "payment" ? "border-destructive" : "border-primary"}>
+      <CardCpm  topBorderColor={type === "payment" ? "border-border" : "border-primary"} borderSize="border-t-4">
         <div className="flex w-full items-center flex-col gap-4  ">
           <OnlyDate onlyDate={card.crdate} />
           <div className="flex items-center justify-between w-full">
@@ -18,8 +18,8 @@ export const ShowCars = ({ card, type }) => {
             </IconWithdata>
 
             <IconWithdata tooltip={"رقم الكرت"}>
-              <Car size={20} strokeWidth={1} className="text-blue-900" />
-              <span className="text-blue-900">{card.selectedCar}</span>
+              <Car size={20} strokeWidth={1} className="text-foreground" />
+              <span className="text-foreground">{card.selectedCar}</span>
             </IconWithdata>
           </div>
           <IconWithdata tooltip={"اسم العميل"}>
