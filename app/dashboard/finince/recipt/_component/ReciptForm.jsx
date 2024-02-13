@@ -44,9 +44,9 @@ function ReciptForm({ fromID, fromName, fixingCode }) {
       <form
         action={handleSubmit}
         id="RecietForm"
-        className=" w-full flex flex-col items-center gap-2 bg-background/30 rounded-md  shadow-lg py-3"
+        className=" w-full flex flex-col items-center gap-2 bg-background/30 rounded-md  shadow-lg p-3"
       >
-        <div className=" flex items-center justify-between w-full  border-b py-2   gap-4">
+        <div className=" flex items-center justify-between w-full  border-b border-border py-2   gap-4">
           <INPUT
             placeholder={"المبلغ"}
             name={"amount"}
@@ -69,7 +69,7 @@ function ReciptForm({ fromID, fromName, fixingCode }) {
             disabled
           />
         </div>
-        <div className="relative   w-full px-3 ">
+        <div className="relative   w-full   ">
           <Textarea
             type="text"
             name="detail"
@@ -79,7 +79,7 @@ function ReciptForm({ fromID, fromName, fixingCode }) {
           />
         </div>
         <div className="flex items-center gap-4  justify-end px-3 w-full">
-          <Submit color="bg-primary" title="حفظ سند القبض" />
+          <Submit color="bg-primary" title="حفظ سند القبض"  textColor="bg-primary-foreground"/>
           <ClearButton formId={"RecietForm"} FoucFiled={"amount"} />
         </div>
       </form>

@@ -1,7 +1,7 @@
 import React from "react";
 import Ttip from "./Ttip";
 
-function IconWithdata({ children, tooltip ,bgColor="bg-inherit" ,fontSize="text-sm"}) {
+function IconWithdata({ children, tooltip ,bgColor="bg-transpernt" ,fontSize="text-sm"}) {
   return (
     <div className={`flex items-center gap-3 ${bgColor}  w-fit px-3 rounded `}>
       {tooltip ? (

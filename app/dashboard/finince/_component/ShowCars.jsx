@@ -6,6 +6,8 @@ import OnlyDate from "@/components/sharedcompnent/OnlyDate";
 import { Amounts } from "@/components/sharedcompnent/Amounts";
 
 export const ShowCars = ({ card, type }) => {
+  console.log(type)
+
   return (
     <>
       <CardCpm  topBorderColor={type === "payment" ? "border-border" : "border-primary"} borderSize="border-t-4">
@@ -28,8 +30,8 @@ export const ShowCars = ({ card, type }) => {
           </IconWithdata>
           <div className="flex items-center justify-between gap-2  w-full">
             <Amounts title={"القيمة"} amount={card.fixOrederAmt} />
-            <Amounts title={"المستلم"} amount={card.totalRecipt} />
-            <Amounts title={"المصروف"} amount={card.payment} />
+            <Amounts title={"المستلم"} amount={card.totalRecipt} bgColor={type === "recipt" ?   "bg-primary text-primary-foreground" : "bg-border" } />
+            <Amounts title={"المصروف"} amount={card.payment} bgColor={type === "payment" ? "bg-primary text-primary-foreground" : "bg-border"}/>
           </div>
           <p className="py-1  px-2 bg-background/30  text-foreground/80 w-full flex items-center justify-between rounded">
             <span> المتبقي</span>

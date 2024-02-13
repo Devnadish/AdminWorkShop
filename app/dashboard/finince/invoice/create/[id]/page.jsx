@@ -1,5 +1,4 @@
 // "use client"
-import DisplayInvoice from "@/app/dashboard/finince/invoice/_component/DisplayInvoice";
 import { collectInvoice } from "@/db/invoice";
 import React from "react";
 

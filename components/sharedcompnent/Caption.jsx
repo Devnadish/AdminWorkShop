@@ -8,10 +8,10 @@ function Caption({
     data,
     icon,
     row = true,
-    dataBgColor = "bg-white/20",
-    dataTextColor = "text-white/80",
-    titleBgColor = "bg-white/15",
-    titleTextColor = "text-white/80",
+    dataBgColor = "bg-secondary/30",
+    dataTextColor = "text-secondary-foreground",
+    titleBgColor = "bg-primary",
+    titleTextColor = "text-primary-foreground",
     isBorder = false,
     fonSize="text-sm",
     align="start",
@@ -22,7 +22,7 @@ function Caption({
             className={`flex items-center justify-center ${isBorder && " border  border-white/30"}  w-full rounded ${row ? "flex-row" : "flex-col"} ${fonSize} ${h}`}
         >
             <span
-                className={`${titleBgColor} ${titleTextColor} flex items-center justify-start flex-1 px-1 font-semibold  h-full text-right font-tajwal `}
+                className={`${titleBgColor}  ${titleTextColor} flex items-center justify-start flex-1 px-1 font-semibold  h-full text-right font-tajwal `}
 
             >
                 {title}
@@ -42,7 +42,7 @@ export default Caption;
 export function DateCaption({ data ,type}) {
     return (
         <div className="flex items-center justify-end  text-base ">
-            <div className={`flex items-center justify-end  border-b  ${type === "lastupdate" ? "border-green-300" : "border-white/40"}   text-white/70 px-3 py-1`}>
+            <div className={`flex items-center justify-end  border-b  ${type === "lastupdate" ? "border-green-300" : "border-white/40"}   text-foreground px-3 py-1`}>
                 <span className=" w-fit   px-3 text-[.7rem]  font-extralight  ">
                     {getTimeElapsed(data)}
                 </span>

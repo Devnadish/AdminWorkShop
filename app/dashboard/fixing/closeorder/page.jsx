@@ -25,7 +25,7 @@ async function page() {
                 <Caption
                   title={"الكرت رقم"}
                   data={fix.fixOrederId}
-                  titleBgColor="bg-blue-500"
+                  // titleBgColor="bg-blue-500"
                 />
                 <Caption title={"اسم العميل"} data={fix.clientName} />
                 <Caption title={"رقم السيارة"} data={fix.selectedCar} />
