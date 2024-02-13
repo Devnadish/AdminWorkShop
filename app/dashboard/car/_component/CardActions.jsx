@@ -34,7 +34,7 @@ function CardActions({ id }) {
       <Button
         onClick={() => getCarData(id, "delete")}
         size="icon"
-        variant="secondary"
+        variant="outline"
        
       >
          <Trash size={24} className="text-destructive " strokeWidth={1} />
@@ -42,9 +42,9 @@ function CardActions({ id }) {
       <Button
         onClick={() => getCarData(id, "update")}
         size="icon"
-        variant="secondary"
+        variant="outline"
       >
-         <CiEdit size={24} className="text-primary " />
+         <CiEdit size={24} className="text-primary" />
       </Button>
       <ShowBeforActon
         open={open}

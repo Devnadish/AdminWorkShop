@@ -15,7 +15,7 @@ const INPUT = ({
   w = "w-full",
   textsize = "text-[1rem]",
   bgColor="bg-input",
-  iconBgColor ="bg-popover/70",
+  iconBgColor ="bg-secondary/40",
   roundedCorners ="rounded",
   textcolor="text-foreground",
 

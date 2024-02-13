@@ -9,7 +9,7 @@ function AddImages({ carId, carImage }) {
   return (
     <>
       <Button
-        className="bg-secondary text-secondary-foreground h-7 flex items-center justify-between w-20 px-4"
+        className="bg-primary text-primary-foreground h-7 flex items-center justify-between w-20 px-4"
         onClick={() => setAddimage(true)}
       >
         <ImagePlus size={20} /> <span>{carImage}</span>

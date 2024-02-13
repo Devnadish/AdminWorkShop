@@ -111,24 +111,6 @@ function NewFixOrder({  carData, labor }) {
 
     const DONE = await FixOrder_DBaction(orderData, ClientID, totalCost,notedata);
   };
-
-  // const handleGetCar = async () => {
-  //   const carData = await getCarInfo(Carid);
-  //   if (carData.exisit) {
-  //     toast.error(carData.msg);
-  //     return;
-  //   }
-  //   if (carData.Carexisit === "not Exisit") {
-  //     toast.error(carData.msg);
-  //     return;
-  //   }
-
-  //   setClientName(carData[0].clientName);
-  //   setClientID(carData[0].clientId);
-  // };
-
- 
-
   const handleCheck = async (selectCar, carId) => {
     try {
       // Set loading to true to show the spinner
@@ -151,11 +133,8 @@ function NewFixOrder({  carData, labor }) {
       setLoading(false);
     }
   };
-
-
-
   return (
-    <div className="flex flex-col w-full items-start justify-start max-w-5xl mt-5  h-[80vh] bg-accent p-2 rounded">
+    <div className="flex flex-col w-full items-start justify-start max-w-5xl mt-5  h-[80vh]  p-2 rounded">
       
       <div className="flex items-start justify-center  text-foreground w-full h-full   gap-2 ">
         <CarsList
@@ -168,7 +147,7 @@ function NewFixOrder({  carData, labor }) {
         <form
           action={handlesubmit}
           id="fixingForm"
-          className="flex items-center justify-between flex-col gap-2 w-full   rounded-md   flex-wrap h-full"
+          className="flex items-center justify-between flex-col gap-2 w-full bg-accent p-2  flex-wrap h-full border-t-4 border-primary "
         >
           <CardBody
             carid={Carid}

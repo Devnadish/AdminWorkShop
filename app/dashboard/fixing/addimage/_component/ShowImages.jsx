@@ -11,7 +11,7 @@ function ShowImages({ carId, carImage }) {
   return (
     <>
      
-        <Button className="bg-secondary text-secondary-foreground h-7" onClick={() => setopen(true)}>
+        <Button className="bg-primary/70 text-primary-foreground h-7" onClick={() => setopen(true)}>
           <Eye size={20} />
         </Button>
       

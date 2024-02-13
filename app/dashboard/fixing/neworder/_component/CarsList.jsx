@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 const CarsList = memo(({ setCarid, carData, handleCheck }) => {
   return (
     <ScrollArea
-      className="h-full w-full  max-w-[300px] bg-accent shadow-lg p-5 border-t-4 border-primary"
+      className="h-full w-full  max-w-[300px] bg-accent shadow p-5 border-t-4 border-primary "
       dir="RTL"
     >
       <RadioGroup dir="RTL" onValueChange={setCarid}>
@@ -19,7 +19,7 @@ const CarsList = memo(({ setCarid, carData, handleCheck }) => {
               <User />
               <h2 className="text-bold px-2">{client.clientName}</h2>
             </div>
-            <Separator className="bg-white/30 mb-1" />
+            <Separator className="bg-secondary mb-1" />
             {client.cars.map((car) => (
               <div
                 key={car.id}
@@ -27,11 +27,11 @@ const CarsList = memo(({ setCarid, carData, handleCheck }) => {
               >
                 <div className="flex items-center gap-4 justify-between py-1 pr-6 px-4 w-full">
                   <div
-                    className="flex items-center gap-2 bg-card w-full justify-between p-1 text-card-foreground hover:bg-secondary hover:border"
+                    className="flex items-center gap-2 bg-card/30 w-full justify-between p-1 text-card-foreground hover:bg-secondary/30 hover:border border-border"
                     onClick={() => handleCheck(car.CarNo, car.id)}
                   >
                     <p>{car.carName}</p>
-                    <div className="flex items-center bg-secondary justify-between rounded-md px-3 gap-2 min-w-36">
+                    <div className="flex items-center bg-secondary/10 justify-between rounded-md px-3 gap-2 min-w-36">
                       <Car className="text-secondary-foreground" />
                       <div className="flex items-center gap-2 text-secondary-foreground">
                         <Label htmlFor={car.CarNo}>{car.CarNo}</Label>

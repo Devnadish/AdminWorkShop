@@ -6,7 +6,7 @@ import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 
 export const CardBody = ({ carid, ClientName, ClientID, loading }) => {
   return (
-    <div className="flex items-center justify-between w-full flex-col  bg-background/30 p-3 px-3 border-t-4 border-primary shadow-xl ">
+    <div className="flex items-center justify-between w-full flex-col  bg-background/30 p-3 px-3 ">
       <div className="flex items-center  flex-col w-full gap-2">
       {!loading ? (
         <Hd carid={carid} ClientName={ClientName} ClientID={ClientID} />

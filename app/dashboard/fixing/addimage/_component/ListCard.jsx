@@ -42,7 +42,7 @@ const ListCard = async () => {
                   {car.clientName}
                 </IconWithdata>
               </div>
-              <div className="flex items-center  bg-background/40 justify-between w-full p-1 ">
+              <div className="flex items-center  bg-background/40 justify-between w-full p-1 px-3 ">
                 <AddImages carId={car.CarNo} carImage={car.carImage.length} />
                {car.carImage.length !==0 && <ShowImages carId={car.CarNo} carImage={car.carImage} />}
               </div>

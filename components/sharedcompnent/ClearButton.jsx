@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from "@/components/ui/button";
 import { Eraser } from 'lucide-react';
 
-function ClearButton({formId,FoucFiled,color="bg-popover"}) {
+function ClearButton({formId,FoucFiled,color="bg-secondary"}) {
       const handleclear = () => {
         document.getElementById(formId).reset();
         document.getElementById(FoucFiled).focus();

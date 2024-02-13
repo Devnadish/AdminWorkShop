@@ -3,7 +3,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export const CardNote = () => {
   return (
-    <div className=" flex items-center justify-center     p-2   w-full bg-background/30   shadow-xl">
+    <div className=" flex items-center justify-center     p-2   w-full bg-background/30   ">
       <Textarea
         placeholder="ملاحظات"
         rows={2}

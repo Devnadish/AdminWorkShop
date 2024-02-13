@@ -60,7 +60,7 @@ export const FormAction = ({ type, CarData, setCarData, setOpen }) => {
     <>
       <form
         action={handleSubmit}
-        className="flex flex-col   flex-wrap gap-4 p-4 w-full  text-white max-w-md border rounded"
+        className="flex flex-col   flex-wrap gap-4 p-4 w-full  text-white max-w-md  rounded"
         id="Newcar"
       >
         <INPUT
@@ -69,8 +69,7 @@ export const FormAction = ({ type, CarData, setCarData, setOpen }) => {
           value={CarData.clientName}
 
           placeholder=" اسم العميل"
-          icon={<User />}
-          iconBgColor="bg-systemColor-required"
+          icon={<User className="text-primary" />}
           disabled />
 
         <INPUT
@@ -78,26 +77,24 @@ export const FormAction = ({ type, CarData, setCarData, setOpen }) => {
           name="CarNo"
           value={CarData.CarNo}
           placeholder=" رقم اللوحة الاجنبي"
-          icon={<Car />}
-          iconBgColor="bg-systemColor-required"
+          icon={<Car className="text-primary"/>}
           disabled />
 
         <INPUT
           type="text"
           name="carName"
           placeholder="نوع السيارة"
-          icon={<CarFront />}
+          icon={<CarFront className="text-primary" />}
           value={CarData.carName}
           id="carNameId"
-          iconBgColor="bg-gray-500"
           disabled={type === "delete"}
           onChange={(event) => setCarData({ ...CarData, carName: event.target.value })} />
         <INPUT
           type="text"
           name="Model"
           placeholder="الموديل"
-          icon={<RiCalendar2Fill />}
-          iconBgColor="bg-gray-500"
+          
+          icon={<RiCalendar2Fill className="text-primary"/>}
           value={CarData.Model}
           disabled={type === "delete"}
           onChange={(event) => setCarData({ ...CarData, Model: event.target.value })} />
@@ -106,8 +103,7 @@ export const FormAction = ({ type, CarData, setCarData, setOpen }) => {
           type="text"
           name="BodyNo"
           placeholder="رقم الهيكل"
-          icon={<GiKeyCard />}
-          iconBgColor="bg-gray-500"
+          icon={<GiKeyCard className="text-primary"/>}
           value={CarData.BodyNo}
           disabled={type === "delete"}
           onChange={(event) => setCarData({ ...CarData, BodyNo: event.target.value })} />
@@ -115,7 +111,7 @@ export const FormAction = ({ type, CarData, setCarData, setOpen }) => {
         <div className="flex items-center gap-4 justify-end  w-full">
           <Submit
             title={type === "update" ? "حفظ التعديلات" : "حذف الملف"}
-            color={type === "update" ? "bg-lime-500" : "bg-red-500"}
+            color={type === "update" ? "bg-primary" : "bg-destructive"}
             textColor={type === "update" ? "text-black" : "text-white"}
             icon={type === "update" ? <Pencil /> : <Trash />} />
           <ClearButton formId={"Newcar"} FoucFiled={"carNameId"} />

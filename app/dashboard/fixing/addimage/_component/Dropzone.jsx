@@ -129,7 +129,7 @@ const Dropzone = ({ className ,carId}) => {
         <Button
           type="button"
           onClick={removeAll}
-          className="w-1/3 rounded-md border border-rose-400 px-3 text-[12px] font-bold   text-stone-500 transition-colors hover:bg-rose-400 hover:text-white"
+          className="w-1/3 text-primary-foreground hover:bg-destructive hover:text-white"
         >
           مسح الصورة
         </Button>

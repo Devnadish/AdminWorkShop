@@ -1,10 +1,16 @@
-"use client"
+"use client";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import Spinner from "./Spinner";
 
-function Submit({title="حفظ" ,w="w-6/12",color="bg-blue-500",icon=<Send size={18} />,textColor="text-white"}) {
+function Submit({
+  title = "حفظ",
+  w = "w-6/12",
+  color = "bg-primary",
+  icon = <Send size={18} />,
+  textColor = "text-foreground",
+}) {
   const status = useFormStatus();
   return (
     <Button
@@ -13,12 +19,12 @@ function Submit({title="حفظ" ,w="w-6/12",color="bg-blue-500",icon=<Send size=
     >
       {status.pending ? (
         <div className={`flex items-center justify-center gap-2 ${textColor}`}>
-          <span>جاري الحفظ..</span> 
+          <span>جاري الحفظ..</span>
           <Spinner />
         </div>
       ) : (
-        <div className="flex items-center justify-center gap-2">
-          <span >{title}</span>
+        <div className="flex items-center justify-center gap-2 ">
+          <span>{title}</span>
           {icon}
         </div>
       )}
@@ -26,5 +32,4 @@ function Submit({title="حفظ" ,w="w-6/12",color="bg-blue-500",icon=<Send size=
   );
 }
 
-
-export default Submit
+export default Submit;
