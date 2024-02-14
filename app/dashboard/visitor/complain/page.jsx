@@ -27,13 +27,13 @@ const CommentsData = ({ getComplain }) => {
         <div
           key={index}
           className={`flex flex-col gap-4 rounded  w-full border   ${
-            el.isVisible ? "border-white " : "border-red-800 "
+            el.isVisible ? "border-white " : "border-destructive "
           }`}
         >
-          <div className="flex items-center justify-between w-full bg-sky-400/20 px-4">
+          <div className="flex items-center justify-between w-full bg-primary/20 px-4">
             <div className=" rounded-t p-1 flex items-center ">
               <Avatar src={el.avatar} />
-              <p className="text-white">{el.username}</p>
+              <p className="text-foreground">{el.username}</p>
             </div>
 
             <p className="bg-gray-200/20 px-4 text-xs rounded-xl py-1">
@@ -41,9 +41,9 @@ const CommentsData = ({ getComplain }) => {
             </p>
           </div>
 
-          <p className="text-white px-4">{el.text}</p>
-          <div className="flex w-full items-center justify-between bg-yellow-300 text-black rounded-b p-2 ">
-            <Button>رد علي الشكوى</Button>
+          <p className="text-foreground px-4">{el.text}</p>
+          <div className="flex w-full items-center justify-center p-2 ">
+            <Button className="w-1/2 ">رد علي الشكوى</Button>
           </div>
         </div>
       ))}

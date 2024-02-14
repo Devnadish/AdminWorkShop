@@ -6,15 +6,18 @@ import { Receipt, Scale } from "@/lib/icons";
 import PageTitle from "@/components/sharedcompnent/PageTitle";
 import CardCpm from "@/components/sharedcompnent/CardCpm";
 import { Separator } from "@/components/ui/separator";
+import { Suspense } from "react";
 export const dynamic = "force-dynamic";
 
 async function Statement() {
   const data = await getGroupClientWithTransactions();
 
+
   return (
     <div className="overflow-x-auto flex flex-wrap items-center justify-center w-full max-w-5xl">
       <div className="text-base font-tajwal flex items-center justify-center gap-16 flex-col w-full">
         <PageTitle title={<p>كشف حساب العملاء الذي لهم حركة مالية : <span>{data.length}</span> </p>} icon={<Receipt/>}/>
+        <Suspense fallback={<p>loading...</p>}>
         <div className="flex w-full items-center justify-center flex-wrap gap-4">
           {data.map((el) => (
              <CardCpm  key={el.fromId} h="min-h-52"> 
@@ -51,6 +54,7 @@ async function Statement() {
             </CardCpm>
           ))}
         </div>
+        </Suspense>
       </div>
     </div>
   );

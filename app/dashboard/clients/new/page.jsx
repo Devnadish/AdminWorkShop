@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 async function RegisterPage() {
   const clients = await displayClients();
 
-  // await new Promise((resolve)=>setTimeout(resolve,150000))
+ 
   return (
     <div className="flex flex-col">
       <PageTitle title={"تاسيس عميل جديد"} icon={<User />} />

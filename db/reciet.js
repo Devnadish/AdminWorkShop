@@ -29,21 +29,19 @@ export async function updateClientReceiptBalance(Cid, amount) {
     where: { clientIDs: Cid },
   });
 
-  if (!existingRecord.recipts) {
-    // If no receipts exist, set the receipt count to the provided amount
-    await db.client.update({
-      where: { clientIDs: Cid },
-      data: { recipts: amount },
-    });
-
-  } else {
-    // If receipts exist, add the provided amount to the existing receipt count
+  if (existingRecord && existingRecord.recipts !== null) {
     const updatedAmount = existingRecord.recipts + amount;
     await db.client.update({
-      where: { clientIDs: Cid },
-      data: { recipts: updatedAmount },
+        where: { clientIDs: Cid },
+        data: { recipts: updatedAmount },
     });
-  }
+} else {
+    await db.client.update({
+        where: { clientIDs: Cid },
+        data: { recipts: amount },
+    });
+}
+
   return {msg:"تم تعديل رصيد العميل بنجاح"}
 }
 

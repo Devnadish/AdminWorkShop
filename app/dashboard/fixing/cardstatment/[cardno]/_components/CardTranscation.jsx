@@ -6,14 +6,14 @@ export const CardTranscation = ({
 }) => {
   return (
     <div className="w-full overflow-auto py-3">
-      <table className="w-full border-collapse border border-gray-200 overflow-auto px-3">
+      <table className="w-full border-collapse border border-border overflow-auto px-3">
         <thead>
-          <tr className="bg-gray-600">
-            <th className="border border-gray-200 py-2 px-4">النوع</th>
-            <th className="border border-gray-200 py-2 px-4">التاريخ</th>
-            <th className="border border-gray-200 py-2 px-4">الرقم</th>
-            <th className="border border-gray-200 py-2 px-4">المبلغ</th>
-            <th className="border border-gray-200 py-2 px-4">التفاصيل</th>
+          <tr className="bg-secondary text-secondary-foreground">
+            <th className="border border-border py-2 px-4">النوع</th>
+            <th className="border border-border py-2 px-4">التاريخ</th>
+            <th className="border border-border py-2 px-4">الرقم</th>
+            <th className="border border-border py-2 px-4">المبلغ</th>
+            <th className="border border-border py-2 px-4">التفاصيل</th>
           </tr>
         </thead>
         <tbody>
@@ -27,24 +27,24 @@ export const CardTranscation = ({
               }
             >
               <td
-                className={`border border-gray-200 py-2 px-4 ${
+                className={`border border-border py-2 px-4 ${
                   el.type === "قبض" ? "text-primary" : "text-destructive"
                 }`}
               >
                 {el.type}
               </td>
-              <td className="border border-gray-200 py-2 px-4">{el.date}</td>
-              <td className="border border-gray-200 py-2 px-4 text-center">
+              <td className="border border-border py-2 px-4">{el.date}</td>
+              <td className="border border-border py-2 px-4 text-center">
                 {el.id}
               </td>
               <td
-                className={`border border-gray-200 py-2 px-4 font-bold text-left ${
+                className={`border border-border py-2 px-4 font-bold text-left ${
                   el.type === "قبض" ? "text-primary" : "text-destructive"
                 }`}
               >
                 {el.amount}
               </td>
-              <td className="border border-gray-200 py-2 px-4">{el.detail}</td>
+              <td className="border border-border py-2 px-4">{el.detail}</td>
             </tr>
           ))}
         </tbody>
@@ -52,13 +52,13 @@ export const CardTranscation = ({
           <tr className="bg-gray-900">
             <td
               colSpan="4"
-              className="border border-gray-200 py-2 px-4 text-right"
+              className="border border-border py-2 px-4 text-right"
             >
               الرصيد{" "}
             </td>
             <td
               colSpan="1"
-              className="border flex items-center justify-between border-gray-200 py-2 px-4 font-bold text-center"
+              className="border flex items-center justify-between border-border py-2 px-4 font-bold text-center"
             >
               <p>
                 قبض :<span className="text-primary px-3">{ReciptSum}</span>{" "}

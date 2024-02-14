@@ -8,7 +8,7 @@ export const CardHead = ({ fixingId, isClosed, createdDate, updatedDate, selecte
         <Title
           title={"رقم الكرت"}
           dataX={fixingId}
-          color={"bg-yellow-300 text-black"} />
+          color={"bg-primary text-primary-foreground"} />
         <Title title={"رقم السيارة"} dataX={selectedCar} />
         <Title
           title={"حالة الكرت"}

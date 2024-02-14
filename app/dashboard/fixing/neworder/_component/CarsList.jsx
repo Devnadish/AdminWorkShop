@@ -23,11 +23,11 @@ const CarsList = memo(({ setCarid, carData, handleCheck }) => {
             {client.cars.map((car) => (
               <div
                 key={car.id}
-                className="flex items-center justify-between gap-2 w-full"
+                className="flex items-center gap-4 justify-between py-1 pr-6 px-4 w-full"
               >
-                <div className="flex items-center gap-4 justify-between py-1 pr-6 px-4 w-full">
+                {/* <div className="flex items-center gap-4 justify-between py-1 pr-6 px-4 w-full"> */}
                   <div
-                    className="flex items-center gap-2 bg-card/30 w-full justify-between p-1 text-card-foreground hover:bg-secondary/30 hover:border border-border"
+                    className="flex items-center gap-2 bg-card/30 w-full justify-between p-1 text-card-foreground hover:bg-secondary/30 hover:border border-border cursor-pointer"
                     onClick={() => handleCheck(car.CarNo, car.id)}
                   >
                     <p>{car.carName}</p>
@@ -40,7 +40,7 @@ const CarsList = memo(({ setCarid, carData, handleCheck }) => {
                           id={car.CarNo}
                           className="text-destructive-foreground bg-destructive h-4 w-7"
                         />
-                      </div>
+                      {/* </div> */}
                     </div>
                   </div>
                 </div>

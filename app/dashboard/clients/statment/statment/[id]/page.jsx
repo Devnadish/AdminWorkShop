@@ -1,6 +1,6 @@
 import { getClient, getClientTransactions } from "@/db/clients";
 import { Phone, User,AlertTriangle } from "@/lib/icons";
-import React from "react";
+import React, { Suspense } from "react";
 import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 
 async function page({ params }) {
@@ -19,6 +19,8 @@ async function page({ params }) {
 
   return (
     <>
+    
+      <Suspense fallback={<p>loading...</p>}>
       <div className="w-full  flex items-center  flex-wrap  flex-col max-w-4xl mt-4 overflow-auto px-6">
         <div className="w-full flex items-center  justify-between px-2 gap-4 rounded  flex-wrap bg-accent max-w-4xl self-start py-2 ">
           <IconWithdata>
@@ -32,6 +34,7 @@ async function page({ params }) {
         </div>
         {transaction}
       </div>
+      </Suspense>
     </>
   );
 }

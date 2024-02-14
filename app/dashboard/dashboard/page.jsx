@@ -5,6 +5,7 @@ import { MdCarCrash } from "@/lib/icons";
 import DashBoardCardActions from "./_component/DashBoardCardActions";
 import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 import { ShowCards } from "./_component/ShowCards";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 async function page() {
@@ -17,7 +18,7 @@ async function page() {
           {fixOrder.length}
         </IconWithdata>
       </div>
-
+<Suspense fallback={<p className="text-black"> loading..</p>}>
       <div className="grid grid-cols-1 place-items-start gap-4 md:grid-cols-2 ">
         {fixOrder.map((fix) => (
           <div
@@ -44,6 +45,7 @@ async function page() {
           </div>
         ))}
       </div>
+      </Suspense>
     </div>
   );
 }

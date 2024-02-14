@@ -6,17 +6,7 @@ import React from 'react'
 import CommentAction from './CommentAction';
 
 const ShowComments = ({ getComment }) => {
-    const fetchData = async () => {
-    //   const response = await fetch("/api/data");
-    //   const data = await response.json();
-
-    //   setData(data);
-    };
-    useEffect(() => {
-      window.addEventListener("focus", fetchData);
-
-      return () => window.removeEventListener("focus", fetchData);
-    }, []);
+     
 
 
   return (
@@ -25,13 +15,13 @@ const ShowComments = ({ getComment }) => {
         <div
           key={index}
           className={`flex flex-col gap-4 rounded  w-full border   ${
-            el.isVisible ? "border-white " : "border-red-800 "
+            el.isVisible ? "border-border " : "border-destructive "
           }`}
         >
-          <div className="flex items-center justify-between w-full bg-sky-400/20 px-4">
+          <div className="flex items-center justify-between w-full bg-primary/20 px-4">
             <div className=" rounded-t p-1 flex items-center ">
               <Avatar src={el.avatar} />
-              <p className="text-white">{el.username}</p>
+              <p className="text-foreground">{el.username}</p>
             </div>
 
             <p className="bg-gray-200/20 px-4 text-xs rounded-xl py-1">

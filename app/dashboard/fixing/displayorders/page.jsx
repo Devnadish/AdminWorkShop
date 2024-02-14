@@ -5,20 +5,22 @@ import { HeaderCard } from "./_components/HeaderCard";
 import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 import { MdCarCrash } from "@/lib/icons";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
 async function page() {
   const fixOrder = await getAllFixOrder();
+      // await new Promise((resolve)=>setTimeout(resolve,150000))
   return (
-    <div className="flex flex-wrap items-start justify-center w-full max-w-6xl bg-black">
+    <div className="flex flex-wrap items-start justify-center w-full max-w-6xl ">
       <div className="flex  items-center justify-start w-full  max-w-6xl my-2">
         <IconWithdata tooltip={"عدد الكروت"}>
           <MdCarCrash className="text-primary" size={30} />
           {fixOrder.length}
         </IconWithdata>
       </div>
-      
+      <Suspense fallback={<p>loading...</p>}>
       <div className=" flex flex-wrap items-start justify-center w-full gap-4">
         {fixOrder.map((fix) => {
           let brd;
@@ -49,6 +51,7 @@ async function page() {
           );
         })}
       </div>
+      </Suspense>
     </div>
   );
 }

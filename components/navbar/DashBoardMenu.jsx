@@ -14,13 +14,12 @@ import Logout from "@/app/dashboard/setting/auth/_component/Logout";
 import { Home} from "@/lib/icons";
 import DesktopMenu from "./DesktopMenu";
 import { FastMenu } from "./FastMenu";
-import { ClientActivityDropMenu } from "./ClientActivityDropMenu";
+
 
 
 const DashBoardMenu = ({ user }) => {
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false);
-  const gotoActivity = (url) => { router.push(url); return }
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -63,14 +62,14 @@ const DashBoardMenu = ({ user }) => {
       </div>
       {/* md menu */}
     
-      <div className="w-full md:w-1/2  md:flex md:items-center justify-center hidden gap-4"><DesktopMenu /> </div>
-      <div className="text-white bg-purple-600 px-5 py-1 rounded-md font-tajwal font-bold animate-pulse text-sm">  <p> النظام تحت التطوير</p></div>
+      <div className="w-full md:w-8/12  md:flex md:items-center justify-center hidden gap-4"><DesktopMenu /> </div>
+      <div className="text-white bg-purple-600 px-2 py-1 rounded-md font-tajwal font-bold animate-pulse text-sm">  <p>  تحت التطوير</p></div>
       <div className="flex items-center gap-4">
       
         <FastMenu />
         <div className=" flex  items-center   bg-yellow-300 text-sky-950  rounded-md ">
-          <ClientActivityDropMenu gotoActivity={gotoActivity} />
-          <Link className="flex items-center justify-center rounded-l-none p-0 w-8 " href={"/"}>
+          
+          <Link className="flex items-center justify-center rounded-l-none p-2 w-8 " href={"/"}>
             <Home size={20} strokeWidth={1.25} />
           </Link>
         </div>

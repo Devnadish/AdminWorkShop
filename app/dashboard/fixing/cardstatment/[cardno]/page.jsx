@@ -17,14 +17,14 @@ async function page({ params }) {
   const ReciptSum = Reciptdata.reduce((sum, transaction) => sum + transaction.amount, 0);
   const PaymentSum = paymentData.reduce((sum, transaction) => sum + transaction.amount, 0);
   const CardSum = ReciptSum - PaymentSum
-  if (!getCard.cardData) { return <div className='bg-sky-500 px-8 py-3 rounded-md mt-10'>
+  if (!getCard.cardData) { return <div className='bg-primary px-8 py-3 rounded-md mt-10'>
     <span> لا بوجد  معلومات عن الكرت رقم </span>
     <span className='bg-sky-600 px-8 py-3 mr-4'>{params.cardno} </span>
     </div> }
 
 
   return (
-      <div className="text-white flex flex-col  flex-wrap items-center gap-3 w-full justify-start max-w-5xl ">
+      <div className="text-foreground flex flex-col  flex-wrap items-center gap-3 w-full justify-start max-w-5xl mt-5 ">
         <CardHead
           fixingId={data.fixingId}
           isClosed={data.isClosed}
