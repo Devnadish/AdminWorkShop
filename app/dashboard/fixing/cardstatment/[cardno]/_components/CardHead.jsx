@@ -12,8 +12,9 @@ export const CardHead = ({ fixingId, isClosed, createdDate, updatedDate, selecte
         <Title title={"رقم السيارة"} dataX={selectedCar} />
         <Title
           title={"حالة الكرت"}
-          dataX={isClosed ? "مفتوح" : "مغلق"}
-          color={isClosed ? "bg-red-800" : "bg-green-400"} />
+          dataX={isClosed ? "مغلق" : "مفتوح"}
+          color={isClosed ? "bg-destructive " : "bg-primary"}
+          textColor={isClosed ? "text-destructive-foreground " : "text-primary-foreground"} />
         <Title title={"تاريخة"} dataX={JustDate(createdDate)} />
         <Title title={"اخر تعديل"} dataX={JustDate(updatedDate)} />
       </div>

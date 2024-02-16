@@ -49,27 +49,30 @@ export const CardTranscation = ({
           ))}
         </tbody>
         <tfoot>
-          <tr className="bg-gray-900">
+          <tr className="bg-primary">
             <td
               colSpan="4"
-              className="border border-border py-2 px-4 text-right"
+              className="border border-border py-2 px-4 text-right text-primary-foreground"
             >
               الرصيد{" "}
             </td>
             <td
               colSpan="1"
-              className="border flex items-center justify-between border-border py-2 px-4 font-bold text-center"
+              className="border flex items-center justify-between border-border py-2 px-4 font-bold text-center text-primary-foreground"
             >
               <p>
-                قبض :<span className="text-primary px-3">{ReciptSum}</span>{" "}
+                قبض :<span className="text-primary-foreground px-3">{ReciptSum}</span>{" "}
               </p>
 
               <p>
                 صرف :
-                <span className="text-destructive  px-3">{PaymentSum}</span>{" "}
+                <span className="text-primary-foreground  px-3">{PaymentSum}</span>{" "}
               </p>
-              <p>
-                الصافي :<span className="bg-background/50 px-3">{CardSum}</span>{" "}
+              <p className="text-white px-3">
+                الصافي :
+                <span className="text-destructive px-3">
+                  {CardSum}
+                </span>
               </p>
             </td>
           </tr>

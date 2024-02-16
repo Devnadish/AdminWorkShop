@@ -220,6 +220,7 @@ model cardImage {
   description String   @default("")
   cover      Boolean  @default(false)
   CardId     String     @default("")
+  CarId      String     @default("")
   userID     String   @default("")
   userName   String   @default("")
   userAvatar String   @default("")

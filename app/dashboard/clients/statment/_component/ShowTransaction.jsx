@@ -72,16 +72,16 @@ function ShowTransaction({
             ))}
           </tbody>
           <tfoot>
-            <tr className="bg-gray-900">
+            <tr className="bg-gray-900 text-foreground">
               <td
                 colSpan="4"
-                className="border border-gray-200 py-2 px-4 text-right"
+                className="border border-gray-200 py-2 px-4 text-right text-white"
               >
-                الرصيد{" "}
+                الرصيد
               </td>
               <td
                 colSpan="1"
-                className="border border-gray-200 py-2 px-4 font-bold text-center"
+                className="border border-gray-200 py-2 px-4 font-bold text-center text-white"
               >
                 {total - sumOfReceipts + sumOfExpenses}
               </td>

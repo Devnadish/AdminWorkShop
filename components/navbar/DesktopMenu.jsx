@@ -16,7 +16,7 @@ import { BiSolidCarMechanic, Drill } from "@/lib/icons";
 
 export function DesktopMenu({ toggleSidebar, type = "desktop" }) {
   const menuStyle = "flex w-full items-center justify-between px-1 text-lg";
-  const mainMenu = "w-[250px]  md:w-60 font-tajwal";
+  const mainMenu = "w-[250px]  md:w-60 font-tajwal border-none";
   return (
     <>
       <ModeToggle />
