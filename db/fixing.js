@@ -199,7 +199,7 @@ export async function FixOrderImage() {
   const openCards = [];
   for (const openCard of existingOrder) {
     const carImage = await db.cardImage.findMany({
-      where: { CardId: openCard.selectedCar },
+      where: { CarId: openCard.selectedCar },
     });
     openCards.push({
       id: openCard.id,
@@ -406,9 +406,9 @@ export async function getClientInfo(id) {
   return clients;
 }
 
-export async function ShowFixOrderImage(cardId) {
+export async function ShowFixOrderImage(carId) {
   const carImage = await db.cardImage.findMany({
-    where: { CardId: cardId },
+    where: { CarId: carId },
   });
 
   return carImage;

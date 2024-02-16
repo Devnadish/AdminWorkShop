@@ -29,7 +29,6 @@ export const HeaderCard = ({ fixingId, clientName, selectedCar, isClosed ,create
 
 
 
-        {/* <Caption   data={isClosed ? "مقفل" : "مفتوح"} /> */}
       </div>
       <div className="flex w-full items-center justify-between">
         <IconWithdata tooltip={"رقم السيارة"}>

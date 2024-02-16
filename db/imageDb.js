@@ -23,9 +23,8 @@ export async function getSignature() {
   return { timestamp, signature }
 }
 
-export async function saveToDatabase({ public_id, version, signature,carId,description }) {
+export async function saveToDatabase({ public_id, version, signature,carId,cardId,description }) {
   // verify the data
-  console.log(description)
   const expectedSignature = cloudinary.utils.api_sign_request(
     { public_id, version },
     cloudinaryConfig.api_secret
@@ -34,7 +33,7 @@ export async function saveToDatabase({ public_id, version, signature,carId,descr
   if (expectedSignature === signature) {
     try {
       const saveNote = await db.cardImage.create({
-        data: { imageId: public_id, CardId: carId,description },
+        data: { imageId: public_id, CardId:cardId, CarId: carId ,description },
       });
   } catch (error) {
       

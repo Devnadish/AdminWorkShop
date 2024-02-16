@@ -66,6 +66,8 @@ function DashBoardCardActions({ cardid, carId }) {
       {Imageopen && (
         <AddImage
           carId={carId}
+          cardId={parseInt(cardid)}
+
           open={Imageopen}
           setOpen={setImageOpen}
           handleNote={handleNote}
