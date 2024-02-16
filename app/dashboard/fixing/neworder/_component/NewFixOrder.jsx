@@ -16,22 +16,22 @@ function NewFixOrder({  carData, labor }) {
   const [totalCost, setTotalCost] = useState();
   const [receivedAmount, setReceivedAmount] = useState();
   const [dueAmount, setDueAmount] = useState(0);
-  const [FixCardNO, setFixCardNO] = useState(0);
   const [ClientID, setClientID] = useState("");
   const [ClientName, setClientName] = useState("");
   const [Carid, setCarid] = useState("اختار السيارة");
-  const [isShow, setIsShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [alertchecked, setalertChecked] = useState(true);
 
   // -----------------------------------------------------------------
   const FixOrder_DBaction = async (orderData, ClientID, total,serviceNote) => {
+  
    
     try {
-      const [AddFixing, UpdateClientBalance,addNote] = await Promise.all([
-        newFixingOrder(orderData,serviceNote),
+      const [AddFixing, UpdateClientBalance] = await Promise.all([
+        newFixingOrder(orderData, serviceNote),
         updateClientReceiptBalance(parseInt(ClientID), parseInt(total)),
         // newNote(serviceNote)
-
       ]);
 
       if (AddFixing.exisit) {
@@ -39,7 +39,8 @@ function NewFixOrder({  carData, labor }) {
         return "haveCard";
       } else {
         toast.success(AddFixing.msg);
-        toast.success(UpdateClientBalance.msg);
+        if(UpdateClientBalance.code===200){toast.success(UpdateClientBalance.msg)}else{toast.error(UpdateClientBalance.msg)}
+        
         setClientName("");
         setClientID("");
         setCarid("اختار السيارة");
@@ -94,7 +95,9 @@ function NewFixOrder({  carData, labor }) {
     const orderData = {
       detail,
       delivery,
-      
+      reminder: alertchecked,
+      deliveryTime: selectedDate,
+
       total: parseInt(totalCost) || 0,
       receive: parseInt(receivedAmount) || 0,
       clientId: parseInt(ClientID),
@@ -134,8 +137,7 @@ function NewFixOrder({  carData, labor }) {
     }
   };
   return (
-    <div className="flex flex-col w-full items-start justify-start max-w-5xl mt-5  h-[80vh]  p-2 rounded">
-      
+    <div className="flex flex-col w-full items-start justify-start max-w-5xl mt-5  h-[90vh]  p-2 rounded">
       <div className="flex items-start justify-center  text-foreground w-full h-full   gap-2 ">
         <CarsList
           setCarid={setCarid}
@@ -154,6 +156,10 @@ function NewFixOrder({  carData, labor }) {
             ClientName={ClientName}
             ClientID={ClientID}
             loading={loading}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            alertchecked={alertchecked}
+            setalertChecked={setalertChecked}
           />
           <CardFinice
             setTotalCost={setTotalCost}
@@ -167,7 +173,6 @@ function NewFixOrder({  carData, labor }) {
           <CardAction />
         </form>
       </div>
-     
     </div>
   );
 }

@@ -18,33 +18,35 @@ async function page() {
           {fixOrder.length}
         </IconWithdata>
       </div>
-<Suspense fallback={<p className="text-black"> loading..</p>}>
-      <div className="grid grid-cols-1 place-items-start gap-4 md:grid-cols-2 ">
-        {fixOrder.map((fix) => (
-          <div
-            key={fix.cardId}
-            className="rounded overflow-hidden shadow-lg   min-w-[300px] w-full "
-          >
-            <ShowCards
-              cardNo={fix.cardId}
-              cardDate={<DateCaption data={fix.createData} />}
-              carNo={fix.CarNo}
-              clientName={fix.clientName}
-              service={fix.service}
-              delevery={fix.delevery}
-              eng={fix.eng}
-              note={<DisplayNOte note={fix.note} />}
-              action={
-                <DashBoardCardActions
-                  id={fix.id}
-                  cardid={fix.cardId}
-                  carId={fix.CarNo}
-                />
-              }
-            />
-          </div>
-        ))}
-      </div>
+      <Suspense fallback={<p className="text-black"> loading..</p>}>
+        <div className="grid grid-cols-1 place-items-start gap-4 md:grid-cols-2 ">
+          {fixOrder.map((fix) => (
+            <div
+              key={fix.cardId}
+              className="rounded overflow-hidden shadow-lg   min-w-[300px] w-full "
+            >
+              <ShowCards
+                cardNo={fix.cardId}
+                cardDate={<DateCaption data={fix.createData} />}
+                carNo={fix.CarNo}
+                clientName={fix.clientName}
+                service={fix.service}
+                delevery={fix.delevery}
+                reminder={fix.reminder}
+                deleverTime={fix.deleverTime}
+                eng={fix.eng}
+                note={<DisplayNOte note={fix.note} />}
+                action={
+                  <DashBoardCardActions
+                    id={fix.id}
+                    cardid={fix.cardId}
+                    carId={fix.CarNo}
+                  />
+                }
+              />
+            </div>
+          ))}
+        </div>
       </Suspense>
     </div>
   );

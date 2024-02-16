@@ -40,7 +40,6 @@ const CommentsData = ({ getComplain }) => {
               {getTimeElapsed(el.updatedAt)}
             </p>
           </div>
-
           <p className="text-foreground px-4">{el.text}</p>
           <div className="flex w-full items-center justify-center p-2 ">
             <Button className="w-1/2 ">رد علي الشكوى</Button>

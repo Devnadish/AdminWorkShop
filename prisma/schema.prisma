@@ -79,6 +79,8 @@ model fixingOrder {
   isClosed    Boolean  @default(false)
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt
+  reminder     Boolean  @default(false)
+  deliveryTime DateTime? 
 }
 
 model openFixingOrder {
@@ -90,6 +92,8 @@ model openFixingOrder {
   fixOrederAmt Float    @default(0)
   createdDate  DateTime @default(now())
   updatedDate  DateTime @updatedAt
+  reminder     Boolean  @default(false)
+  deliveryTime DateTime? 
 }
 
 model PaymentVoucher {

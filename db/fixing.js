@@ -24,17 +24,17 @@ export async function newFixingOrder(fixingData, serviceNote) {
     const Note = { ...serviceNote, CardId: fixCounter };
 
     const order = await db.fixingOrder.create({ data });
-
+    
     if (Note.note) {
       const note = newNote(Note);
     }
-
+    
     const addToCarsInClient = await addFixCardValue(
       order.clientId,
       order.selectedCar
-    );
-    const addToOpenOrder = await createOpenFixingOrder(data);
-
+      );
+      
+      const addToOpenOrder = await createOpenFixingOrder(data);
     if (fixingData.receive === 0) {
       addReciptVoucher = "لم يتم استلام دفعة من العميل";
     } else {
@@ -133,12 +133,15 @@ async function addFixCardValue(clientIdNo, newFixCardValue) {
 
 async function createOpenFixingOrder(cardData) {
   // Check if the openFixingOrder already exists
+  const reminder =     cardData.reminder
+  const deliveryTime  =cardData.deliveryTime
+
   const selectedCar = cardData.selectedCar;
   const clientId = cardData.clientId;
   const clientName = cardData.clientName;
   const fixOrederId = cardData.fixingId;
   const fixOrederAmt = cardData.total;
-  const data = { selectedCar, clientId, clientName, fixOrederId, fixOrederAmt };
+  const data = { selectedCar, clientId, clientName, fixOrederId, fixOrederAmt ,deliveryTime,reminder};
 
   const existingOrder = await db.openFixingOrder.findUnique({
     where: { selectedCar },
@@ -225,12 +228,15 @@ export async function getAllOpenCard() {
     });
     openCards.push({
       cardId: openCard.fixOrederId,
-      createData: openCard.createdDate,
       clientName: openCard.clientName,
+      deleverTime:openCard.deliveryTime,
+      reminder:openCard.reminder,
       CarNo: openCard.selectedCar,
+      createData: openCard.createdDate,
       service: carClients.detail,
       eng: carClients.engName,
       delevery: carClients.delivery,
+
       note: carNote,
     });
   }

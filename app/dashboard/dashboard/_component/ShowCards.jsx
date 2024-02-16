@@ -16,12 +16,15 @@ import {
 import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 import CardCpm from "@/components/sharedcompnent/CardCpm";
 import OnlyDate from "@/components/sharedcompnent/OnlyDate";
+import DeleveryTimer from "./DeleveryTimer";
 
 export const ShowCards = (props) => {
   const cardDate=props.cardDate.props.data
+  const deleverTime=props.deleverTime
   return (
       <CardCpm>
         {/* card title */}
+       {props.reminder && <DeleveryTimer deleveryTime={deleverTime}/>}
         <IconWithdata tooltip={"اسم العميل"}>
           <User size={18} />
           {props.clientName}

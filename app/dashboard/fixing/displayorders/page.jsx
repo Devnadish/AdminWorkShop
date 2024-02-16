@@ -6,6 +6,7 @@ import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 import { MdCarCrash } from "@/lib/icons";
 import Link from "next/link";
 import { Suspense } from "react";
+import FilterData from "./_components/FilterData";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ async function page() {
       // await new Promise((resolve)=>setTimeout(resolve,150000))
   return (
     <div className="flex flex-wrap items-start justify-center w-full max-w-6xl ">
+        <FilterData/>
       <div className="flex  items-center justify-start w-full  max-w-6xl my-2">
         <IconWithdata tooltip={"عدد الكروت"}>
           <MdCarCrash className="text-primary" size={30} />

@@ -28,6 +28,12 @@ export async function updateClientReceiptBalance(Cid, amount) {
   const existingRecord = await db.client.findUnique({
     where: { clientIDs: Cid },
   });
+  console.log(existingRecord)
+if(!existingRecord){
+
+  return {msg:"ملف العميل غير موجود -- خلل راجع الادارة للضروره ... ",code:400}
+ 
+}
 
   if (existingRecord && existingRecord.recipts !== null) {
     const updatedAmount = existingRecord.recipts + amount;
@@ -42,7 +48,7 @@ export async function updateClientReceiptBalance(Cid, amount) {
     });
 }
 
-  return {msg:"تم تعديل رصيد العميل بنجاح"}
+  return {msg:"تم تعديل رصيد العميل بنجاح",code:200}
 }
 
 

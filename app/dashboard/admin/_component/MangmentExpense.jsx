@@ -6,7 +6,10 @@ const MangmentExpense = ({ MaintenanceExpensesArray }) => {
       <div className="text-white flex-col flex items-center justify-evenly    w-full  px-3 gap-1">
       {MaintenanceExpensesArray.map((item, index) => {
         return (
-          <Caption key={index} title={item.collector} data={item.amount} isBorder={false} />
+          <Caption key={index} title={item.collector} data={item.amount} isBorder={false}     titleBgColor="bg-accent/60"
+          titleTextColor="text-accent-foreground"
+          h="h-7"
+          align="end" />
         );
       })}
     </div>
