@@ -9,7 +9,6 @@ import { Separator } from "../ui/separator";
 import Spinner from "./Spinner";
 
 function ShowCarImages({ carId }) {
-  console.log(carId)
   const [carImage, setCarImage] = useState([]);
   const [loading, setLoading] = useState(false);
 

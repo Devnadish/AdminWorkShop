@@ -6,7 +6,6 @@ import OnlyDate from "@/components/sharedcompnent/OnlyDate";
 import { Amounts } from "@/components/sharedcompnent/Amounts";
 
 export const ShowCars = ({ card, type }) => {
-  console.log(type)
 
   return (
     <>

@@ -8,7 +8,7 @@ export const savePaymentVoucher = async (formData) => {
     const docDate = new Date(formData.docDate).toISOString();
     const data = { ...formData, paymentId: newDocId, docDate };
     const newVoucher = await db.PaymentVoucher.create({ data });
-    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/dashboard");
     revalidatePath("/dashboard/fixing/closeorder");
     return {
       msg: "تم انشاء سند صرف تشغيلي ",

@@ -10,7 +10,6 @@ const DeleveryTimer = ({ deleveryTime }) => {
 
   useEffect(() => {
     const target = new Date(deleveryTime);
-
     const interval = setInterval(() => {
       const now = new Date();
       const difference = target.getTime() - now.getTime();
@@ -35,7 +34,7 @@ const DeleveryTimer = ({ deleveryTime }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [deleveryTime]);
 
   const stylex =
     "border-b border-border flex items-center gap-1 px-1 text-[.7rem]";

@@ -13,8 +13,8 @@ function CreateInvoice({ id, balance, fixOrederId }) {
   };
 
   return (
-    <Button onClick={() => handleDelete(id, balance, fixOrederId)}>
-      <Eye size={24} />{" "}
+    <Button className="bg-accent text-accent-foreground" onClick={() => handleDelete(id, balance, fixOrederId)}>
+      <Eye size={24} />
     </Button>
   );
 }

@@ -37,21 +37,21 @@ function ShareInvoice({ id,  clientName,clientPhone }) {
 
   useEffect(() => {
     setUrl(`${templLink}/share/${id}`)
-  }, [])
+  }, [templLink,id])
 
 
 
 
   return (
     <>
- <Button
-                onClick={() => handleSend(url, id, clientName, clientPhone)}
-              >
-                <SiWhatsapp size={24} />
-              </Button>
+      <Button
+        className="bg-accent/70 text-accent-foreground"
+        onClick={() => handleSend(url, id, clientName, clientPhone)}
+      >
+        <SiWhatsapp size={24} />
+      </Button>
 
-
-{/* 
+      {/* 
       <div className="flex items-center justify-end  bg-slate-900 w-full gap-6 py-2 px-2">
         <AlertDialog>
           <AlertDialogTrigger className="border h-12   rounded flex items-center justify-center w-full gap-4 bg-blue-600">

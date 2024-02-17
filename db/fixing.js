@@ -210,7 +210,6 @@ export async function FixOrderImage() {
     });
   }
 
-  // console.log(openCards)
 
   return openCards;
 }
@@ -240,7 +239,6 @@ export async function getAllOpenCard() {
       note: carNote,
     });
   }
-  // console.log(openCards)
 
   return openCards;
 }
@@ -256,6 +254,52 @@ export async function deleteFixOrder(id) {
   revalidatePath("/dashboard/fixing/displayorders");
   return deletedItem;
 }
+
+export async function getAllOpenFixOrderForInvoice(fliter) {
+  const existingOrder = await db.fixingOrder.findMany({where:fliter});
+  const ordersWithSums = [];
+
+  for (const order of existingOrder) {
+    
+    const paymentSum = await db.paymentVoucher.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        fixingCode: order.fixingId,
+      },
+    });
+
+    const recietSum = await db.recietVoucher.aggregate({
+      _sum: {
+        amount: true,
+      },
+      where: {
+        fixingCode: order.fixingId,
+      },
+    });
+    const client = await db.Client.findMany({
+      where: { clientIDs: order.clientId },
+    });
+
+    ordersWithSums.push({
+      ...order,
+      // clientName: order.clientName,
+      clientName: client[0]?.name,
+      clientPhone: client[0]?.mobile,
+      paymentSum: paymentSum._sum.amount,
+      recietSum: recietSum._sum.amount,
+    });
+  }
+revalidatePath('/dashboard/finince/invoice')
+  return ordersWithSums;
+}
+
+
+
+
+
+
 
 export async function getAllOpenFixOrder() {
   const existingOrder = await db.openFixingOrder.findMany({});

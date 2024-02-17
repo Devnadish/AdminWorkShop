@@ -9,7 +9,7 @@ export async function saveRecietVoucher(reciptData) {
     const data = { ...reciptData, recietId: RecietCounter, docDate };
     const order = await db.RecietVoucher.create({ data });
     revalidatePath("dashboard/fixing/closeorder")
-     revalidatePath("/dashboard");
+     revalidatePath("/dashboard/dashboard");
 
     return {
       msg: "تم انشاء سند قبض ",
@@ -28,7 +28,6 @@ export async function updateClientReceiptBalance(Cid, amount) {
   const existingRecord = await db.client.findUnique({
     where: { clientIDs: Cid },
   });
-  console.log(existingRecord)
 if(!existingRecord){
 
   return {msg:"ملف العميل غير موجود -- خلل راجع الادارة للضروره ... ",code:400}

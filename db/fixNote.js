@@ -8,6 +8,6 @@ export async function newNote(data) {
         
         console.log(error)
     }
-    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/dashboard");
   }
   
