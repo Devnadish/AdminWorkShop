@@ -69,7 +69,7 @@ const DashBoardMenu = ({ user }) => {
         <FastMenu />
         <div className=" flex  items-center   bg-yellow-300 text-sky-950  rounded-md ">
           
-          <Link className="flex items-center justify-center rounded-l-none p-2 w-8 " href={"/"}>
+          <Link className="flex items-center justify-center rounded-l-none p-2 w-8 " href={"/dashboard/dashboard"}>
             <Home size={20} strokeWidth={1.25} />
           </Link>
         </div>

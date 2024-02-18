@@ -55,7 +55,7 @@ export const authOptions = {
     },
 
     // async signIn(user, account, profile) {
-    //   return "/dashboard"; // Redirect to the dashboard page after successful login
+    //   return "/dashboard/dashboard"; // Redirect to the dashboard page after successful login
     // },
   },
 
