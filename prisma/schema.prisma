@@ -131,12 +131,7 @@ model Expence {
   updatedAt DateTime @updatedAt
 }
 
-model labor {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  laborName String   @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+
 
 model transaction {
   id               String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -228,3 +223,16 @@ model cardImage {
   updatedAt  DateTime @updatedAt
 }
 
+model expensis {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  expName   String   @default("")
+  tag       String[]    
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model tag {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  tag       String   @default("") 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

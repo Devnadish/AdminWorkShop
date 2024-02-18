@@ -22,16 +22,15 @@ export const FastMenu = () => {
   return (
     <div className="fixed h-full w-12 bg-accent z-0 top-12 left-0 ">
       <div className="flex w-full items-center    flex-col  h-full gap-4 py-4">
-      <Ttip tool={"ملخص"}>
+      {/* <Ttip tool={"ملخص"}>
           <Link
             href={"/dashboard/admin"}
             className={`${linkStyle} `}
             prefetch={true}
           >
             <Kanban size={25} className={iconColor} />
-            {/* كرت صيانة */}
           </Link>
-        </Ttip>
+        </Ttip> */}
         <HeaderNewClient />
         <Ttip tool={"كرت صيانة"}>
           <Link

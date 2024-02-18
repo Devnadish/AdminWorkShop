@@ -1,7 +1,7 @@
-import NewLabor from "@/app/dashboard/setting/_component/NewLabor";
+import NewLabor from "@/app/dashboard/expensis/_component/NewExpens";
 import DeleteExpinces from "@/app/dashboard/finince/payment/mangmentpayment/_component/DeleteExpinces";
 import PageTitle from "@/components/sharedcompnent/PageTitle";
-import { displayAllLabor } from "@/db/labor";
+import { displayAllLabor } from "@/db/expensis";
 
 import React from "react";
 
@@ -24,8 +24,8 @@ const ShowData = ({ data }) => {
       {data.map((el) => {
         return (
           <div className="flex items-center justify-between w-full px-3" key={el.id}>
-            <p className="text-white">{el.laborName}</p>
-            {/* <DeleteExpinces expName={el.laborName} id={el.id} /> */}
+            <p className="text-white">{el.expName}</p>
+            {/* <DeleteExpinces expName={el.expName} id={el.id} /> */}
           </div>
         );
       })}

@@ -24,7 +24,7 @@ import {
 import { FaCarCrash } from "react-icons/fa";
 import { MdEditNote } from "react-icons/md";
 import { BsTools } from "react-icons/bs";
-import { FaTools, GiOfficeChair, ImagePlus, LiaCashRegisterSolid, Users } from "@/lib/icons";
+import { FaTools, GiExpense, GiOfficeChair, ImagePlus, LiaCashRegisterSolid, Users } from "@/lib/icons";
 const iconColor="text-primary"
 export const menuItem = [
   { id: 1, title: "خدماتنا", icon: <Wrench />, href: "/service" },
@@ -138,15 +138,23 @@ export const fininceMenu = [
 
 export const settingeMenu = [
   {
+    id: 3,
+    title: "المصاريف الادارية ",
+    icon: <GiExpense size={20} strokeWidth={1} className={iconColor}/>,
+    href: "/dashboard/expensis",
+  },
+  {
     id: 1,
     title: "المستخدمين ",
     icon: <Users size={20} strokeWidth={1} className={iconColor}/>,
     href: "/dashboard/signup",
   },
+ 
   {
     id: 2,
     title: "التعريفات ",
     icon: <BookOpenText size={20} strokeWidth={1} className={iconColor}/>,
     href: "/dashboard/definitions",
   },
+ 
 ];
