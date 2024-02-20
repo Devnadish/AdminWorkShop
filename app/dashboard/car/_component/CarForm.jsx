@@ -5,9 +5,9 @@ import Submit from "@/components/sharedcompnent/Submit";
 import React, { useState } from "react";
 import { AddNewCar } from "@/db/cars";
 import SelectClient from "@/app/dashboard/car/_component/SelectClient";
-import { toast } from "sonner";
 import { validateForm } from "@/lib/validation/addCar";
 import { CarFront, Car, GiKeyCard, RiCalendar2Fill } from "@/lib/icons";
+import { Notify } from "@/lib/notify";
 
 function CarForm({ clientData, setOpen }) {
   const [ClientId, setClientId] = useState("");
@@ -29,17 +29,18 @@ function CarForm({ clientData, setOpen }) {
 
     const validation = validateForm(car);
     if (!validation.isValid) {
-      toast.error(validation.errorMessage);
+      Notify(validation.errorMessage,"error")
       return;
     }
     
     const result = await AddNewCar(car);
     if (result.code === 400) {
-      toast.error(result.msg);
+      Notify(result.msg,"error")
+      
       return;
     }
     if (result.code === 200) {
-      toast.success(result.msg);
+      Notify(result.msg,"info")
       setOpen(false);
       return;
     }

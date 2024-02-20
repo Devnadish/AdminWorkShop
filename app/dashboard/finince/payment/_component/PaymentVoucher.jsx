@@ -7,7 +7,8 @@ import INPUT from "@/components/sharedcompnent/INPUT";
 import ClearButton from "@/components/sharedcompnent/ClearButton";
 import { validateForm } from "@/lib/validation/recipt";
 import { savePaymentVoucher } from "@/db/payment";
-import { toast } from "sonner";
+
+import { Notify } from "@/lib/notify";
 
 function PaymentVoucher({ fromID, fromName, fixingCode }) {
   var today = new Date();
@@ -33,14 +34,14 @@ function PaymentVoucher({ fromID, fromName, fixingCode }) {
 
     const validation = validateForm(Paymentdata);
     if (!validation.isValid) {
-      toast.error(validation.errorMessage);
+      Notify(validation.errorMessage,"error")
       return;
     }
 
     const payment = await savePaymentVoucher(Paymentdata);
 
     document.getElementById("paymentForm").reset();
-    toast.success("تم انشاء سند الصرف بنجاح");
+    Notify("تم انشاء سند الصرف بنجاح","info")
   };
 
   return (

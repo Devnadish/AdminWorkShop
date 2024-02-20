@@ -2,13 +2,14 @@
 import {  RouteOff } from 'lucide-react'
 import React, { useState }  from 'react'
 
-import { toast } from "sonner";
+
 import { deleteAndCloseFixOrder } from '@/db/fixing';
 import INPUT from '@/components/sharedcompnent/INPUT';
 import { IoLogoUsd } from "react-icons/io5";
 import Submit from '@/components/sharedcompnent/Submit';
 import DailogBox from "@/components/sharedcompnent/DailogBox";
 import { Button } from '@/components/ui/button';
+import { Notify } from '@/lib/notify';
 
 function CloseCardActions({ id, balance, fixOrederId }) {
   const [open, setOpen] = useState(false);
@@ -20,7 +21,7 @@ function CloseCardActions({ id, balance, fixOrederId }) {
     const formBalance = data.get("formAmt")
 
     if (parseFloat(balanceAmt) !== parseFloat(formBalance)) {
-      toast.error("رصيد الاقفال غير صحيح");
+      Notify("رصيد الاقفال غير صحيح","error")
       return;
     }
     const del = deleteAndCloseFixOrder(id, fixOrederId, formBalance);

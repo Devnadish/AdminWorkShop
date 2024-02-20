@@ -9,7 +9,7 @@ function Submit({
   w = "w-6/12",
   color = "bg-primary",
   icon = <Send size={18} />,
-  textColor = "text-foreground",
+  textColor = "text-primary-foreground",
 }) {
   const status = useFormStatus();
   return (

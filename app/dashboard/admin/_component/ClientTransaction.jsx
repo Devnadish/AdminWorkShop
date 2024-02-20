@@ -10,8 +10,8 @@ const ClientTransaction = ({ ReceptArray }) => {
             return (
               <Caption
                 key={index}
-                title={item.fromName}
-                data={item.amount}
+                title={item.clientName}
+                data={item.amt}
                 isBorder={false}
                 titleBgColor="bg-accent/60"
                 titleTextColor="text-accent-foreground"

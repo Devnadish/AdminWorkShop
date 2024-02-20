@@ -5,9 +5,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { CircleDollarSign, Calendar } from "lucide-react";
 import INPUT from "@/components/sharedcompnent/INPUT";
 import ClearButton from "@/components/sharedcompnent/ClearButton";
-import { toast } from "sonner";
+
 import { validateForm } from "@/lib/validation/recipt";
 import { saveRecietVoucher } from "@/db/reciet";
+import { Notify } from "@/lib/notify";
 
 function ReciptForm({ fromID, fromName, fixingCode }) {
   var today = new Date();
@@ -30,13 +31,13 @@ function ReciptForm({ fromID, fromName, fixingCode }) {
     };
     const validation = validateForm(RecietData);
     if (!validation.isValid) {
-      toast.error(validation.errorMessage);
+      Notify(validation.errorMessage,"error")
       return;
     }
 
     const Reciet = await saveRecietVoucher(RecietData);
     document.getElementById("RecietForm").reset();
-    toast.success("تم انشاء سند القبض بنجاح");
+    Notify("تم انشاء سند القبض بنجاح","info")
   };
 
   return (

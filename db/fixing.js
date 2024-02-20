@@ -1,194 +1,120 @@
 "use server";
 import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { AddRecietCounter } from "./reciet";
 import { ShowCars } from "@/app/dashboard/finince/_component/ShowCars";
 import { newNote } from "./fixNote";
+import { AddFixingCounter, AddRecietCounter } from "./counters";
+import { createReciptVocherForFixOrder, updateClientReceiptBalance } from "./reciet";
+import { CheckOpenFixingOrder, createOpenFixingOrder } from "./openFixOrders";
+
 
 export async function newFixingOrder(fixingData, serviceNote) {
-  let addReciptVoucher;
   try {
-    // check if the maintenance exisit>>>>>>>>
     const checkOpenOrder = await CheckOpenFixingOrder(fixingData.selectedCar);
-
+    
     if (checkOpenOrder) {
-      return {
-        msg: "لا يمكن فتح كرت صيانة لسيارة مفتوح لها كرت مسبقا يجب اغلاق الكرت السابق..",
-        exisit: true,
-      };
+      return { msg: "Cannot open a maintenance card for a car that already has an open card. Please close the previous card." };
     }
-    // // end of check >>>>>>>>>>>>>>>>>
 
     const fixCounter = await AddFixingCounter();
     const data = { ...fixingData, fixingId: fixCounter };
     const Note = { ...serviceNote, CardId: fixCounter };
-
+    
     const order = await db.fixingOrder.create({ data });
+    const note = Note.note && newNote(Note);
+    const addToOpenOrder = await createOpenFixingOrder(data);
     
-    if (Note.note) {
-      const note = newNote(Note);
-    }
-    
-    const addToCarsInClient = await addFixCardValue(
-      order.clientId,
-      order.selectedCar
-      );
-      
-      const addToOpenOrder = await createOpenFixingOrder(data);
     if (fixingData.receive === 0) {
-      addReciptVoucher = "لم يتم استلام دفعة من العميل";
-    } else {
-      addReciptVoucher = await createReciptVocher(data);
+      return { msg: "No payment received from the client" };
     }
+    await createReciptVocherForFixOrder(data);
+    await updateClientReceiptBalance(parseInt(fixingData.clientId), parseInt(fixingData.receive));
+    
     revalidatePath("/dashboard/fixing/displayorders");
-    return {
-      msg:
-        fixingData.receive > 0
-          ? `تم انشاء الكرت بنجاح وتم انشاء سند قبض  رقم  ${addReciptVoucher.voucher}  بقيمة  ${fixingData.receive} ريال سعودي`
-          : `تم انشاء الكرت بنجاح لم يتم استلام دفعة من العميل`,
-
-      cardNo: fixCounter,
-      client: fixingData.clientName,
-      total: fixingData.total,
-      voucher:
-        fixingData.receive !== 0
-          ? addReciptVoucher.voucher
-          : "لم يتم استلام دفعه من العميل ",
-    };
+    
+    return { msg: "Receipt voucher created successfully" };
   } catch (error) {
     console.error("Error creating fixing order:", error);
     throw new Error("Failed to create fixing order: " + error.message);
-    return { err: error.message };
-  }
-}
-async function CheckOpenFixingOrder(selectedCar) {
-  // Check if the openFixingOrder already exists
-  const existingOrder = await db.openFixingOrder.findUnique({
-    where: { selectedCar },
-  });
-
-  // If the order already exists, return true
-  if (existingOrder) {
-    return true;
   }
 }
 
-export const AddFixingCounter = async () => {
-  let fixCounter;
-  // Check if a record exists in the counters table
-  const existingRecord = await db.counters.findFirst();
-  if (existingRecord) {
-    // If a record exists, update the payment field by incrementing its value by 1
-    await db.counters.update({
-      where: { id: existingRecord.id },
-      data: { fixing: existingRecord.fixing + 1 },
-    });
 
-    fixCounter = existingRecord.fixing + 1;
-  } else {
-    // If a record doesn't exist, create a new record with the payment field set to 1
-    const newRecord = await db.counters.create({ data: { fixing: 1 } });
 
-    fixCounter = newRecord.fixing;
-  }
 
-  // Use the fixCounter variable to access the updated payment value
-  return fixCounter;
-};
 
-async function addFixCardValue(clientIdNo, newFixCardValue) {
-  // Retrieve the client by ID
-  const clientId = parseInt(clientIdNo);
-  const client = await db.client.findUnique({
-    where: { clientIDs: clientId },
-  });
 
-  // Check if the client exists
-  if (client) {
-    // Access the fixCard array
-    const fixCardArray = client.fixCard || [];
 
-    // Check if the newFixCardValue already exists in the fixCard array
-    if (fixCardArray.includes(newFixCardValue)) {
-      // Return a message to the UI indicating that the value already exists
-      return "The value already exists in the fixCard array.";
-    } else {
-      // Push the new value to the fixCard array
-      fixCardArray.push(newFixCardValue);
 
-      // Update the client with the updated fixCard array
-      await db.client.update({
-        where: { clientIDs: clientId },
-        data: { fixCard: { set: fixCardArray } },
-      });
 
-      // Return the updated fixCard array
-      return "The value Added succsufly to cliet array..";
-    }
-  } else {
-    // Return an empty array if the client doesn't exist
-    return "I can Not Rach the Client Data..";
-  }
-}
 
-async function createOpenFixingOrder(cardData) {
-  // Check if the openFixingOrder already exists
-  const reminder =     cardData.reminder
-  const deliveryTime  =cardData.deliveryTime
 
-  const selectedCar = cardData.selectedCar;
-  const clientId = cardData.clientId;
-  const clientName = cardData.clientName;
-  const fixOrederId = cardData.fixingId;
-  const fixOrederAmt = cardData.total;
-  const data = { selectedCar, clientId, clientName, fixOrederId, fixOrederAmt ,deliveryTime,reminder};
 
-  const existingOrder = await db.openFixingOrder.findUnique({
-    where: { selectedCar },
-  });
 
-  // If the order already exists, return true
-  if (existingOrder) {
-    return true;
-  }
 
-  // Create a new openFixingOrder
-  const newOrder = await db.openFixingOrder.create({ data });
 
-  // If the new order is created successfully, return false
-  if (newOrder) {
-    return "Order Added To onProggress Data ..";
-  }
-}
 
-export async function createReciptVocher(Voucherdata) {
-  const detail = "   مقابل امر اصلاح رقم " + Voucherdata.fixingId;
-  const fromID = Voucherdata.clientId;
-  const fromName = Voucherdata.clientName;
-  const amount = Voucherdata.receive;
-  const fixingCode = Voucherdata.fixingId;
-  try {
-    const RecietCounter = await AddRecietCounter();
-    // const data = { ...reciptData, recietId: RecietCounter };
-    const data = {
-      detail,
-      fromID,
-      fromName,
-      amount,
-      fixingCode,
-      recietId: RecietCounter,
-    };
-    const order = await db.RecietVoucher.create({ data });
-    return {
-      msg: "Reciet Created Success WITH NO :" + RecietCounter,
-      voucher: RecietCounter,
-    };
-  } catch (error) {
-    console.error("Error creating fixing order:", error);
-    throw new Error("Failed to create fixing order: " + error.message);
-    return { err: error.message };
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export async function newFixingOrder(fixingData, serviceNote) {
+//   try {
+//     // check if the maintenance exisit>>>>>>>>
+//     const checkOpenOrder = await CheckOpenFixingOrder(fixingData.selectedCar);
+//     if (checkOpenOrder) {
+//       return {
+//         msg: "لا يمكن فتح كرت صيانة لسيارة مفتوح لها كرت مسبقا يجب اغلاق الكرت السابق..",
+//         exisit: true,
+//       };
+//     }
+//     // // end of check >>>>>>>>>>>>>>>>>
+
+//     const fixCounter = await AddFixingCounter();
+//     const data = { ...fixingData, fixingId: fixCounter };
+//     const Note = { ...serviceNote, CardId: fixCounter };
+//     const order = await db.fixingOrder.create({ data });
+//     const note = Note.note && newNote(Note);
+//     const addToOpenOrder = await createOpenFixingOrder(data);
+// let msg;
+//     if (fixingData.receive === 0) {
+//       msg = "لم يتم استلام دفعة من العميل";
+//       return { msg: msg };
+//     }
+//     const addReciptVoucher = await createReciptVocherForFixOrder(data);
+//     const UpdateBalance = await updateClientReceiptBalance(
+//       parseInt(fixingData.clientId),
+//       parseInt(fixingData.receive)
+//     );
+//     msg = "تم انشاء سند القبض";
+
+//     revalidatePath("/dashboard/fixing/displayorders");
+//     return { msg: msg };
+//   } catch (error) {
+//     console.error("Error creating fixing order:", error);
+//     throw new Error("Failed to create fixing order: " + error.message);
+   
+//   }
+// }
+
+// -------------------------------------
+
+
+
 
 export async function getAllFixOrder() {
   const existingOrder = await db.fixingOrder.findMany({});
@@ -210,7 +136,6 @@ export async function FixOrderImage() {
     });
   }
 
-
   return openCards;
 }
 
@@ -228,8 +153,8 @@ export async function getAllOpenCard() {
     openCards.push({
       cardId: openCard.fixOrederId,
       clientName: openCard.clientName,
-      deleverTime:openCard.deliveryTime,
-      reminder:openCard.reminder,
+      deleverTime: openCard.deliveryTime,
+      reminder: openCard.reminder,
       CarNo: openCard.selectedCar,
       createData: openCard.createdDate,
       service: carClients.detail,
@@ -243,24 +168,11 @@ export async function getAllOpenCard() {
   return openCards;
 }
 
-export async function deleteFixOrder(id) {
-  // check if close you can not delete
-  //  check if there receipt update the recipet to zero  and save the previuse data in detail
-  const deletedItem = await db.fixingOrder.delete({
-    where: {
-      id: id,
-    },
-  });
-  revalidatePath("/dashboard/fixing/displayorders");
-  return deletedItem;
-}
-
 export async function getAllOpenFixOrderForInvoice(fliter) {
-  const existingOrder = await db.fixingOrder.findMany({where:fliter});
+  const existingOrder = await db.fixingOrder.findMany({ where: fliter });
   const ordersWithSums = [];
 
   for (const order of existingOrder) {
-    
     const paymentSum = await db.paymentVoucher.aggregate({
       _sum: {
         amount: true,
@@ -291,13 +203,9 @@ export async function getAllOpenFixOrderForInvoice(fliter) {
       recietSum: recietSum._sum.amount,
     });
   }
-revalidatePath('/dashboard/finince/invoice')
+  revalidatePath("/dashboard/finince/invoice");
   return ordersWithSums;
 }
-
-
-
-
 
 
 
@@ -432,7 +340,9 @@ export async function calculateTotalAmountForOrders(type) {
     totalRecipt: totalAmounts[index]._sum.amount || 0,
     payment: payments[index]._sum.amount || 0,
     balance:
-      (order.fixOrederAmt - totalAmounts[index]._sum.amount) +  payments[index]._sum.amount,
+      order.fixOrederAmt -
+      totalAmounts[index]._sum.amount +
+      payments[index]._sum.amount,
   }));
 
   // return results;

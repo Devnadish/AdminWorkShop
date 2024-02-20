@@ -24,7 +24,7 @@ function Caption({
       }  w-full rounded ${row ? "flex-row" : "flex-col"} ${fonSize} ${h}`}
     >
       <span
-        className={`${titleBgColor}  ${h} ${titleTextColor} flex items-center justify-start flex-1 px-1 font-semibold   text-right font-tajwal `}
+        className={`${titleBgColor}  ${h} ${titleTextColor} flex items-center justify-start flex-2 px-2 font-semibold   text-right font-tajwal `}
       >
         {title}
       </span>

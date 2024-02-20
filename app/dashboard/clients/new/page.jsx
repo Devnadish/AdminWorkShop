@@ -12,9 +12,9 @@ async function RegisterPage() {
 
  
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full max-w-5xl gap-2">
       <PageTitle title={"تاسيس عميل جديد"} icon={<User />} />
-      <div className="flex flex-col w-full items-center justify-center gap-4 p-4">
+      <div className="flex flex-col w-full items-center justify-center gap-3 ">
         <NewBtnClient />
         <Suspense fallback={<p>loading</p>}>
           <ShowClients clients={clients} />

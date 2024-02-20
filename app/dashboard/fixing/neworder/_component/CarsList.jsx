@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 
 const CarsList = memo(({ setCarid, carData, handleCheck }) => {
+  console.log(carData)
   return (
     <ScrollArea
       className="h-full w-full  max-w-[300px] bg-accent shadow p-5 border-t-4 border-primary "
@@ -14,7 +15,7 @@ const CarsList = memo(({ setCarid, carData, handleCheck }) => {
     >
       <RadioGroup dir="RTL" onValueChange={setCarid}>
         {carData.map((client) => (
-          <>
+          <div key={client.id} className="felx">
             <div className="flex items-center gap-1 px-3">
               <User />
               <h2 className="text-bold px-2">{client.clientName}</h2>
@@ -46,7 +47,7 @@ const CarsList = memo(({ setCarid, carData, handleCheck }) => {
                 </div>
               </div>
             ))}
-          </>
+          </div>
         ))}
       </RadioGroup>
     </ScrollArea>

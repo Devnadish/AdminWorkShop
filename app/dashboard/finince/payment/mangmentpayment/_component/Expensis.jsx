@@ -1,69 +1,95 @@
-import React,{useEffect,useState} from 'react'
- 
-import { getAllExpencies } from '@/db/payment';
-import { toast } from "sonner";
-import { Button } from '@/components/ui/button';
-import NewExpensies from './NewExpensies';
-import DailogBox from '@/components/sharedcompnent/DailogBox';
+"use client";
+import React, { useState } from "react";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
+import DailogBox from "@/components/sharedcompnent/DailogBox";
+import NewExpensisForm from "@/app/dashboard/expensis/_component/NewExpensisForm";
 
+function Expensis({ data, value, setValue, AllTag }) {
+  const [open, setOpen] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
 
-function Expensis({ setExpname }) {
-  const [expName, setExpName] = useState([]);
-    const [selectedExp, setSelectedExp] = useState("");
-    const [open, setOpen] = useState(false);
-  const fetchExpenses = async () => {
-    try {
-      const expData = await getAllExpencies();
-      setExpName(expData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-   const handleSelectChange = (event) => {
-     setSelectedExp(event.target.value);
-     setExpname(event.target.value);
-   };
-
-  
-
-  useEffect(() => {
-    fetchExpenses();
-  }, []);
+  const comboLabel = "اختار المصروف";
 
   return (
     <>
-      <div className="relative flex items-center w-full gap-2">
-        <select
-          className="w-full h-10 pl-3 pr-8 text-base   border border-border  appearance-none  text-foreground focus:border-blue-300"
-          value={selectedExp}
-          onChange={handleSelectChange}
-        >
-          <option value="">اختر نوع المصرف</option>
-          {expName.map((exp, index) => (
-            <option value={exp} key={index}>
-              {exp}
-            </option>
-          ))}
-        </select>
+      <div className="flex items-center  gap-4">
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[300px] justify-between"
+            >
+              {value
+                ? data.find((framework) => framework.expName === value)?.expName
+                : comboLabel}
+              <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[300px] p-0">
+            <Command>
+              <CommandInput placeholder={comboLabel} className="h-9" />
+
+              <CommandEmpty>عير موجود.</CommandEmpty>
+              <CommandGroup>
+                {data.map((framework) => (
+                  <CommandItem
+                    key={framework.id}
+                    value={framework.expName}
+                    onSelect={(currentValue) => {
+                      const newValue =
+                        currentValue === value ? "" : currentValue;
+                      setValue(newValue);
+                      // setTags((prevTags) => [...prevTags, newValue]);
+                      setOpen(false);
+                    }}
+                  >
+                    {framework.expName}
+                    <CheckIcon
+                      className={cn(
+                        "ml-auto h-4 w-4",
+                        value === framework.expName
+                          ? "opacity-100"
+                          : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
         <Button
+          size="icon"
+          className="bg-secondary text-secondary-foreground text-xl"
           type="button"
-          onClick={()=>{setOpen(true)}}
-          className="ml-2 px-4 py-2 text-white bg-border rounded-none  hover:bg-blue-600 focus:outline-none"
+          onClick={()=>setOpenAdd(true)}
         >
           +
         </Button>
       </div>
-      <DailogBox
-        open={open}
-        setOpen={setOpen}
-        title={"مصروف جديد"}
-      >
-        <NewExpensies setExpName={setExpName} setOpen={setOpen}/>
+
+      <DailogBox open={openAdd} setOpen={setOpenAdd} title={"مصروف جديد"}>
+        <NewExpensisForm AllTag={AllTag} />
       </DailogBox>
     </>
   );
-};
+}
 
-export default Expensis
-
+export default Expensis;

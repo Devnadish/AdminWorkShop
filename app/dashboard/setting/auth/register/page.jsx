@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import INPUT from "@/components/sharedcompnent/INPUT";
 import { User2, LucidePhone, Lock } from "lucide-react";
 import Submit from "@/components/sharedcompnent/Submit";
-import { toast } from "sonner";
+
 import { registerUser } from "@/db/user";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Notify } from "@/lib/notify";
 
 export default function RegisterForm() {
   const [name, setName] = useState("");
@@ -36,11 +37,12 @@ export default function RegisterForm() {
 
 
       if (reg.code === 200) {
-        toast.success(reg.msg);
+        Notify(reg.msg,"info")
       }
       if (reg.code === 400) {
-        toast.error(reg.msg);
+        Notify(reg.msg,"error")
       }
+
     } catch (error) {
       console.log("Error during registration: ", error);
     }

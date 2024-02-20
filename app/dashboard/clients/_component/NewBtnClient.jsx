@@ -7,10 +7,10 @@ import DailogBox from "@/components/sharedcompnent/DailogBox";
 function NewBtnClient() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="self-end">
+    <div className="self-start">
       <Button
         onClick={() => setOpen(true)}
-        className="bg-primary text-primary-foreground  flex items-center gap-4 font-tajwal font-bold"
+        className="bg-primary text-primary-foreground  flex items-center gap-4 font-tajwal font-bold "
       >
         <UserRoundPlus size={20} strokeWidth={1.25} />
         عميل جديد

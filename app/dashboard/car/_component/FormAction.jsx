@@ -13,7 +13,7 @@ import {
   GiKeyCard,
   User
 } from "@/lib/icons";
-import { toast } from "sonner";
+import { Notify } from "@/lib/notify";
 
 export const FormAction = ({ type, CarData, setCarData, setOpen }) => {
   const handleSubmit = async (data) => {
@@ -41,11 +41,12 @@ export const FormAction = ({ type, CarData, setCarData, setOpen }) => {
     if (type === "delete") {
       const dbDeleteCar = await deleteCar(CarData.carId);
       if (dbDeleteCar.code === 400) {
-        toast.error(dbDeleteCar.msg);
+        Notify(dbDeleteCar.msg,"error")
         return;
       }
       if (dbDeleteCar.code === 200) {
-        toast.success(dbDeleteCar.msg);
+        Notify(dbDeleteCar.msg,"info")
+        
         setOpen(false);
         return;
       }

@@ -1,13 +1,13 @@
 import React from "react";
 import CardCpm from "@/components/sharedcompnent/CardCpm";
-import { displayAllLabor, getAllTag } from "@/db/expensis";
+import { displayAllExpensis,  getAllTag } from "@/db/expensis";
 import PageTitle from "@/components/sharedcompnent/PageTitle";
 import { CiEdit, GiExpense, Tag, Trash } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import NewExpens from "./_component/NewExpens";
 
 async function page() {
-  const AllExp = await displayAllLabor();
+  const AllExp = await displayAllExpensis();
   const AllTag = await getAllTag();
 
   return (

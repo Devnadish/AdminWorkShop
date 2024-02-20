@@ -25,7 +25,7 @@ function NavBarNewClient() {
       </Ttip>
 
       <DailogBox open={open} setOpen={setOpen} title={"عميل جديد"} borederRed={ "border-primary"}>
-      <Newform />
+      <Newform setOpen={setOpen} />
       </DailogBox>
 
     </div>

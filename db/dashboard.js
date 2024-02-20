@@ -1,316 +1,181 @@
 "use server";
 import db from "@/lib/prisma";
 
-
-
-export async function SumsOfFixingCard(isClosed) {
-  try {
-    const filteredOrders = await db.fixingOrder.findMany({
-      where: {
-        isClosed: isClosed,
-      },
+export const summury = async () => {
+  const getAggregateSum = async (model, where, field) => {
+    const { _sum } = await prisma[model].aggregate({
+      where,
+      _sum: { [field]: true },
     });
+    return _sum[field] || 0;
+  };
+  const xy = 151;
+  const incomeTotal = await getAggregateSum("fixingOrder", {}, "total");
+  const reciptTotal = await getAggregateSum("RecietVoucher", {}, "amount");
+  const fixPaymentTotal = await getAggregateSum(
+    "PaymentVoucher",
+    { paymentType: "fixing" },
+    "amount"
+  );
+  const mangmentPaymentTotal = await getAggregateSum(
+    "PaymentVoucher",
+    { paymentType: "mangment" },
+    "amount"
+  );
+  const clientBalance = incomeTotal - reciptTotal + fixPaymentTotal;
 
-const total = [];
-for (const openCard of filteredOrders) {
-
-
-  const reciptTotal = await db.RecietVoucher.findMany({
-    where: { fixingCode: openCard.fixingId },
+  const clientsData = await db.Client.findMany({
+    select: { clientIDs: true, name: true },
   });
-    const paymentTotol = await db.PaymentVoucher.findMany({
-      where: { fixingCode: openCard.fixingId },
-    });
-
-
-  total.push({
-    cardAmt: openCard.total,
-    cardStuts: openCard.isClosed,
-    recipt: reciptTotal,
-    payment: paymentTotol
+  const expensisData = await db.expensis.findMany({
+    select: { expName: true, id: true },
   });
-}
+
+  const reciptTranaction = await reciptClientTransaction(clientsData);
+  const PaymentTranaction = await paymentClientTransaction(clientsData);
+  const mangmentPaymentTranaction = await mangmentPaymentransaction(
+    expensisData
+  );
+  const fixCardInfo = await FixCard();
+  const reciptSum=calculateSum(reciptTranaction,"amt")
+  const fixPaymentSum=calculateSum(PaymentTranaction,"amt")
+  const mangmentPaymentSum=calculateSum(mangmentPaymentTranaction,"amt")
 
 
-
-const totalCardAmt = total.reduce((acc, item) => acc + item.cardAmt, 0);
-
-// Calculate sum for all recipt
-const totalRecipt = total.reduce(
-  (acc, item) => acc + item.recipt.reduce((sum, rec) => sum + rec.amount, 0),
-  0
-);
-
-// Calculate sum for all payment
-const totalPayment = total.reduce(
-  (acc, item) => acc + item.payment.reduce((sum, pay) => sum + pay.amount, 0),
-  0
-);
-
-
-
-
-
-
-    const balance = totalCardAmt - totalRecipt - totalPayment;
-    const recordCount = filteredOrders.length;
-    return { totalCardAmt, totalRecipt, totalPayment,balance, recordCount };
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
+const count_client=await db.client.count()
+const count_comment=await db.comment.count()
+const count_complain=await db.complain.count()
+const count_suggestion=await db.suggestion.count()
+const count_Car=await db.Car.count()
+const count_fixingOrder=await db.fixingOrder.count()
+const count_PaymentVoucher=await db.PaymentVoucher.count()
+const count_RecietVoucher=await db.RecietVoucher.count()
+ 
 
 
 
 
+  return {
+    incomeTotal,
+    reciptTotal,
+    fixPaymentTotal,
+    mangmentPaymentTotal,
+    clientBalance,
+    reciptTranaction,
+    PaymentTranaction,
+    mangmentPaymentTranaction,
+    fixCardInfo,
+    reciptSum,
+    fixPaymentSum,
+    mangmentPaymentSum,
+    count_client,
+    count_comment,
+    count_complain,
+    count_suggestion,
+    count_Car,
+    count_fixingOrder,
+    count_PaymentVoucher,
+    count_RecietVoucher,
+  };
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export async function calculateClientSums() {
-  try {
-    const paymentVouchersByClientId = await db.paymentVoucher.groupBy({
-      by: ["fromID", "fromName", "fixingCode"],
-      where: {
-        fromID: { gt: 0 },
-        paymentType: { equals: "fixing" },
-      },
-      _sum: {
-        amount: true,
-      },
-      select: {
-        fromID: true,
-        fromName: true,
-        fixingCode:"true",
-        _sum: true,
-      },
-    });
-
-    // Extract "amount" from "_sum" and restructure results
-    const formattedResults = paymentVouchersByClientId.map((result) => ({
-      fromID: result.fromID,
-      fromName: result.fromName,
-      fixCode: result.fixingCode,
-      amount: result._sum.amount, // Extract "amount"
-    }));
-
-    return formattedResults;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-
-export async function calculateClientRecipts() {
-  try {
-    const paymentVouchersByClientId = await db.RecietVoucher.groupBy({
-      by: ["fromID", "fromName"],
-      where: {
-        fromID: { gt: 0 },
-      },
-      _sum: {
-        amount: true,
-      },
-      select: {
-        fromID: true,
-        fromName: true,
-        _sum: true,
-      },
-    });
-
-    const formattedResults = paymentVouchersByClientId.map((result) => ({
-      fromID: result.fromID,
-      fromName: result.fromName,
-      amount: result._sum.amount, // Extract "amount"
-    }));
-
-    return formattedResults;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-
-
-
-export async function calculateClientPayment() {
-  try {
-    const paymentVouchersByClientId = await db.PaymentVoucher.groupBy({
-      by: ["fromID", "fromName"],
-      where: {
-        fromID: { gt: 0 },
-      },
-      _sum: {
-        amount: true,
-      },
-      select: {
-        fromID: true,
-        fromName: true,
-        _sum: true,
-      },
-    });
-
-    const formattedResults = paymentVouchersByClientId.map((result) => ({
-      fromID: result.fromID,
-      fromName: result.fromName,
-      amount: result._sum.amount, // Extract "amount"
-    }));
-
-    return formattedResults;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
-
-
-
-export async function recietVoucher() {
-  try {
+export async function reciptClientTransaction(clients) {
+  const reciptArray = [];
+  for (const client of clients) {
     const totalAmount = await db.recietVoucher.aggregate({
+      where: { fromID: client.clientIDs },
       _sum: {
         amount: true,
       },
     });
-
-    return totalAmount._sum.amount || 0
-  } catch (error) {
-    console.error(error);
-    throw error;
+    reciptArray.push({
+      id: client.clientIDs,
+      clientName: client.name,
+      amt: totalAmount._sum.amount,
+    });
   }
+  return reciptArray;
 }
 
-
-export async function mangmentExpenses() {
-   try {
-     const totalAmount = await db.PaymentVoucher.aggregate({
-       where: { paymentType: "mangment" },
-       _sum: {
-         amount: true,
-       },
-     });
-     return totalAmount._sum.amount || 0;
-   } catch (error) {
-     console.error(error);
-     throw error;
-   }
-}
-
-export async function fixingExpenses() {
-  const totalAmount = await db.PaymentVoucher.aggregate({
-    where: { paymentType: "fixing" },
-    _sum: {
-      amount: true,
-    },
-  });
-  return totalAmount._sum.amount || 0;
-}
-
-export async function mangmentExpensesDetails() {
-
-try {
-    const paymentVouchersByClientId = await db.paymentVoucher.groupBy({
-      by: ["collector"],
-      where: {
-        paymentType: { equals: "mangment" },
-      },
+export async function paymentClientTransaction(clients) {
+  const fixPaymentArray = [];
+  for (const client of clients) {
+    const totalAmount = await db.PaymentVoucher.aggregate({
+      where: { fromID: client.clientIDs, paymentType: "fixing" },
       _sum: {
         amount: true,
       },
-      select: {
-        collector: true,
-        _sum: true,
+    });
+
+    fixPaymentArray.push({
+      id: client.clientIDs,
+      clientName: client.name,
+      amt: totalAmount._sum.amount || 0,
+    });
+  }
+  return fixPaymentArray;
+}
+
+export async function mangmentPaymentransaction(expData) {
+  const fixPaymentArray = [];
+  for (const exp of expData) {
+    const totalAmount = await db.PaymentVoucher.aggregate({
+      where: { collector: exp.expName, paymentType: "mangment" },
+      _sum: {
+        amount: true,
       },
-
     });
 
-    // Extract "amount" from "_sum" and restructure results
-    const formattedResults = paymentVouchersByClientId.map((result) => ({
-      collector: result.collector,
-      amount: result._sum.amount, // Extract "amount"
-    }));
-
-    return formattedResults;
-} catch (error) {
-   console.error(error);
-   throw error;
-
-}
+    if (totalAmount._sum.amount) {
+      fixPaymentArray.push({
+        id: exp.id,
+        expName: exp.expName,
+        amt: totalAmount._sum.amount || 0,
+      });
+    }
+  }
+  return fixPaymentArray;
 }
 
-export async function getRecordCounts() {
-try {
-    const visibleCommentsCount = await db.comment.count({
-      where: { isVisible: true },
-    });
-    const pendingCommentsCount = await db.comment.count({
-      where: { isVisible: false },
-    });
-    const visibleSuggestionsCount = await db.suggestion.count({
-      where: { isVisible: true },
-    });
-    const pendingSuggestionsCount = await db.suggestion.count({
-      where: { isVisible: false },
-    });
-    const visibleComplainsCount = await db.complain.count({
-      where: { isVisible: true },
-    });
-    const pendingComplainsCount = await db.complain.count({
-      where: { isVisible: false },
-    });
 
-    return {
-      visibleComments: visibleCommentsCount,
-      pendingComments: pendingCommentsCount,
-      visibleSuggestions: visibleSuggestionsCount,
-      pendingSuggestions: pendingSuggestionsCount,
-      visibleComplains: visibleComplainsCount,
-      pendingComplains: pendingComplainsCount,
-    };
-} catch (error) {
-   console.error(error);
-   throw error;
+export async function FixCard() {
+  const closeCard = await getAggregatedData(true);
+  const openCard = await getAggregatedData(false);
 
-}
+  return {
+    closeTotal: closeCard._sum.total || 0,
+    closeReceived: closeCard._sum.receive || 0,
+    openTotal: openCard._sum.total || 0 ,
+    openReceived: openCard._sum.receive || 0,
+    openLen: openCard._count || 0,
+    closeLen: closeCard._count || 0,
+  };
 }
 
-export async function generalInfo() {
- try {
-   const ClientRecord = await db.Client.count({});
-   const CartRecord = await db.Car.count({});
-   const fixingOrdertRecord = await db.fixingOrder.count({});
-   const openFixingOrdertRecord = await db.openFixingOrder.count({});
-   const PaymentVouchertRecord = await db.PaymentVoucher.count({});
-   const RecietVouchertRecord = await db.RecietVoucher.count({});
 
-   return {
-     ClientRecord,
-     CartRecord,
-     fixingOrdertRecord,
-     openFixingOrdertRecord,
-     PaymentVouchertRecord,
-     RecietVouchertRecord,
-   };
- } catch (error) {
-   console.error(error);
-   throw error;
+async function getAggregatedData(isClosed) {
+  return await db.fixingOrder.aggregate({
+    where: { isClosed },
+    _sum: {
+      total: true,
+      receive: true,
+    },
+    _count: true,
+  });
+}
 
- }
+// function calculateSum(array) {
+//   let sum = 0;
+//   for (let i = 0; i < array.length; i++) {
+//     sum += array[i].amt;
+//   }
+//   return sum;
+// }
+
+function calculateSum(array, propertyName) {
+  let sum = 0;
+  for (let i = 0; i < array.length; i++) {
+    sum += array[i][propertyName];
+  }
+  return sum;
 }

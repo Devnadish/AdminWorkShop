@@ -1,27 +1,20 @@
 import NewFixOrder from "@/app/dashboard/fixing/neworder/_component/NewFixOrder";
 import React, { Suspense } from "react";
-import { getAllClientsFixCard } from "@/db/clients";
+import { CarListForFixCard, getAllClientsFixCard } from "@/db/clients";
 import { displayAllLabor } from "@/db/expensis";
 
 export const dynamic = "force-dynamic";
 
 async function NewFix() {
-  //  await new Promise((resolve)=>setTimeout(resolve,150000))
-  try {
-    const carDatadb = getAllClientsFixCard();
-    const laborDatadb = displayAllLabor();
-    const [carData, labor] = await Promise.all([carDatadb, laborDatadb]);
+  const carDatadb = CarListForFixCard();
+  const EngineersDatadb = displayAllExpensis();
+  const [carData, Engineers] = await Promise.all([carDatadb, EngineersDatadb]);
+  console.log(carData)
 
-    return (
-      <>
-        <Suspense fallback={<p>جاري التحميل ...</p>}>
-          <NewFixOrder carData={carData} labor={labor} />
-        </Suspense>
-      </>
-    );
-
-  } catch (error) {
-    console.log(error);
-  }
+  return (
+    <Suspense fallback={<p>جاري التحميل ...</p>}>
+      <NewFixOrder carData={carData} Engineers={Engineers} />
+    </Suspense>
+  );
 }
 export default NewFix;

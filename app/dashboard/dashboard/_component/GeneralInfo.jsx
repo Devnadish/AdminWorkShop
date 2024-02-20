@@ -1,21 +1,28 @@
 import Caption from "@/components/sharedcompnent/Caption";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
-const GeneralInfo = ({ generalInfoData, ClientActions }) => {
+const GeneralInfo = ({ count_client,  count_comment,
+  count_complain,
+  count_suggestion,
+  count_Car,
+  count_fixingOrder,
+  count_PaymentVoucher,
+  count_RecietVoucher }) => {
   return (
-    <ScrollArea className=" h-[300px] w-full mt-3 " dir="RTL">
       <div className="text-white flex-col flex items-center justify-evenly    w-full  px-3 gap-1">
         <Caption
-          title={" التعليقعات"}
-          data={ClientActions.visibleComments}
+          title={" التعليقات"}
+          data={count_comment}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
           align="end"
+          fonSize="text-[.8rem]"
+          
         />
         <Caption
           title={" الاقتراحات"}
-          data={ClientActions.visibleSuggestions}
+          fonSize="text-[.8rem]"
+          data={count_suggestion}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
@@ -23,7 +30,8 @@ const GeneralInfo = ({ generalInfoData, ClientActions }) => {
         />
         <Caption
           title={" الشكاوي"}
-          data={ClientActions.visibleComplains}
+          fonSize="text-[.8rem]"
+          data={count_complain}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
@@ -32,7 +40,8 @@ const GeneralInfo = ({ generalInfoData, ClientActions }) => {
 
         <Caption
           title={" العملاء"}
-          data={generalInfoData.ClientRecord}
+          fonSize="text-[.8rem]"
+          data={count_client}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
@@ -40,7 +49,8 @@ const GeneralInfo = ({ generalInfoData, ClientActions }) => {
         />
         <Caption
           title={" السيارات"}
-          data={generalInfoData.CartRecord}
+          fonSize="text-[.8rem]"
+          data={count_Car}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
@@ -49,39 +59,34 @@ const GeneralInfo = ({ generalInfoData, ClientActions }) => {
 
         <Caption
           title={" كروت الصيانة"}
-          data={generalInfoData.fixingOrdertRecord}
+          fonSize="text-[.8rem]"
+          data={count_fixingOrder}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
           align="end"
         />
-        <Caption
-          title={" الكروت المفتوحة"}
-          data={generalInfoData.openFixingOrdertRecord}
-          titleBgColor="bg-accent/60"
-          titleTextColor="text-accent-foreground"
-          h="h-7"
-          align="end"
-        />
+         
 
         <Caption
           title={" القبض"}
-          data={generalInfoData.RecietVouchertRecord}
+          data={count_RecietVoucher}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
           align="end"
+          fonSize="text-[.8rem]"
         />
         <Caption
           title={" الصرف"}
-          data={generalInfoData.PaymentVouchertRecord}
+          data={count_PaymentVoucher}
           titleBgColor="bg-accent/60"
           titleTextColor="text-accent-foreground"
           h="h-7"
           align="end"
+          fonSize="text-[.8rem]"
         />
       </div>
-    </ScrollArea>
   );
 };
 export default GeneralInfo;

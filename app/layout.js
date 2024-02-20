@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
             </main>
           </AuthProvider>
         </ThemeProvider>
-        <Sonnar richColors position="bottom-center" />
+        <Sonnar richColors position="bottom-right" closeButton  />
 
         <Analytics />
       </body>

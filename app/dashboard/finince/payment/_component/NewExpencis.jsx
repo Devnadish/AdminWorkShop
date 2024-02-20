@@ -2,9 +2,10 @@
 import INPUT from '@/components/sharedcompnent/INPUT'
 import Submit from '@/components/sharedcompnent/Submit';
 import { newExp } from '@/db/expencisData';
+import { Notify } from '@/lib/notify';
 import React from 'react'
 import { GiOfficeChair } from "react-icons/gi";
-import { toast } from "sonner";
+
 
 function NewExpencis() {
 
@@ -12,7 +13,7 @@ function NewExpencis() {
         const expName=data.get("expName")
         const FormData={expName}
         const SaveData = await newExp(FormData)
-        if (SaveData.code === 400) { return toast.error(SaveData.msg) }
+        if (SaveData.code === 400) { return  Notify(SaveData.msg,"error") }
 
     }
 

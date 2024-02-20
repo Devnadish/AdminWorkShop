@@ -1,6 +1,7 @@
 "use server";
 import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { AddRecietCounter } from "./counters";
 
 export async function saveRecietVoucher(reciptData) {
   try {
@@ -25,6 +26,7 @@ export async function saveRecietVoucher(reciptData) {
 
 
 export async function updateClientReceiptBalance(Cid, amount) {
+  console.log(Cid, amount)
   const existingRecord = await db.client.findUnique({
     where: { clientIDs: Cid },
   });
@@ -51,29 +53,34 @@ if(!existingRecord){
 }
 
 
-
-export const AddRecietCounter = async () => {
-  let updatedReciet;
-
-  // Check if a record exists in the counters table
-  const existingRecord = await db.counters.findFirst();
-
-
-  if (existingRecord) {
-    // If a record exists, update the Reciet field by incrementing its value by 1
-    await db.counters.update({
-      where: { id: existingRecord.id },
-      data: { recipt: existingRecord.recipt + 1 },
-    });
-
-    updatedReciet = existingRecord.recipt + 1;
-  } else {
-    // If a record doesn't exist, create a new record with the Reciet field set to 1
-    const newRecord = await db.counters.create({ data: { recipt: 1 } });
-
-    updatedReciet = newRecord.recipt;
+export async function createReciptVocherForFixOrder(Voucherdata) {
+  const detail = "   مقابل امر اصلاح رقم " + Voucherdata.fixingId;
+  const fromID = Voucherdata.clientId;
+  const fromName = Voucherdata.clientName;
+  const amount = Voucherdata.receive;
+  const fixingCode = Voucherdata.fixingId;
+  try {
+    const RecietCounter = await AddRecietCounter();
+    // const data = { ...reciptData, recietId: RecietCounter };
+    const data = {
+      detail,
+      fromID,
+      fromName,
+      amount,
+      fixingCode,
+      recietId: RecietCounter,
+    };
+    const order = await db.RecietVoucher.create({ data });
+    return {
+      msg: "Reciet Created Success WITH NO :" + RecietCounter,
+      voucher: RecietCounter,
+    };
+  } catch (error) {
+    console.error("Error creating fixing order:", error);
+    throw new Error("Failed to create fixing order: " + error.message);
+    return { err: error.message };
   }
+}
 
-  // Use the updatedReciet variable to access the updated Reciet value
-  return updatedReciet;
-};
+
+

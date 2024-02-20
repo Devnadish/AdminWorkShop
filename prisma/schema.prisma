@@ -19,7 +19,6 @@ model Client {
   password    String?
   payment     Float    @default(0)
   recipts     Float    @default(0)
-  fixCard     String[]
   balance     Int      @default(0)
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt

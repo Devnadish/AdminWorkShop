@@ -72,95 +72,6 @@ export async function getCarInfo(Carid) {
   }
 }
 
-
-// -------------------
-
-export async function getClientsCar() {
- const clientsWithCars = await db.car.findMany({ });
-
-const clientCarsArray = {};
-
-clientsWithCars.forEach(car => {
-  if (!clientCarsArray[car.clientId]) {
-    clientCarsArray[car.clientId] = [];
-  }
-  clientCarsArray[car.clientId].push({ CarNo: car.CarNo, carName: car.carName });
-});
-
-}
-
-
-// export async function getClientsWithCars() {
-//  const data = await db.car.findMany({
-//    orderBy: {
-//      clientId: "asc",
-//    },
-//  });
-//   return data
-
-// }
-
-export async function getCarsData() {
-  const cars = await db.car.findMany();
-  const groupedCarsByClient = cars.reduce((result, car) => {
-    (result[car.clientName] = result[car.clientName] || []).push(car);
-    return result;
-  }, {});
-  return groupedCarsByClient;
-}
-
-export async function getCarInfoForVoucher(Carid) {
-  try {
-    // Check if the Car already exists in OpenCards
-    const isThereCard = await db.openFixingOrder.findMany({
-      where: {
-        selectedCar: Carid,
-      },
-    });
-
-    if (isThereCard.length === 0) {
-      return {
-        msg: "رقم اللوحة غير صحيح .. لا توجد بيانات برقم اللوحة  ",
-        Carexisit: "not Exisit",
-      };
-    }
-
-    const existingCar = await db.openFixingOrder.findMany({
-      where: {
-        selectedCar: Carid,
-      },
-    });
-
-    // Get Balnce
-
-const totalReicept = await db.recietVoucher.aggregate({
-  _sum: {
-    amount: true,
-  },
-  where: {
-    fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
-  },
-});
-
-const totalPayment = await db.PaymentVoucher.aggregate({
-  _sum: {
-    amount: true,
-  },
-  where: {
-    fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
-  },
-});
-    return {
-      carInfo: existingCar[0],
-      recipt: totalReicept._sum.amount || 0,
-      payment: totalPayment._sum.amount || 0,
-    };
-  } catch (error) {
-    console.error(error);
-    return "An error occurred while adding the car";
-  }
-}
-
 export async function getCarData() {
   try {
     const data = await db.car.findMany({
@@ -212,7 +123,6 @@ export async function deleteCar(id) {
 }
 
 
-
 export async function updateCar(id, formData) {
   const data = {
     carName: formData.carName,
@@ -234,3 +144,96 @@ export async function updateCar(id, formData) {
     throw error; // Re-throw the error to be handled by the caller
   }
 }
+
+
+// -------------------
+
+// export async function getClientsCar() {
+//  const clientsWithCars = await db.car.findMany({ });
+
+// const clientCarsArray = {};
+
+// clientsWithCars.forEach(car => {
+//   if (!clientCarsArray[car.clientId]) {
+//     clientCarsArray[car.clientId] = [];
+//   }
+//   clientCarsArray[car.clientId].push({ CarNo: car.CarNo, carName: car.carName });
+// });
+
+// }
+
+
+// export async function getClientsWithCars() {
+//  const data = await db.car.findMany({
+//    orderBy: {
+//      clientId: "asc",
+//    },
+//  });
+//   return data
+
+// }
+
+// export async function getCarsData() {
+//   const cars = await db.car.findMany();
+//   const groupedCarsByClient = cars.reduce((result, car) => {
+//     (result[car.clientName] = result[car.clientName] || []).push(car);
+//     return result;
+//   }, {});
+//   return groupedCarsByClient;
+// }
+
+// export async function getCarInfoForVoucher(Carid) {
+//   try {
+//     // Check if the Car already exists in OpenCards
+//     const isThereCard = await db.openFixingOrder.findMany({
+//       where: {
+//         selectedCar: Carid,
+//       },
+//     });
+
+//     if (isThereCard.length === 0) {
+//       return {
+//         msg: "رقم اللوحة غير صحيح .. لا توجد بيانات برقم اللوحة  ",
+//         Carexisit: "not Exisit",
+//       };
+//     }
+
+//     const existingCar = await db.openFixingOrder.findMany({
+//       where: {
+//         selectedCar: Carid,
+//       },
+//     });
+
+//     // Get Balnce
+
+// const totalReicept = await db.recietVoucher.aggregate({
+//   _sum: {
+//     amount: true,
+//   },
+//   where: {
+//     fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
+//   },
+// });
+
+// const totalPayment = await db.PaymentVoucher.aggregate({
+//   _sum: {
+//     amount: true,
+//   },
+//   where: {
+//     fixingCode: existingCar[0].fixOrederId, // Add condition to match the record in openFixingOrder with RecietVoucher
+//   },
+// });
+//     return {
+//       carInfo: existingCar[0],
+//       recipt: totalReicept._sum.amount || 0,
+//       payment: totalPayment._sum.amount || 0,
+//     };
+//   } catch (error) {
+//     console.error(error);
+//     return "An error occurred while adding the car";
+//   }
+// }
+
+
+
+

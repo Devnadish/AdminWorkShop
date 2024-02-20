@@ -6,7 +6,7 @@ import { displayAllLabor } from "@/db/expensis";
 import React from "react";
 
 async function page() {
-  const exp = await displayAllLabor();
+  const exp = await displayAllExpensis();
   return (
     <div className="w-full max-w-md flex items-center justify-start flex-col gap-4 py-4">
       <PageTitle title={"الموظفين"} />

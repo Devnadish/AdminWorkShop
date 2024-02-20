@@ -1,18 +1,18 @@
 "use client";
 import { useState } from "react";
-import { newFixingOrder } from "@/db/fixing";
-import { updateClientReceiptBalance } from "@/db/reciet";
-import { toast } from "sonner";
-import { validateForm } from "@/lib/validation/fixing";
-import { getCar, getCarInfo } from "@/db/cars";
+
+import { validateForm } from "@/app/dashboard/fixing/neworder/_logic/fixValidation";
+import { getCar } from "@/db/cars";
 
 import  CarsList  from "./CarsList";
 import { CardBody } from "./CardBody";
 import { CardFinice } from "./CardFinice";
 import { CardAction } from "./CardAction";
 import { CardNote } from "./CardNote";
+import { FixOrder_DBaction } from "../_logic/saveToDb";
+import { Notify } from "@/lib/notify";
 
-function NewFixOrder({  carData, labor }) {
+function NewFixOrder({  carData, Engineers }) {
   const [totalCost, setTotalCost] = useState();
   const [receivedAmount, setReceivedAmount] = useState();
   const [dueAmount, setDueAmount] = useState(0);
@@ -23,81 +23,21 @@ function NewFixOrder({  carData, labor }) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [alertchecked, setalertChecked] = useState(true);
 
-  // -----------------------------------------------------------------
-  const FixOrder_DBaction = async (orderData, ClientID, total,serviceNote) => {
-  
-   
-    try {
-      const [AddFixing, UpdateClientBalance] = await Promise.all([
-        newFixingOrder(orderData, serviceNote),
-        updateClientReceiptBalance(parseInt(ClientID), parseInt(total)),
-        // newNote(serviceNote)
-      ]);
-
-      if (AddFixing.exisit) {
-        toast.error(AddFixing.msg);
-        return "haveCard";
-      } else {
-        toast.success(AddFixing.msg);
-        if(UpdateClientBalance.code===200){toast.success(UpdateClientBalance.msg)}else{toast.error(UpdateClientBalance.msg)}
-        
-        setClientName("");
-        setClientID("");
-        setCarid("اختار السيارة");
-        setDueAmount(0);
-        setReceivedAmount(0);
-        setTotalCost(0);
-        document.getElementById("fixingForm").reset();
-        return "done";
-      }
-    } catch (error) {
-      toast.error(`An error occurred: ${error}`);
-    }
-  };
-
-  // ---------------------------------------------------------------
-
   const handlesubmit = async (data) => {
     const detail = data.get("serviceDescription");
     const delivery = data.get("deliveryDate");
     const engName = data.get("engName");
     const serviceNote = data.get("serviceNote");
-
-
     const notedata={
       note:serviceNote,
       intialnote:true
-      //  userID: session.user.phone,
-      // userName: session.user.name,
-      // userAvatar: session.user.avatar
-    }
-      
-
-    // recheck car info befor save
-    if (!Carid) {
-      return toast.error("تاكد من رقم السيارة ");
-    }
-    if (!ClientName) {
-      return toast.error("تاكد من اسم العميل ");
     }
 
-    const carData = await getCarInfo(Carid);
-    if (carData) {
-      setClientName(carData[0]?.clientName);
-      setClientID(carData[0]?.clientId);
-    }
-    if (carData.exisit || carData.Carexisit === "not Exisit") {
-      toast.error(carData.msg);
-      setCarid("اختار السيارة");
-      return;
-    }
-    //
     const orderData = {
       detail,
       delivery,
       reminder: alertchecked,
       deliveryTime: selectedDate,
-
       total: parseInt(totalCost) || 0,
       receive: parseInt(receivedAmount) || 0,
       clientId: parseInt(ClientID),
@@ -108,11 +48,20 @@ function NewFixOrder({  carData, labor }) {
 
     const validation = validateForm(orderData);
     if (!validation.isValid) {
-      toast.error(validation.errorMessage);
+      Notify(validation.errorMessage,"error")
       return;
     }
 
     const DONE = await FixOrder_DBaction(orderData, ClientID, totalCost,notedata);
+    
+
+    setClientName("");
+    setClientID("");
+    setCarid("اختار السيارة");
+    setDueAmount(0);
+    setReceivedAmount(0);
+    setTotalCost(0);
+    document.getElementById("fixingForm").reset();
   };
   const handleCheck = async (selectCar, carId) => {
     try {
@@ -136,6 +85,8 @@ function NewFixOrder({  carData, labor }) {
       setLoading(false);
     }
   };
+
+
   return (
     <div className="flex flex-col w-full items-start justify-start max-w-5xl mt-5  h-[90vh]  p-2 rounded">
       <div className="flex items-start justify-center  text-foreground w-full h-full   gap-2 ">

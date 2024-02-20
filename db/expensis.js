@@ -1,11 +1,12 @@
 "use server"
+import { Notify } from "@/lib/notify";
 import db from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 
 
 
-export async function newLabor(data) {
+export async function newExpensis(data) {
 
 const check = await db.expensis.findMany({
   where: { expName: data.expName },
@@ -23,7 +24,7 @@ if (check.length !== 0) {
 
 
 
-export async function displayAllLabor() {
+export async function displayAllExpensis() {
   const Getexp = await db.expensis.findMany({});
   return Getexp;
 }
@@ -32,15 +33,12 @@ export async function getAllTag() {
   return getTag;
 }
 
-// suspens till check shold be in fixorder and payment
-export async function deleteLabor( expName1,id ) {
-  const check = await db.PaymentVoucher.findMany({
-    where: { collector: expName1 },
-  });
-  if (check.length!==0){
-    return {code:400,msg:"لا يمكن حذف المصروف توجد علية حركة مالية راج الادارة"}
-  }
-  const Doit = await db.expensis.delete({ where: { id: id } });
-  revalidatePath("dashboard/setting/expences");
-  return check;
+export async function getAllExpencies() {
+ try {
+   const Getexp = await db.expensis.findMany({select:{expName:true,tag:true}});
+   return Getexp;
+ } catch (error) {
+  Notify(error,"error")
+ }
 }
+

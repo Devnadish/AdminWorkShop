@@ -2,11 +2,11 @@ import React from "react";
 
 function InfoBox({ children, title, tileIcon, footer = 0,NotBalance=true }) {
   return (
-    <div className="w-[230px] min-h-[300px] max-h-[300px] shadow-xl rounded-md  border border-border flex flex-col  items-center gap-3 overflow-hidden">
+    <div className="w-[230px] lg:w-[180px]  min-h-[300px] max-h-[300px] shadow-xl rounded-md  border border-border flex flex-col  items-center gap-3 overflow-hidden">
       <div className="px-1 bg-accent text-accent-foreground flex items-center gap-1 w-full h-10 justify-between">
         <div className="flex items-center gap-2">
           {tileIcon}
-          <h3>{title}</h3>
+          <h3 className="text-[.8rem]">{title}</h3>
         </div>
         {NotBalance &&<div className="flex items-center justify-center px-2 bg-destructive text-destructive-foreground rounded">{footer}</div>}
       </div>

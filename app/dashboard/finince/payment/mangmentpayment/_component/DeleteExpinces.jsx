@@ -2,13 +2,14 @@
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { deleteExp } from "@/db/expencisData";
-import { toast } from "sonner";
+
+import { Notify } from "@/lib/notify";
 
 
 function DeleteExpinces({ expName,id }) {
     const handleDelete = async (expName,id)=>{
         const delExp = await deleteExp(expName,id)
-        if (delExp.code === 400) { return toast.error(delExp.msg) }
+        if (delExp.code === 400) { return  Notify(delExp.msg,"error")}
 
 
     }

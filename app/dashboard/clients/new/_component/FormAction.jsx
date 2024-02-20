@@ -5,7 +5,8 @@ import { AtSign, Phone, User, Pencil, Trash } from "@/lib/icons";
 import INPUT from "@/components/sharedcompnent/INPUT";
 import Submit from "@/components/sharedcompnent/Submit";
 import ClearButton from "@/components/sharedcompnent/ClearButton";
-import { toast } from "sonner";
+
+import { Notify } from "@/lib/notify";
 
 
 export const FormAction = ({ type, ClientData, setClientData, setOpen }) => {
@@ -31,11 +32,11 @@ export const FormAction = ({ type, ClientData, setClientData, setOpen }) => {
     if (type === "delete") {
       const deleteClientx = await deleteClient(ClientData.id);
       if (deleteClientx.code === 400) {
-        toast.error(deleteClientx.msg);
+        Notify(deleteClientx.msg,"error")
         return;
       }
       if (deleteClientx.code === 200) {
-        toast.success(deleteClientx.msg);
+        Notify(deleteClientx.msg,"info")
         return;
       }
       setOpen(false);
