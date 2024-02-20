@@ -1,7 +1,7 @@
 import NewFixOrder from "@/app/dashboard/fixing/neworder/_component/NewFixOrder";
 import React, { Suspense } from "react";
-import { CarListForFixCard, getAllClientsFixCard } from "@/db/clients";
-import { displayAllLabor } from "@/db/expensis";
+import { CarListForFixCard  } from "@/db/clients";
+import { displayAllExpensis } from "@/db/expensis";
 
 export const dynamic = "force-dynamic";
 

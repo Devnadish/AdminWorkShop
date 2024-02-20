@@ -1,7 +1,7 @@
 import NewLabor from "@/app/dashboard/expensis/_component/NewExpens";
 import DeleteExpinces from "@/app/dashboard/finince/payment/mangmentpayment/_component/DeleteExpinces";
 import PageTitle from "@/components/sharedcompnent/PageTitle";
-import { displayAllLabor } from "@/db/expensis";
+import { displayAllExpensis, displayAllLabor } from "@/db/expensis";
 
 import React from "react";
 

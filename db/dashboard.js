@@ -3,13 +3,12 @@ import db from "@/lib/prisma";
 
 export const summury = async () => {
   const getAggregateSum = async (model, where, field) => {
-    const { _sum } = await prisma[model].aggregate({
+    const { _sum } = await db[model].aggregate({
       where,
       _sum: { [field]: true },
     });
     return _sum[field] || 0;
   };
-  const xy = 151;
   const incomeTotal = await getAggregateSum("fixingOrder", {}, "total");
   const reciptTotal = await getAggregateSum("RecietVoucher", {}, "amount");
   const fixPaymentTotal = await getAggregateSum(
