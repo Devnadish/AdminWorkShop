@@ -14,6 +14,7 @@ import FixingInfo from "../dashboard/_component/FixingInfo";
 export const dynamic = "force-dynamic";
 export default async function Dashboard() {
   const admin = await summury();
+      // await new Promise((resolve)=>setTimeout(resolve,15000))
   return (
     <div className="flex flex-col gap-4  max-w-5xl ">
       <FininceInfo

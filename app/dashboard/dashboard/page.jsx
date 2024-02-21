@@ -10,6 +10,8 @@ import { Suspense } from "react";
 export const dynamic = "force-dynamic";
 async function page() {
   const fixOrder = await getAllOpenCard();
+  
+
   return (
     <div className="flex flex-wrap items-center justify-center w-full flex-col mt-3 max-w-6xl">
       <div className="flex  items-center justify-start w-full  max-w-6xl my-2">
@@ -29,6 +31,7 @@ async function page() {
                 cardNo={fix.cardId}
                 cardDate={<DateCaption data={fix.createData} />}
                 carNo={fix.CarNo}
+                clientId={fix.clientId}
                 clientName={fix.clientName}
                 service={fix.service}
                 delevery={fix.delevery}

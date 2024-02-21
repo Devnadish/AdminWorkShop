@@ -139,34 +139,104 @@ export async function FixOrderImage() {
   return openCards;
 }
 
-export async function getAllOpenCard() {
-  const existingOrder = await db.openFixingOrder.findMany({});
-  const openCards = [];
-  for (const openCard of existingOrder) {
-    const carClients = await db.fixingOrder.findFirst({
-      where: { fixingId: openCard.fixOrederId },
-    });
+// export async function getAllOpenCard() {
+//   const existingOrder = await db.openFixingOrder.findMany({});
+//   const openCards = [];
+//   for (const openCard of existingOrder) {
+//     const carClients = await db.fixingOrder.findFirst({
+//       where: { fixingId: openCard.fixOrederId },
+//     });
 
-    const carNote = await db.cardNote.findMany({
-      where: { CardId: openCard.fixOrederId },
-    });
+//     const carNote = await db.cardNote.findMany({
+//       where: { CardId: openCard.fixOrederId },
+//     });
+//     openCards.push({
+//       cardId: openCard.fixOrederId,
+//       clientName: openCard.clientName,
+//       deleverTime: openCard.deliveryTime,
+//       reminder: openCard.reminder,
+//       CarNo: openCard.selectedCar,
+//       createData: openCard.createdDate,
+//       service: carClients.detail,
+//       eng: carClients.engName,
+//       delevery: carClients.delivery,
+
+//       note: carNote,
+//     });
+//   }
+
+//   return openCards;
+// }
+
+
+
+export async function getAllOpenCard() {
+  const existingOrders = await db.openFixingOrder.findMany({
+    select: {
+      fixOrederId: true,
+      clientName: true,
+      clientId:true,
+      deliveryTime: true,
+      reminder: true,
+      selectedCar: true,
+      createdDate: true,
+    },
+  });
+
+  const openCards = [];
+
+  const fixingIds = existingOrders.map(order => order.fixOrederId);
+
+  const [carClients, carNotes] = await Promise.all([
+    db.fixingOrder.findMany({
+      where: { fixingId: { in: fixingIds } },
+      select: {
+        fixingId: true,
+        detail: true,
+        engName: true,
+        delivery: true,
+      },
+    }),
+    db.cardNote.findMany({
+      where: { CardId: { in: fixingIds } },
+    }),
+  ]);
+
+  const carClientsMap = carClients.reduce((acc, client) => {
+    acc[client.fixingId] = client;
+    return acc;
+  }, {});
+
+  const carNotesMap = carNotes.reduce((acc, note) => {
+    if (!acc[note.CardId]) {
+      acc[note.CardId] = [];
+    }
+    acc[note.CardId].push(note);
+    return acc;
+  }, {});
+
+  for (const openCard of existingOrders) {
+    const carClient = carClientsMap[openCard.fixOrederId];
+    const cardNotes = carNotesMap[openCard.fixOrederId] || [];
+
     openCards.push({
       cardId: openCard.fixOrederId,
+      clientId:openCard.clientId,
       clientName: openCard.clientName,
       deleverTime: openCard.deliveryTime,
       reminder: openCard.reminder,
       CarNo: openCard.selectedCar,
       createData: openCard.createdDate,
-      service: carClients.detail,
-      eng: carClients.engName,
-      delevery: carClients.delivery,
-
-      note: carNote,
+      service: carClient ? carClient.detail : null,
+      eng: carClient ? carClient.engName : null,
+      delevery: carClient ? carClient.delivery : null,
+      note: cardNotes,
     });
   }
 
   return openCards;
 }
+
 
 export async function getAllOpenFixOrderForInvoice(fliter) {
   const existingOrder = await db.fixingOrder.findMany({ where: fliter });

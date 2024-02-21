@@ -1,15 +1,21 @@
 import React from "react";
 import Ttip from "./Ttip";
 
-function IconWithdata({ children, tooltip ,bgColor="bg-transpernt" ,fontSize="text-sm"}) {
+function IconWithdata({
+  children,
+  tooltip,
+  bgColor = "bg-transpernt",
+  fontSize = "text-sm",
+  clickable=false,
+}) {
   return (
-    <div className={`flex items-center gap-3 ${bgColor}  w-fit px-3 rounded `}>
+    <div className={`flex items-center gap-3 ${bgColor}  w-fit px-3 rounded `} >
       {tooltip ? (
         <Ttip tool={tooltip}>
           <div>{children[0]}</div>
         </Ttip>
       ) : (
-        <div >{children[0]}</div>
+        <div>{children[0]}</div>
       )}
       <div className={`${fontSize} text-foreground/70`}>{children[1]}</div>
     </div>

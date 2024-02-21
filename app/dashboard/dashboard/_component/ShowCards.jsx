@@ -1,11 +1,4 @@
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import {
   Car,
   MdCarCrash,
   MdOutlineEngineering,
@@ -17,6 +10,7 @@ import IconWithdata from "@/components/sharedcompnent/IconWithdata";
 import CardCpm from "@/components/sharedcompnent/CardCpm";
 import OnlyDate from "@/components/sharedcompnent/OnlyDate";
 import DeleveryTimer from "./DeleveryTimer";
+import ClickIconWithdata from "@/components/sharedcompnent/ClickIconWithdata";
 
 export const ShowCards = (props) => {
   const cardDate=props.cardDate.props.data
@@ -25,13 +19,13 @@ export const ShowCards = (props) => {
       <CardCpm>
         {/* card title */}
        {props.reminder && <DeleveryTimer deleveryTime={deleverTime}/>}
-        <IconWithdata tooltip={"اسم العميل"}>
+        <ClickIconWithdata tooltip={"اسم العميل"} clickTarget="client" id={props.clientId}>
           <User size={18} />
           {props.clientName}
-        </IconWithdata>
+        </ClickIconWithdata>
         <div className="flex items-center w-full justify-between">
           <div className="flex items-center gap-4">
-            <IconWithdata tooltip={"رقم كرت الاصلاح"}>
+            <IconWithdata tooltip={"رقم كرت الاصلاح"} clickable>
               <MdCarCrash size={25} color="bg-primary" />
               {props.cardNo}
             </IconWithdata>
