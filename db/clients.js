@@ -75,54 +75,6 @@ export async function fetchClientNames() {
 }
 
 
-
-// export async function getAllClientsFixCard() {
-//   try {
-//     const clients = await db.client.findMany({
-//       select: { id: true, name: true, clientIDs: true },
-//     });
-//     console.log(clients)
-
-//     // const cars = await db.car.findMany({});
-//     const cars = await db.car.findMany({
-//       select: {
-//         id: true, // Include the 'id' field
-//         clientId: true, // Include the 'make' field
-//         CarNo: true, // Include the 'model' field
-//         carName: true, // Include the 'year' field
-//         // Add more fields as needed
-//       },
-//     });
-
-
-
-//     console.log(cars)
-//     const fixcars = await db.openFixingOrder.findMany({});
-
-//     // Compare two arrays and remove the cars where fixcars.selectedCar = cars.CarNo
-//     const filteredCars = cars.filter(
-//       (car) => !fixcars.some((fixcar) => fixcar.selectedCar === car.CarNo)
-//     );
-
-//     // Group the new array with cars.clientId and return each client with his cars
-//     const groupedByClientId = filteredCars.reduce((acc, car) => {
-//       const { clientId, clientName } = car; // Assuming the client information is present in the car object
-//       if (!acc[clientId]) {
-//         acc[clientId] = { clientId, clientName, cars: [] };
-//       }
-//       acc[clientId].cars.push(car);
-//       return acc;
-//     }, {});
-
-//     return Object.values(groupedByClientId);
-//   } catch (error) {
-//     console.error(error);
-//     return "An error occurred while retrieving clients and their cars";
-//   }
-// }
-
-
-
 export async function CarListForFixCard() {
   try {
     const clients = await db.client.findMany({
@@ -182,11 +134,6 @@ export async function CarListForFixCard() {
   }
 }
 
-
-
-
-
-
 export async function checkClientExists(phone) {
   const existingClient = await db.client.findUnique({
     where: {
@@ -198,8 +145,6 @@ export async function checkClientExists(phone) {
     return { cName: existingClient.name, cId: existingClient.clientIDs };
   }
 }
-
-
 
 export async function displayClients() {
   try {
@@ -439,145 +384,7 @@ export async function getGroupClientWithTransactions() {
   return newData;
 }
 
-
-// export async function getAllClients() {
-//   try {
-//     const clients = await db.client.findMany({
-//       select: { id: true, name: true, clientIDs: true, payment: true, recipts:true },
-//     });
-//     const clientsWithCars = await Promise.all(
-//       clients.map(async (client) => {
-//         const carsData = await db.Car.findMany({
-//           where: {
-//             clientId: client.clientIDs,
-//           },
-//           select: { id: true, CarNo: true, carName: true },
-//         });
-
-//         return { ...client, carsData };
-//       })
-//     );
-//     // return clientsWithCars;
-
-//     return clientsWithCars.map((client)=>{return(<ShowClientCard client={client} />)});
-//   } catch (error) {
-//     console.error(error);
-//     return "An error occurred while retrieving clients and their cars";
-//   }
-// }
-
-// export async function gerClientByIdForFixing(Cid) {
-//   try {
-//     // const clientId = 4
-//     const existingClient = await db.client.findUnique({
-//       where: {
-//         clientIDs: parseInt(Cid),
-//       },
-//     });
-//     if (!existingClient) {
-//       return { msg: "العميل غير موجود", stuts: "NotExisit" };
-//     }
-//     const existingCars = await db.Car.findMany({
-//       where: {
-//         clientId: parseInt(Cid),
-//       },
-//     });
-
-//     return { client: existingClient, cars: existingCars };
-//   } catch (error) {
-//     console.error(error);
-//     return { msg: "حدث خطأ أثناء استرجاع المعلومات" };
-//   }
-// }
-
-// export async function checkClientByIDExists(Cid) {
-//   const clientId = parseInt(Cid); // Convert string to integer
-//   const existingClient = await db.client.findMany({
-//     where: {
-//       clientIDs: clientId,
-//     },
-//   });
-
-// const getCars = await db.car.findMany({
-//   where: {
-//     clientId: clientId,
-//   },
-// });
-
-//   if (existingClient[0]) {
-//     return {
-//       name: existingClient[0].name,
-//       id: existingClient[0].id,
-//       cars: getCars,
-//     };
-//   }
-// }
-// Show all clients in the database where the user balance =0
-// export async function getZeroBalance() {
-//   const result = await db.client.findMany({ where: { balance: 0 } });
-//   return result;
-// }
-
-// export async function getClientsWithPositiveBalance() {
-//   const result = await db.client.findMany({
-//     where: {
-//       balance: {
-//         gt: 0,
-//       },
-//     },
-//   });
-//   return result;
-// }
-
-// export async function getClientsWithgetNegativeBalance() {
-//   const result = await db.client.findMany({
-//     where: {
-//       balance: {
-//         lt: 0,
-//       },
-//     },
-//   });
-//   return result;
-// }
-
-
-
-// export async function groupByClientId() {
-//   try {
-//     const groupedClients = await db.openFixingOrder.groupBy({
-//       by: ["clientId"],
-//       _count: {
-//         clientId: true,
-//       },
-//     });
-
-//     const clientFixOrders = await Promise.all(
-//       groupedClients.map(async (client) => {
-//         const { clientId } = client;
-
-//         const fixOrders = await db.openFixingOrder.findMany({
-//           where: {
-//             clientId,
-//           },
-//           select: {
-//             fixOrederId: true,
-//             clientName: true,
-//           },
-//         });
-
-//         return {
-//           clientId,
-//           clientName: fixOrders[0].clientName,
-//           fixOrderIds: fixOrders.map((order) => order.fixOrederId),
-//         };
-//       })
-//     );
-
-//     return clientFixOrders;
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   } finally {
-//     await db.$disconnect();
-//   }
-// }
+export async function getClientById(id) {
+  const client=await db.client.findFirst({where:{clientIDs:id}})
+  return client;
+}
