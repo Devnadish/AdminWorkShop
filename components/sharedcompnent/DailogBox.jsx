@@ -6,7 +6,6 @@ import { Separator } from "../ui/separator";
 function DailogBox({ children, open, setOpen, title,borederRed="border-primary",bgColor="bg-transpernt" }) {
   const handleClose = () => {
     setOpen(false);
-    console.log(open)
   };
   return (
     <AlertDialog dir="RTL" open={open} onOpenChange={setOpen}   >

@@ -42,3 +42,18 @@ export async function getAllExpencies() {
  }
 }
 
+export async function newTag(data) {
+
+  const check = await db.tag.findMany({
+    where: { tag: data.tag },
+  });
+  if (check.length !== 0) {
+    return {
+      code: 400,
+      msg:" المجموعة موجود من قبل ...",
+    };
+  }
+    const Getexp = await db.tag.create({data});
+      revalidatePath("dashboard/expensis");
+    return Getexp;
+  }

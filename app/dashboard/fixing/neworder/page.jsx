@@ -9,7 +9,7 @@ async function NewFix() {
   const carDatadb = CarListForFixCard();
   const EngineersDatadb = displayAllExpensis();
   const [carData, Engineers] = await Promise.all([carDatadb, EngineersDatadb]);
-  console.log(carData)
+  
 
   return (
     <Suspense fallback={<p>جاري التحميل ...</p>}>

@@ -2,7 +2,6 @@ export const validateForm = (formData) => {
 
   
    const { detail, clientId, selectedCar, total, receive } = formData;
-   console.log(formData)
 
 if (!selectedCar) {
   return {

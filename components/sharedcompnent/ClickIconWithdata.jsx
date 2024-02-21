@@ -15,7 +15,6 @@ function ClickIconWithdata({
  
 const [openPreview, setOpenPreview] = useState(false)
 
-console.log(openPreview)
 
 
   return (

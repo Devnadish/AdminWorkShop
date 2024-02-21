@@ -18,16 +18,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { XCircle } from "@/lib/icons"
+import { Tag, XCircle } from "@/lib/icons"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
  
 export function SelectTag({data,value, setValue,comboLabel,tags,setTags}) {
   const [open, setOpen] = React.useState(false)
   
   return (
-    <div className="flex flex-col gap-4">
-    <Popover open={open} onOpenChange={setOpen}>
+    <div className="flex flex-col gap-2">
+     <div>
+    <Popover open={open} onOpenChange={setOpen} >
+   
       <PopoverTrigger asChild>
+
         <Button
           variant="outline"
           role="combobox"
@@ -40,11 +44,14 @@ export function SelectTag({data,value, setValue,comboLabel,tags,setTags}) {
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
+ 
       <PopoverContent className="w-[200px] p-0">
+      
         <Command>
           <CommandInput placeholder={comboLabel} className="h-9" />
           <CommandEmpty>عير موجود.</CommandEmpty>
           <CommandGroup>
+          <ScrollArea className=" h-[150px]       w-full " dir="RTL">
             {data.map((framework) => (
               <CommandItem
                 key={framework.id}
@@ -71,11 +78,14 @@ export function SelectTag({data,value, setValue,comboLabel,tags,setTags}) {
                 />
               </CommandItem>
             ))}
+            </ScrollArea>
           </CommandGroup>
         </Command>
       </PopoverContent>
+
     </Popover>
-    <ShowTags tags={tags} setTags={setTags}/>
+    </div>
+     
     </div>
   )
 }

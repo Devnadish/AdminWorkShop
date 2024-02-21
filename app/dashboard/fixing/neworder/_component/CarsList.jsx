@@ -7,7 +7,6 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 
 const CarsList = memo(({ setCarid, carData, handleCheck }) => {
-  console.log(carData)
   return (
     <ScrollArea
       className="h-full w-full  max-w-[300px] bg-accent shadow p-5 border-t-4 border-primary "

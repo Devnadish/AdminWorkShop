@@ -9,7 +9,6 @@ async function page({ params }) {
   const recipt = reciptarray.reduce((total, item) => total + item.amount, 0);
   const payment = paymentarray.reduce((total, item) => total + item.amount, 0);
   const balnce=(collectData.FixData[0].total-recipt)+payment
-  console.log(balnce)
 
   return (
     // <p>sd</p>
