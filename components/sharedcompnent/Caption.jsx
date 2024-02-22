@@ -16,12 +16,13 @@ function Caption({
   fonSize = "text-sm",
   align = "start",
   h = "h-9",
+  w="w-full"
 }) {
   return (
     <div
       className={`flex items-center justify-center ${
         isBorder && " border  border-white/30"
-      }  w-full rounded ${row ? "flex-row" : "flex-col"} ${fonSize} ${h}`}
+      }  ${w} px-2 rounded ${row ? "flex-row" : "flex-col"} ${fonSize} ${h} flex-grow`}
     >
       <span
         className={`${titleBgColor}  ${h} ${titleTextColor} flex items-center justify-start flex-2 px-2 font-semibold   text-right font-tajwal `}

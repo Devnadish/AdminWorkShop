@@ -40,7 +40,10 @@ export async function newFixingOrder(fixingData, serviceNote) {
 }
 
 
-
+export async function getFixCardById(id) {
+  const fixCard=await db.fixingOrder.findFirst({where:{fixingId:id}})
+  return fixCard;
+}
 
 
 

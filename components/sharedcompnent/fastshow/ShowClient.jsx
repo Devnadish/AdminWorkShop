@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getClientById } from "@/db/clients";
 import Caption from '../Caption';
+import ShowDate from '../ShowDate';
 
 const ShowClient = ({ id }) => {
   const [client, setClient] = useState(null);
@@ -35,6 +36,10 @@ const ShowClient = ({ id }) => {
 
   return (
     <div className='flex w-full items-center justify-start flex-col gap-5'>
+        <ShowDate
+        create={client.createdDate}
+        update={client.updatedDate}
+      />
           <Caption   title={"اسم العميل"} data={client.name} />
           <div className='flex w-full items-center justify-between gap-4 flex-wrap'>
           <Caption   title={"الجوال"} data={client.mobile} />

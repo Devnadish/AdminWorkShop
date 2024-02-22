@@ -5,8 +5,8 @@ import Ttip from "../Ttip";
 import { Button } from "../../ui/button";
 import DailogBox from "../DailogBox";
 import  ShowClient from "./ShowClient";
-import { ShowFixCard } from "./ShowFixCard";
-import { ShowCar } from "./ShowCar";
+import  ShowFixCard  from "./ShowCar";
+import   ShowCar   from "./ShowCar";
 
 function ClickIconWithdata({
   children,
@@ -21,6 +21,7 @@ function ClickIconWithdata({
   if(clickTarget==="client"){modelTitle="ملف العميل"}
   if(clickTarget==="fixCard"){modelTitle="كرت صيانة"}
   if(clickTarget==="car"){modelTitle="ملف السيارة"}
+ 
 
   return (
     <>
@@ -50,6 +51,7 @@ function ClickIconWithdata({
       case 'client':
         return <ShowClient id={id}/>;
       case 'fixCard':
+       
         return <ShowFixCard id={id}/>;
       case 'car':
         return <ShowCar id={id}/>;
