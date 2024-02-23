@@ -1,18 +1,20 @@
 "use client";
 import INPUT from "@/components/sharedcompnent/INPUT";
-import { GiExpense, Tag } from "@/lib/icons";
+import { GiExpense } from "@/lib/icons";
 import { useState } from "react";
 import SelectTag from "./SelectTag";
 import Submit from "@/components/sharedcompnent/Submit";
 import { Notify } from "@/lib/notify";
-import { newExpensis, newTag } from "@/db/expensis";
-import { Button } from "@/components/ui/button";
+import { newExpensis } from "@/db/expensis";
 import { ShowTags } from "./ShowTags";
-import DailogBox from "@/components/sharedcompnent/DailogBox";
+import { checkRequireTags } from "@/lib/checkDefaultValues";
+import { AddNewTag } from "./AddNewTag";
+import { RequireTags } from "./RequireTags";
 
 function NewExpensisForm({ AllTag }) {
   const [value, setValue] = useState("");
   const [tags, setTags] = useState([]);
+  const Chekdefultvaluse=checkRequireTags(AllTag)
 
   const handlesubmit = async (data) => {
     const expName = data.get("expName");
@@ -42,6 +44,7 @@ function NewExpensisForm({ AllTag }) {
         <AddNewTag />
       </div>
       <ShowTags tags={tags} setTags={setTags} />
+      {Chekdefultvaluse.length !==0 && <RequireTags AllTagData={Chekdefultvaluse}/>}
       <div className="flex items-center justify-end w-full">
         <Submit />
       </div>
@@ -51,42 +54,4 @@ function NewExpensisForm({ AllTag }) {
 
 export default NewExpensisForm;
 
-const AddNewTag = () => {
-  const [addTag, setAddTag] = useState(false);
 
-
-  const handlesubmit = async (data) => {
-    const tag  = data.get("tagName");
-    const FormData = { tag };
-    const SaveData = await newTag(FormData);
-    if (SaveData.code === 400) {
-      return Notify(SaveData.msg, "error");
-    }
-  };
-  return (
-    <>
-      <Button type="button" size="icon" onClick={() => setAddTag(true)}>
-        +
-      </Button>
-
-      <DailogBox
-        open={addTag}
-        setOpen={setAddTag}
-        title={"مجموعة جديدة"}
-        borederRed={"border-primary"}
-      >
-        <form
-          action={handlesubmit}
-          className=" flex items-center justify-center  gap-4 flex-col  w-full p-4  self-start"
-        >
-          <INPUT
-            icon={<GiExpense />}
-            placeholder="اسم المجموعة"
-            name="tagName"
-          />
-          <Submit />
-        </form>
-      </DailogBox>
-    </>
-  );
-};

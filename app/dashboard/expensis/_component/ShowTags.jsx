@@ -3,7 +3,7 @@ import { Tag } from "@/lib/icons";
 
 export const ShowTags = ({ tags }) => {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 w-full justify-start ">
       <Tag size={15} />
       {tags.map((tag, idx) => (
         <div
